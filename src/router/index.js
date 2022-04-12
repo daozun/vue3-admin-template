@@ -7,14 +7,22 @@ import {
 
 const routes = [
   {
-    path: "/",
-    component: () => import("@/views/login/index.vue"),
-    redirect: "/login",
-  },
-  {
     path: "/login",
     name: "Login",
     component: () => import("@/views/login/index.vue"),
+  },
+  {
+    path: "/",
+    component: () => import("@/layout"),
+    redirect: "/dashboard",
+    children: [
+      {
+        path: "dashboard",
+        name: "Dashboard",
+        component: () => import("@/views/dashboard/index"),
+        meta: { title: "Dashboard", icon: "dashboard" },
+      },
+    ],
   },
 ];
 
