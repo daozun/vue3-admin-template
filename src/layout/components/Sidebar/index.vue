@@ -11,29 +11,20 @@
         :collapse-transition="false"
         mode="vertical"
       >
-        <el-sub-menu index="1">
-          <template #title>
-            <SvgIcon icon-class="user" class="svg-icon" />
-            <span>dashboard</span>
-          </template>
-          <el-menu-item index="1-1">item one</el-menu-item>
-          <el-menu-item index="1-2">item one</el-menu-item>
-        </el-sub-menu>
+        <SideBarItem v-for="route in routes" :key="route.path" :item="route" />
       </el-menu>
     </el-scrollbar>
   </el-aside>
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
+import SideBarItem from "./components/SideBarItem.vue";
+import { reactive, ref, computed } from "vue";
+import { useRouter, useRoute } from "vue-router";
 
-const routes = reactive([]);
-
-for (let index = 0; index < 5; index++) {
-  routes.push({
-    name: `哈哈哈${index}`,
-  });
-}
+const routes = computed(() => {
+  return useRouter().options.routes;
+});
 </script>
 
 <style lang="scss" scoped>
@@ -54,10 +45,6 @@ for (let index = 0; index < 5; index++) {
       &:hover {
         background-color: #263445 !important;
       }
-    }
-
-    .svg-icon {
-      margin-right: 16px;
     }
   }
 }
