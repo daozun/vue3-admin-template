@@ -1,24 +1,70 @@
 <template>
   <div v-if="!item.hidden">
-    <el-sub-menu index="1">
+    <router-link :to="item.path">
+      <el-menu-item v-if="noHasChildren(item)" :index="item.path">
+        <SvgIcon :icon-class="item.meta?.icon" />
+        <span>{{ item.name }}</span>
+      </el-menu-item>
+    </router-link>
+
+    <router-link :to="item.path">
+      <el-menu-item v-if="hasOneChildren(item)" :index="item.path">
+        <SvgIcon :icon-class="item.children[0].meta?.icon" />
+        <span>{{ item.children[0].name }}</span>
+      </el-menu-item>
+    </router-link>
+
+    <el-sub-menu v-if="hasThanOneChildren(item)" :index="item.path">
       <template #title>
-        <SvgIcon icon-class="user" class="svg-icon" />
-        <span>dashboard</span>
+        <SvgIcon :icon-class="item.meta?.icon" />
+        <span>{{ item.name }}</span>
       </template>
-      <el-menu-item index="1-1">{{ item.name }}</el-menu-item>
-      <el-menu-item index="1-2"></el-menu-item>
+      <SideBarItem
+        v-for="child in item.children"
+        :key="child.path"
+        :item="child"
+        class="nest-menu"
+      />
     </el-sub-menu>
   </div>
 </template>
 
 <script setup>
-import { defineProps } from "vue";
+import path from "path";
+import { defineProps, ref } from "vue";
+
+let onlyOneChild = ref(null);
+let basePath = ref(null);
 
 const prop = defineProps({
   item: {
     type: Object,
   },
 });
+
+const noHasChildren = (item) => {
+  if (!item.children) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+const hasOneChildren = (item) => {
+  if (item.children?.length === 1) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+const hasThanOneChildren = (item) => {
+  if (item.children?.length > 1) {
+    return true;
+  } else {
+    return false;
+  }
+};
 </script>
 
 <style lang="scss" scoped>

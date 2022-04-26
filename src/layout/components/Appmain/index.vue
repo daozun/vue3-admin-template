@@ -1,5 +1,8 @@
 <template>
-  <el-main style="background: #fff">main</el-main>
+  <el-main style="background: #fff">
+    main
+    <router-view></router-view>
+  </el-main>
 </template>
 
 <script setup></script>
