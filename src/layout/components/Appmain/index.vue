@@ -1,10 +1,18 @@
 <template>
   <el-main style="background: #fff">
-    main
+    <Navbar />
     <router-view></router-view>
   </el-main>
 </template>
 
-<script setup></script>
+<script setup>
+import Navbar from "../Navbar/index.vue";
+</script>
 
 <style lang="scss"></style>
+
+<style>
+.el-main {
+  padding: 0;
+}
+</style>
