@@ -4,7 +4,7 @@
       <SvgIcon icon-class="hamburger" class="hamburger-svg" />
     </div>
     <div class="fl">dashboard</div>
-    <div class="fr avatar">
+    <div class="fr avatar" @click="handleVisible()">
       <el-image :src="src">
         <template #error>
           <div class="image-slot">
@@ -14,14 +14,37 @@
       </el-image>
       <SvgIcon icon-class="caret-bottom" class="caret-bottom" />
     </div>
+    <div class="dropdown">
+      <el-dropdown ref="dropdown" trigger="contextmenu">
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>Home</el-dropdown-item>
+            <el-dropdown-item>Github</el-dropdown-item>
+            <el-dropdown-item divided>Log Out</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { defineProps, ref } from "vue";
+const src = require("../../../assets/head.jpeg");
 
-const src =
-  "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg";
+const dropdown = ref();
+const handleVisible = (visible) => {
+  console.log(
+    "%c [ visible ]-37",
+    "font-size:13px; background:pink; color:#bf2c9f;",
+    visible
+  );
+  if (visible) {
+    dropdown.value.handleClose();
+  } else {
+    dropdown.value.handleOpen();
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -32,7 +55,7 @@ const src =
   background: #fff;
   box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
   line-height: 50px;
-  padding: 5px 20px 5px 10px;
+  padding: 5px 40px 5px 10px;
   box-sizing: border-box;
 
   .hamburger-svg {
@@ -56,10 +79,16 @@ const src =
     .caret-bottom {
       position: absolute;
       bottom: 2px;
-      right: 0;
+      right: 20px;
       font-size: 24px;
       cursor: pointer;
     }
+  }
+
+  .dropdown {
+    position: absolute;
+    right: 40px;
+    top: 60px;
   }
 }
 </style>
