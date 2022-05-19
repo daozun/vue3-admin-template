@@ -6,7 +6,14 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
 import Navbar from "../Navbar/index.vue";
+import { Store } from "@/store/index";
+const store = Store();
+
+const marginLeft = computed(() => {
+  return store.isOpenSideBar ? "64px" : "210px";
+});
 </script>
 
 <style lang="scss"></style>
@@ -14,5 +21,6 @@ import Navbar from "../Navbar/index.vue";
 <style>
 .el-main {
   padding: 0;
+  margin-left: v-bind("marginLeft");
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <el-aside class="aside">
+  <div class="aside">
     <el-scrollbar>
       <el-menu
         :default-active="activeMenu"
@@ -14,37 +14,53 @@
         <SideBarItem v-for="route in routes" :key="route.path" :item="route" />
       </el-menu>
     </el-scrollbar>
-  </el-aside>
+  </div>
 </template>
 
 <script setup>
 import SideBarItem from "./components/SideBarItem.vue";
 import { reactive, ref, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
+import { Store } from "@/store/index";
+const store = Store();
 
 const routes = computed(() => {
   return useRouter().options.routes;
+});
+
+const isCollapse = computed(() => {
+  return store.isOpenSideBar;
+});
+
+const marginLeft = computed(() => {
+  return store.isOpenSideBar ? "64px" : "210px";
 });
 </script>
 
 <style lang="scss" scoped>
 .aside {
-  width: 200px;
+  width: v-bind("marginLeft");
   height: 100%;
-  .el-menu {
-    width: 200px;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1001;
-    overflow: hidden;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1001;
+  overflow: hidden;
+}
+</style>
 
-    .el-menu-item {
-      &:hover {
-        background-color: #263445 !important;
-      }
+<style lang="scss">
+.el-scrollbar__view {
+  height: 100%;
+}
+
+.el-menu {
+  height: 100%;
+  border: none;
+  .el-menu-item {
+    &:hover {
+      background-color: #263445 !important;
     }
   }
 }

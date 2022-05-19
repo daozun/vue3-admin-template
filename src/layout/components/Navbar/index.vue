@@ -1,7 +1,12 @@
 <template>
   <div class="navbar">
     <div class="fl">
-      <SvgIcon icon-class="hamburger" class="hamburger-svg" />
+      <SvgIcon
+        icon-class="hamburger"
+        class="hamburger-svg"
+        @click="toggleSideBar"
+        :class="{ 'is-active': isActive }"
+      />
     </div>
     <div class="fl">dashboard</div>
     <div class="fr avatar">
@@ -27,8 +32,18 @@
 </template>
 
 <script setup>
-import { defineProps, ref } from "vue";
+import { computed, defineProps, ref } from "vue";
+import { Store } from "@/store/index";
+const store = Store();
+
 const src = require("../../../assets/head.jpeg");
+const isActive = computed(() => {
+  return store.isOpenSideBar;
+});
+
+const toggleSideBar = () => {
+  store.toggleSideBar();
+};
 </script>
 
 <style lang="scss" scoped>
@@ -59,6 +74,10 @@ const src = require("../../../assets/head.jpeg");
       border-radius: 40px;
       cursor: pointer;
     }
+  }
+
+  .is-active {
+    transform: rotate(180deg);
   }
 }
 </style>

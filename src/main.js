@@ -11,4 +11,8 @@ import "@/icons"; // icon
 
 import zhCn from "element-plus/es/locale/lang/zh-cn";
 
-createApp(App).use(router).use({ locale: zhCn }).mount("#app");
+// pinia
+import pinia from "@/store/index";
+
+const app = createApp(App);
+app.use(router).use(pinia).use({ locale: zhCn }).mount("#app");
