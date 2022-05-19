@@ -4,18 +4,15 @@
       <SvgIcon icon-class="hamburger" class="hamburger-svg" />
     </div>
     <div class="fl">dashboard</div>
-    <div class="fr avatar" @click="handleVisible()">
-      <el-image :src="src">
-        <template #error>
-          <div class="image-slot">
-            <el-icon><icon-picture /></el-icon>
-          </div>
-        </template>
-      </el-image>
-      <SvgIcon icon-class="caret-bottom" class="caret-bottom" />
-    </div>
-    <div class="dropdown">
-      <el-dropdown ref="dropdown" trigger="contextmenu">
+    <div class="fr avatar">
+      <el-dropdown ref="dropdown" trigger="click">
+        <el-image :src="src">
+          <template #error>
+            <div class="image-slot">
+              <el-icon><icon-picture /></el-icon>
+            </div>
+          </template>
+        </el-image>
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item>Home</el-dropdown-item>
@@ -25,26 +22,13 @@
         </template>
       </el-dropdown>
     </div>
+    <div class="dropdown"></div>
   </div>
 </template>
 
 <script setup>
 import { defineProps, ref } from "vue";
 const src = require("../../../assets/head.jpeg");
-
-const dropdown = ref();
-const handleVisible = (visible) => {
-  console.log(
-    "%c [ visible ]-37",
-    "font-size:13px; background:pink; color:#bf2c9f;",
-    visible
-  );
-  if (visible) {
-    dropdown.value.handleClose();
-  } else {
-    dropdown.value.handleOpen();
-  }
-};
 </script>
 
 <style lang="scss" scoped>
@@ -70,25 +54,11 @@ const handleVisible = (visible) => {
     padding-top: 5px;
 
     .el-image {
-      width: 100%;
-      height: 100%;
+      width: 40px;
+      height: 40px;
       border-radius: 40px;
       cursor: pointer;
     }
-
-    .caret-bottom {
-      position: absolute;
-      bottom: 2px;
-      right: 20px;
-      font-size: 24px;
-      cursor: pointer;
-    }
-  }
-
-  .dropdown {
-    position: absolute;
-    right: 40px;
-    top: 60px;
   }
 }
 </style>
