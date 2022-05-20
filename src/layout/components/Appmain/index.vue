@@ -22,5 +22,6 @@ const marginLeft = computed(() => {
 .el-main {
   padding: 0;
   margin-left: v-bind("marginLeft");
+  transition: margin-left 0.3s;
 }
 </style>

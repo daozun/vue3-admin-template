@@ -47,6 +47,7 @@ const marginLeft = computed(() => {
   left: 0;
   z-index: 1001;
   overflow: hidden;
+  transition: width 0.3s;
 }
 </style>
 

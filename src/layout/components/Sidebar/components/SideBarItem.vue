@@ -2,22 +2,28 @@
   <div v-if="!item.hidden">
     <router-link :to="item.path">
       <el-menu-item v-if="noHasChildren(item)" :index="item.path">
-        <SvgIcon :icon-class="item.meta?.icon" />
-        <span>{{ item.name }}</span>
+        <div>
+          <SvgIcon :icon-class="item.meta?.icon" />
+          <span>{{ item.name }}</span>
+        </div>
       </el-menu-item>
     </router-link>
 
     <router-link :to="item.path">
       <el-menu-item v-if="hasOneChildren(item)" :index="item.path">
-        <SvgIcon :icon-class="item.children[0].meta?.icon" />
-        <span>{{ item.children[0].name }}</span>
+        <div>
+          <SvgIcon :icon-class="item.children[0].meta?.icon" />
+          <span>{{ item.children[0].name }}</span>
+        </div>
       </el-menu-item>
     </router-link>
 
     <el-sub-menu v-if="hasThanOneChildren(item)" :index="item.path">
       <template #title>
-        <SvgIcon :icon-class="item.meta?.icon" />
-        <span>{{ item.name }}</span>
+        <div>
+          <SvgIcon :icon-class="item.meta?.icon" />
+          <span>{{ item.name }}</span>
+        </div>
       </template>
       <SideBarItem
         v-for="child in item.children"
