@@ -86,7 +86,7 @@ const submitForm = (formEl) => {
     position: absolute;
     width: 400px;
     max-width: 100%;
-    padding: 35px 100px;
+    padding: 25px 50px;
     top: 45%;
     left: 50%;
     transform: translate(-50%, -45%);

@@ -2,28 +2,28 @@
   <div v-if="!item.hidden">
     <router-link :to="item.path">
       <el-menu-item v-if="noHasChildren(item)" :index="item.path">
-        <div>
+        <div class="icon">
           <SvgIcon :icon-class="item.meta?.icon" />
-          <span>{{ item.name }}</span>
         </div>
+        <span>{{ item.name }}</span>
       </el-menu-item>
     </router-link>
 
     <router-link :to="item.path">
       <el-menu-item v-if="hasOneChildren(item)" :index="item.path">
-        <div>
+        <div class="icon">
           <SvgIcon :icon-class="item.children[0].meta?.icon" />
-          <span>{{ item.children[0].name }}</span>
         </div>
+        <span>{{ item.children[0].name }}</span>
       </el-menu-item>
     </router-link>
 
     <el-sub-menu v-if="hasThanOneChildren(item)" :index="item.path">
       <template #title>
-        <div>
+        <div class="icon">
           <SvgIcon :icon-class="item.meta?.icon" />
-          <span>{{ item.name }}</span>
         </div>
+        <span>{{ item.name }}</span>
       </template>
       <SideBarItem
         v-for="child in item.children"
@@ -37,7 +37,9 @@
 
 <script setup>
 import path from "path";
-import { defineProps, ref } from "vue";
+import { defineProps, ref, computed } from "vue";
+import { Store } from "@/store/index";
+const store = Store();
 
 let onlyOneChild = ref(null);
 let basePath = ref(null);
@@ -71,10 +73,20 @@ const hasThanOneChildren = (item) => {
     return false;
   }
 };
+
+const right = computed(() => {
+  return store.isOpenSideBar ? "-20px" : "20px";
+});
 </script>
 
 <style lang="scss" scoped>
-.svg-icon {
-  margin-right: 16px;
+.icon {
+  margin-right: 30px;
+}
+</style>
+
+<style>
+.el-sub-menu .el-sub-menu__icon-arrow {
+  right: v-bind("right");
 }
 </style>

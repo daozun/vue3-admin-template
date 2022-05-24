@@ -1,5 +1,4 @@
-import { createPinia } from "pinia";
-import { defineStore } from "pinia";
+import { createPinia, defineStore } from "pinia";
 
 export const Store = defineStore("globalState", {
   state: () => ({ isOpenSideBar: false }),

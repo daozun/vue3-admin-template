@@ -65,4 +65,8 @@ const marginLeft = computed(() => {
     }
   }
 }
+
+.el-menu--collapse {
+  width: 100%;
+}
 </style>
