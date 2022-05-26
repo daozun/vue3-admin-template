@@ -1,5 +1,5 @@
 <template>
-  <div class="breadcrumb"></div>
+  <div class="breadcrumb">dashboard</div>
 </template>
 
 <script setup>

@@ -8,7 +8,7 @@
         :class="{ 'is-active': isActive }"
       />
     </div>
-    <div class="fl">dashboard</div>
+    <Breadcrumb class="breadcrumb" />
     <div class="fr avatar">
       <el-dropdown ref="dropdown" trigger="click">
         <el-image :src="src">
@@ -32,6 +32,7 @@
 </template>
 
 <script setup>
+import Breadcrumb from "./components/Breadcrumb/index.vue";
 import { computed, defineProps, ref } from "vue";
 import { Store } from "@/store/index";
 const store = Store();
@@ -56,6 +57,10 @@ const toggleSideBar = () => {
   line-height: 50px;
   padding: 5px 40px 5px 10px;
   box-sizing: border-box;
+
+  .breadcrumb {
+    margin-left: 20px;
+  }
 
   .hamburger-svg {
     font-size: 24px;
