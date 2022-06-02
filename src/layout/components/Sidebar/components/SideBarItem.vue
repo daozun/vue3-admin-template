@@ -1,6 +1,6 @@
 <template>
   <div v-if="!item.hidden">
-    <router-link :to="item.path">
+    <router-link :to="addParentPath(item)">
       <el-menu-item v-if="noHasChildren(item)" :index="item.path">
         <div class="icon">
           <SvgIcon :icon-class="item.meta?.icon" />
@@ -38,8 +38,10 @@
 <script setup>
 import path from "path";
 import { defineProps, ref, computed } from "vue";
+import { useRouter, useRoute } from "vue-router";
 import { Store } from "@/store/index";
 const store = Store();
+const router = useRouter();
 
 let onlyOneChild = ref(null);
 let basePath = ref(null);
@@ -72,6 +74,24 @@ const hasThanOneChildren = (item) => {
   } else {
     return false;
   }
+};
+
+const addParentPath = (item) => {
+  console.log(
+    "%c [ item ]-78",
+    "font-size:13px; background:pink; color:#bf2c9f;",
+    item
+  );
+
+  console.log("router", router.options.routes);
+
+  searchParentPath(item);
+
+  return item.path;
+};
+
+const searchParentPath = (item) => {
+  const routerList = router.options.routes;
 };
 
 const right = computed(() => {

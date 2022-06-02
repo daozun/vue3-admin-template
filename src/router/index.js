@@ -34,13 +34,13 @@ const routes = [
     meta: { title: "Example", icon: "example" },
     children: [
       {
-        path: "/table",
+        path: "table",
         name: "Table",
         component: () => import("@/views/table/index"),
         meta: { title: "Table", icon: "table" },
       },
       {
-        path: "/tree",
+        path: "tree",
         name: "Tree",
         component: () => import("@/views/tree/index"),
         meta: { title: "Tree", icon: "tree" },
