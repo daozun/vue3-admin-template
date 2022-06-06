@@ -14,5 +14,8 @@ import zhCn from "element-plus/es/locale/lang/zh-cn";
 // pinia
 import pinia from "@/store/index";
 
+// lodash
+import _ from "lodash";
+
 const app = createApp(App);
 app.use(router).use(pinia).use({ locale: zhCn }).mount("#app");

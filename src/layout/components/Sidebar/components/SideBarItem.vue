@@ -1,26 +1,26 @@
 <template>
   <div v-if="!item.hidden">
-    <router-link :to="addParentPath(item)">
+    <div @click="goToPath(item)">
       <el-menu-item v-if="noHasChildren(item)" :index="item.path">
-        <div class="icon">
+        <div :class="{ icon: item.meta?.icon }">
           <SvgIcon :icon-class="item.meta?.icon" />
         </div>
         <span>{{ item.name }}</span>
       </el-menu-item>
-    </router-link>
+    </div>
 
-    <router-link :to="item.path">
+    <div @click="goToPath(item)">
       <el-menu-item v-if="hasOneChildren(item)" :index="item.path">
-        <div class="icon">
+        <div :class="{ icon: item.children[0].meta?.icon }">
           <SvgIcon :icon-class="item.children[0].meta?.icon" />
         </div>
         <span>{{ item.children[0].name }}</span>
       </el-menu-item>
-    </router-link>
+    </div>
 
     <el-sub-menu v-if="hasThanOneChildren(item)" :index="item.path">
       <template #title>
-        <div class="icon">
+        <div :class="{ icon: item.meta?.icon }">
           <SvgIcon :icon-class="item.meta?.icon" />
         </div>
         <span>{{ item.name }}</span>
@@ -36,9 +36,9 @@
 </template>
 
 <script setup>
-import path from "path";
 import { defineProps, ref, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
+import { recursionFn } from "@/utils/index";
 import { Store } from "@/store/index";
 const store = Store();
 const router = useRouter();
@@ -76,22 +76,11 @@ const hasThanOneChildren = (item) => {
   }
 };
 
-const addParentPath = (item) => {
-  console.log(
-    "%c [ item ]-78",
-    "font-size:13px; background:pink; color:#bf2c9f;",
-    item
-  );
-
-  console.log("router", router.options.routes);
-
-  searchParentPath(item);
-
-  return item.path;
-};
-
-const searchParentPath = (item) => {
+const goToPath = (item) => {
   const routerList = router.options.routes;
+  const pathArr = recursionFn(routerList, item);
+
+  router.push(pathArr.join("/"));
 };
 
 const right = computed(() => {
