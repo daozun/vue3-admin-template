@@ -2,7 +2,7 @@
   <div class="aside">
     <el-scrollbar>
       <el-menu
-        :default-active="activeMenu"
+        :default-active="defaultMenu"
         :collapse="isCollapse"
         background-color="#304156"
         text-color="#bfcbd9"
@@ -19,17 +19,22 @@
 
 <script setup>
 import SideBarItem from "./components/SideBarItem.vue";
-import { reactive, ref, computed } from "vue";
+import { reactive, ref, computed, watch, watchEffect } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { Store } from "@/store/index";
 const store = Store();
 
+const route = useRoute();
 const routes = computed(() => {
   return useRouter().options.routes;
 });
 
 const isCollapse = computed(() => {
   return store.isOpenSideBar;
+});
+
+const defaultMenu = computed(() => {
+  return route.path;
 });
 
 const marginLeft = computed(() => {

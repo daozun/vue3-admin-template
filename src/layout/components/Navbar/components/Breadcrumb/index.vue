@@ -1,28 +1,43 @@
 <template>
   <div class="breadcrumb">
     <el-breadcrumb separator="/">
-      <!-- <el-breadcrumb-item :to="{ path: '/' }">homepage</el-breadcrumb-item> -->
       <el-breadcrumb-item
-        v-for="route in routes"
+        v-for="route in routeList"
         :key="route.path"
-        :to="{ path: route.path }"
+        :to="{ path: route.path == '/' ? route.redirect : route.path }"
         >{{ route.name }}</el-breadcrumb-item
       >
     </el-breadcrumb>
+    <div>{{ currentRoute }}</div>
   </div>
 </template>
 
 <script setup>
-import { reactive, ref, computed, watch, watchEffect } from "vue";
+import { reactive, ref, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
-const router = useRouter();
 const route = useRoute();
+const router = useRouter();
 
-const routes = computed(() => {
-  // console.log("[ router ] >", router);
-  // console.log("[ route ] >", route);
-  return router.options.routes;
+const routeList = computed(() => {
+  let matched = route.matched;
+  let first = matched[0];
+
+  if (!isDashboard(first)) {
+    matched = [{ path: "/dashboard", name: "Dashboard" }].concat(matched);
+  } else {
+    matched = [first];
+  }
+
+  return matched;
 });
+
+const isDashboard = (route) => {
+  const name = route && route.name;
+  if (!name) {
+    return false;
+  }
+  return name.trim().toLocaleLowerCase() === "Dashboard".toLocaleLowerCase();
+};
 </script>
 
 <style lang="scss" scoped>

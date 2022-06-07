@@ -1,7 +1,7 @@
 <template>
   <div v-if="!item.hidden">
     <div @click="goToPath(item)">
-      <el-menu-item v-if="noHasChildren(item)" :index="item.path">
+      <el-menu-item v-if="noHasChildren(item)" :index="setIndex(item)">
         <div :class="{ icon: item.meta?.icon }">
           <SvgIcon :icon-class="item.meta?.icon" />
         </div>
@@ -10,7 +10,7 @@
     </div>
 
     <div @click="goToPath(item)">
-      <el-menu-item v-if="hasOneChildren(item)" :index="item.path">
+      <el-menu-item v-if="hasOneChildren(item)" :index="setIndex(item)">
         <div :class="{ icon: item.children[0].meta?.icon }">
           <SvgIcon :icon-class="item.children[0].meta?.icon" />
         </div>
@@ -18,7 +18,7 @@
       </el-menu-item>
     </div>
 
-    <el-sub-menu v-if="hasThanOneChildren(item)" :index="item.path">
+    <el-sub-menu v-if="hasThanOneChildren(item)" :index="setIndex(item)">
       <template #title>
         <div :class="{ icon: item.meta?.icon }">
           <SvgIcon :icon-class="item.meta?.icon" />
@@ -42,9 +42,6 @@ import { recursionFn } from "@/utils/index";
 import { Store } from "@/store/index";
 const store = Store();
 const router = useRouter();
-
-let onlyOneChild = ref(null);
-let basePath = ref(null);
 
 const prop = defineProps({
   item: {
@@ -77,10 +74,28 @@ const hasThanOneChildren = (item) => {
 };
 
 const goToPath = (item) => {
+  const pathArr = setPathArr(item);
+  let pathStr = pathArr.join("/");
+
+  router.push(pathStr);
+};
+
+const setIndex = (item) => {
+  const pathArr = setPathArr(item);
+  let pathStr = pathArr.join("/");
+
+  if (pathStr == "/") {
+    pathStr = "/dashboard";
+  }
+
+  return pathStr;
+};
+
+const setPathArr = (item) => {
   const routerList = router.options.routes;
   const pathArr = recursionFn(routerList, item);
 
-  router.push(pathArr.join("/"));
+  return pathArr;
 };
 
 const right = computed(() => {
