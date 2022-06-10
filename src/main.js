@@ -11,6 +11,8 @@ import "@/icons"; // icon
 
 import zhCn from "element-plus/es/locale/lang/zh-cn";
 
+import "@/permission"; // permission control
+
 // pinia
 import pinia from "@/store/index";
 

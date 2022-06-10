@@ -52,5 +52,9 @@ const isDashboard = (route) => {
     margin-left: 25px;
     float: left;
   }
+
+  .el-breadcrumb__inner.is-link {
+    font-weight: normal;
+  }
 }
 </style>
