@@ -35,7 +35,8 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
+import { reactive, ref, toRaw } from "vue";
+import { loginApi } from "@/api/modules/login";
 
 const validateUsername = (rule, value, callback) => {
   if (value === "") {
@@ -52,6 +53,7 @@ const validatePassword = (rule, value, callback) => {
   }
 };
 
+const ruleFormRef = ref();
 const ruleForm = reactive({
   username: "",
   password: "",
@@ -62,11 +64,13 @@ const rules = reactive({
   password: [{ validator: validatePassword, trigger: "blur" }],
 });
 
-const submitForm = (formEl) => {
+const submitForm = async (formEl) => {
   if (!formEl) return;
-  formEl.validate((valid) => {
+  await formEl.validate((valid) => {
     if (valid) {
-      console.log("submit!");
+      loginApi(ruleForm).then((res) => {
+        console.log("res", res);
+      });
     } else {
       console.log("error submit!");
       return false;

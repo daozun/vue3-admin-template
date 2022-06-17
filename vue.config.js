@@ -32,6 +32,13 @@ module.exports = defineConfig({
   devServer: {
     port: 4396,
     open: false,
+    proxy: {
+      [process.env.VUE_APP_BASE_API]: {
+        ws: false,
+        target: "http://localhost:8889",
+        changeOrigin: true,
+      },
+    },
   },
   chainWebpack(config) {
     // set svg-sprite-loader
