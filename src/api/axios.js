@@ -1,4 +1,7 @@
 import axios from "axios";
+import { ElMessage } from "element-plus";
+import "element-plus/theme-chalk/src/message.scss";
+import { reponseCode } from "@/enum/index";
 
 const http = axios.create({
   baseURL: "/dev-api",
@@ -13,21 +16,43 @@ const http = axios.create({
 /**
  * 请求拦截
  */
-http.interceptors.request.use((config) => {
-  console.log(
-    "%c [ config ]-17",
-    "font-size:13px; background:pink; color:#bf2c9f;",
-    config
-  );
-  return config;
+http.interceptors.request.use((req) => {
+  return req;
 });
 
 /**
  * 响应拦截
  */
-http.interceptors.response.use((config) => {
-  return config.data;
-});
+http.interceptors.response.use(
+  (res) => {
+    const _res = {
+      code: res.data?.code,
+      message: res.data?.data?.message,
+      data: res.data?.data?.data,
+    };
+
+    if (_res.code === reponseCode.OK) {
+      ElMessage({
+        message: _res.message,
+        type: "success",
+      });
+    } else {
+      ElMessage({
+        message: _res.message,
+        type: "error",
+      });
+    }
+
+    return _res;
+  },
+  (error) => {
+    ElMessage({
+      type: "error",
+      message: "服务器出错！",
+      duration: 1500,
+    });
+  }
+);
 
 /**
  * get方法，对应get请求
