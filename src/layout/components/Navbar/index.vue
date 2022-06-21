@@ -11,13 +11,7 @@
     <Breadcrumb class="breadcrumb" />
     <div class="fr avatar">
       <el-dropdown ref="dropdown" trigger="click">
-        <el-image :src="src">
-          <template #error>
-            <div class="image-slot">
-              <el-icon><icon-picture /></el-icon>
-            </div>
-          </template>
-        </el-image>
+        {{ userName }}
         <template #dropdown>
           <el-dropdown-menu>
             <router-link to="/">
@@ -49,9 +43,12 @@ import { logOut } from "@/utils/auth";
 const store = Store();
 const router = useRouter();
 
-const src = require("../../../assets/head.jpeg");
 const isActive = computed(() => {
   return store.isOpenSideBar;
+});
+
+const userName = computed(() => {
+  return store.userInfo.username;
 });
 
 const toggleSideBar = () => {
@@ -87,16 +84,9 @@ const logout = () => {
   }
 
   .avatar {
-    width: 40px;
-    height: 40px;
-    padding-top: 5px;
-
-    .el-image {
-      width: 40px;
-      height: 40px;
-      border-radius: 40px;
-      cursor: pointer;
-    }
+    padding-top: 18px;
+    font-weight: bold;
+    cursor: pointer;
   }
 
   .is-active {

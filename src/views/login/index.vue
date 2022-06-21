@@ -76,7 +76,7 @@ const submitForm = async (formEl) => {
     if (valid) {
       loginApi(ruleForm).then((res) => {
         if (res.statusCode == reponseCode.OK) {
-          setToken(res.token);
+          setToken(res.data.token);
           setStorage(res.data.userInfo);
           store.setUserInfo(res.data.userInfo);
 
