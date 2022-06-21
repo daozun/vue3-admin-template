@@ -37,6 +37,12 @@
 <script setup>
 import { reactive, ref, toRaw } from "vue";
 import { loginApi } from "@/api/modules/login";
+import { reponseCode } from "@/enum/index";
+import { setToken, setStorage } from "@/utils/auth";
+import { useRouter } from "vue-router";
+import { Store } from "@/store/index";
+const router = useRouter();
+const store = Store();
 
 const validateUsername = (rule, value, callback) => {
   if (value === "") {
@@ -69,7 +75,13 @@ const submitForm = async (formEl) => {
   await formEl.validate((valid) => {
     if (valid) {
       loginApi(ruleForm).then((res) => {
-        console.log("res", res);
+        if (res.statusCode == reponseCode.OK) {
+          setToken(res.token);
+          setStorage(res.data.userInfo);
+          store.setUserInfo(res.data.userInfo);
+
+          router.push("/");
+        }
       });
     } else {
       console.log("error submit!");

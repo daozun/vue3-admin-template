@@ -26,12 +26,12 @@ http.interceptors.request.use((req) => {
 http.interceptors.response.use(
   (res) => {
     const _res = {
-      code: res.data?.code,
+      statusCode: res.data?.statusCode,
       message: res.data?.data?.message,
       data: res.data?.data?.data,
     };
 
-    if (_res.code === reponseCode.OK) {
+    if (_res.statusCode === reponseCode.OK) {
       ElMessage({
         message: _res.message,
         type: "success",

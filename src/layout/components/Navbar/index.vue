@@ -44,7 +44,10 @@
 import Breadcrumb from "./components/Breadcrumb/index.vue";
 import { computed, defineProps, ref } from "vue";
 import { Store } from "@/store/index";
+import { useRouter } from "vue-router";
+import { logOut } from "@/utils/auth";
 const store = Store();
+const router = useRouter();
 
 const src = require("../../../assets/head.jpeg");
 const isActive = computed(() => {
@@ -53,6 +56,12 @@ const isActive = computed(() => {
 
 const toggleSideBar = () => {
   store.toggleSideBar();
+};
+
+const logout = () => {
+  logOut();
+  store.removeUserInfo();
+  router.push("/login");
 };
 </script>
 
