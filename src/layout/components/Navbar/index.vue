@@ -14,7 +14,7 @@
         {{ userName }}
         <template #dropdown>
           <el-dropdown-menu>
-            <router-link to="/">
+            <router-link to="/dashboard">
               <el-dropdown-item>首页</el-dropdown-item>
             </router-link>
             <a

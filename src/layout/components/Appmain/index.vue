@@ -1,7 +1,9 @@
 <template>
   <el-main style="background: #fff">
     <Navbar />
-    <router-view></router-view>
+    <div class="app-main">
+      <router-view></router-view>
+    </div>
   </el-main>
 </template>
 
@@ -16,7 +18,11 @@ const marginLeft = computed(() => {
 });
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.app-main {
+  padding: 20px;
+}
+</style>
 
 <style>
 .el-main {

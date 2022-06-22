@@ -67,7 +67,7 @@ const routes = [
     children: [
       {
         path: "menu1",
-        component: () => import("@/views/nested/menu1/index"), // Parent router-view
+        component: () => import("@/views/nested/menu1/index"),
         name: "Menu1",
         meta: { title: "Menu1" },
         children: [
