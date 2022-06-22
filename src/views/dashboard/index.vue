@@ -104,6 +104,7 @@
 <script setup>
 import { defineProps, ref, onMounted } from "vue";
 import * as echarts from "echarts";
+import { useEcharts } from "@/hooks/useEcharts";
 
 onMounted(() => {
   // 柱状图
@@ -127,7 +128,7 @@ onMounted(() => {
     ],
   };
 
-  barOption && barChart.setOption(barOption);
+  useEcharts(barChart, barOption);
 
   // 饼状图
   const pieChartDom = document.getElementById("pie");
@@ -165,7 +166,7 @@ onMounted(() => {
     ],
   };
 
-  pieOption && pieChart.setOption(pieOption);
+  useEcharts(pieChart, pieOption);
 
   // 折线图
   const lineChartDom = document.getElementById("line");
@@ -227,7 +228,7 @@ onMounted(() => {
     ],
   };
 
-  lineOption && lineChart.setOption(lineOption);
+  useEcharts(lineChart, lineOption);
 
   // 仪表盘
   const gaugeChartDom = document.getElementById("gauge");
@@ -287,7 +288,7 @@ onMounted(() => {
     ],
   };
 
-  gaugeOption && gaugeChart.setOption(gaugeOption);
+  useEcharts(gaugeChart, gaugeOption);
 });
 </script>
 
