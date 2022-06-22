@@ -23,7 +23,7 @@
             >
               <el-dropdown-item>项目地址</el-dropdown-item>
             </a>
-            <el-dropdown-item divided @click="logout"
+            <el-dropdown-item divided @click="signOut"
               >退出登录</el-dropdown-item
             >
           </el-dropdown-menu>
@@ -48,14 +48,14 @@ const isActive = computed(() => {
 });
 
 const userName = computed(() => {
-  return store.userInfo.username;
+  return store.userInfo?.username;
 });
 
 const toggleSideBar = () => {
   store.toggleSideBar();
 };
 
-const logout = () => {
+const signOut = () => {
   logOut();
   store.removeUserInfo();
   router.push("/login");

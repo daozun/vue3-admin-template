@@ -7,6 +7,12 @@ import {
 
 const routes = [
   {
+    path: "/",
+    redirect: "/login",
+    hidden: true,
+  },
+
+  {
     path: "/login",
     name: "Login",
     component: () => import("@/views/login/index.vue"),
@@ -14,9 +20,8 @@ const routes = [
   },
 
   {
-    path: "/",
+    path: "/dashboard",
     component: () => import("@/layout"),
-    redirect: "/dashboard",
     name: "Dashboard",
     children: [
       {

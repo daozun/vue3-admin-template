@@ -80,7 +80,7 @@ const submitForm = async (formEl) => {
           setStorage(res.data.userInfo);
           store.setUserInfo(res.data.userInfo);
 
-          router.push("/");
+          router.push("/dashboard");
         }
       });
     } else {

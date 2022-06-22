@@ -46,9 +46,10 @@ http.interceptors.response.use(
     return _res;
   },
   (error) => {
+    const message = error.response.data?.message;
     ElMessage({
       type: "error",
-      message: "服务器出错！",
+      message: message ? message : "服务器错误",
       duration: 1500,
     });
   }
