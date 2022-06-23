@@ -48,3 +48,8 @@ export const reponseCode = {
   GATEWAY_TIMEOUT: 504,
   HTTP_VERSION_NOT_SUPPORTED: 505,
 };
+
+export const articleStatus = {
+  draft: 0,
+  published: 1,
+};
