@@ -1,18 +1,22 @@
 <template>
   <div class="table">
     <!-- query -->
-    <el-form size="large" :inline="true" :model="form" class="query">
-      <el-form-item label="姓名">
-        <el-input v-model="form.username" placeholder="请输入姓名" />
+    <el-form size="large" :inline="true" :model="query" class="query">
+      <el-form-item label="标题">
+        <el-input v-model="query.title" placeholder="请输入标题" />
       </el-form-item>
-      <el-form-item label="状态">
-        <el-select v-model="form.status" placeholder="请选择状态">
-          <el-option label="草稿" value="0" />
-          <el-option label="已发布" value="1" />
+      <el-form-item label="发布状态状态">
+        <el-select v-model="query.status" clearable size="large">
+          <el-option
+            v-for="item in statusList"
+            :key="item.value"
+            :label="item.name"
+            :value="item.value"
+          />
         </el-select>
       </el-form-item>
       <el-form-item label="作者">
-        <el-input v-model="form.author" placeholder="请输入作者" />
+        <el-input v-model="query.author" placeholder="请输入作者" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="search">搜索</el-button>
@@ -31,10 +35,10 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="姓名" width="180" align="center">
+      <el-table-column label="标题" width="180" align="center">
         <template #default="scope">
           <div>
-            {{ scope.row.name }}
+            {{ scope.row.title }}
           </div>
         </template>
       </el-table-column>
@@ -87,7 +91,8 @@
       title="创建"
       width="30%"
       :before-close="handleClose"
-      destroy-on-close="true"
+      :destroy-on-close="true"
+      :close-on-click-modal="false"
       draggable="true"
     >
       <el-form
@@ -96,16 +101,30 @@
         :rules="dialogRules"
         label-width="120px"
         size="default"
-        status-icon
       >
-        <el-form-item label="姓名" prop="username">
-          <el-input v-model="dialogRuleForm.username" />
+        <el-form-item label="标题" prop="title">
+          <el-input v-model="dialogRuleForm.title" size="large" />
+        </el-form-item>
+        <el-form-item label="状态" prop="status">
+          <el-select v-model="dialogRuleForm.status" clearable size="large">
+            <el-option
+              v-for="item in statusList"
+              :key="item.value"
+              :label="item.name"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="作者" prop="author">
+          <el-input v-model="dialogRuleForm.author" size="large" />
         </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="confirmAdd">确定</el-button>
+          <el-button type="primary" @click="confirmAdd(dialogRuleFormRef)"
+            >确定</el-button
+          >
         </span>
       </template>
     </el-dialog>
@@ -114,10 +133,24 @@
 
 <script setup>
 import { defineProps, ref, reactive } from "vue";
+import { addTable } from "@/api/modules/table";
+import { reponseCode } from "@/enum/index";
+
+// status
+const statusList = reactive([
+  {
+    name: "草稿",
+    value: "0",
+  },
+  {
+    name: "已发布",
+    value: "1",
+  },
+]);
 
 // search form
-const form = reactive({
-  username: "",
+const query = reactive({
+  title: "",
   status: "",
   author: "",
 });
@@ -127,10 +160,14 @@ let dialogVisible = ref(false);
 
 const dialogRuleFormRef = ref();
 const dialogRuleForm = reactive({
-  username: "",
+  title: "",
+  status: "",
+  author: "",
 });
-const rules = reactive({
-  name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
+const dialogRules = reactive({
+  title: [{ required: true, message: "请输入标题", trigger: "blur" }],
+  status: [{ required: true, message: "请选择状态", trigger: "change" }],
+  author: [{ required: true, message: "请输入作者", trigger: "blur" }],
 });
 
 // table data
@@ -140,7 +177,20 @@ const tableData = reactive([]);
 const search = () => {};
 
 // 添加
-const confirmAdd = () => {};
+const confirmAdd = async (formEl) => {
+  if (!formEl) return;
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      addTable(dialogRuleForm).then((res) => {
+        if (res.statusCode == reponseCode.OK) {
+          dialogVisible.value = false;
+        }
+      });
+    } else {
+      console.log("error submit!", fields);
+    }
+  });
+};
 </script>
 
 <style lang="scss" scoped>
