@@ -32,10 +32,12 @@ http.interceptors.response.use(
     };
 
     if (_res.statusCode === reponseCode.OK) {
-      ElMessage({
-        message: _res.message,
-        type: "success",
-      });
+      if (_res.message) {
+        ElMessage({
+          message: _res.message,
+          type: "success",
+        });
+      }
     } else {
       ElMessage({
         message: _res.message,

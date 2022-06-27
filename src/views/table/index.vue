@@ -3,9 +3,13 @@
     <!-- query -->
     <el-form size="large" :inline="true" :model="query" class="query">
       <el-form-item label="标题">
-        <el-input v-model="query.title" placeholder="请输入标题" />
+        <el-input
+          v-model.trim="query.title"
+          clearable
+          placeholder="请输入标题"
+        />
       </el-form-item>
-      <el-form-item label="发布状态状态">
+      <el-form-item label="发布状态">
         <el-select v-model="query.status" clearable size="large">
           <el-option
             v-for="item in statusList"
@@ -16,7 +20,11 @@
         </el-select>
       </el-form-item>
       <el-form-item label="作者">
-        <el-input v-model="query.author" placeholder="请输入作者" />
+        <el-input
+          v-model.trim="query.author"
+          clearable
+          placeholder="请输入作者"
+        />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="search">搜索</el-button>
@@ -28,10 +36,10 @@
 
     <!-- table -->
     <el-table :data="tableData" border style="width: 100%">
-      <el-table-column label="ID" width="180" align="center">
+      <el-table-column label="序号" type="index" width="180" align="center">
         <template #default="scope">
           <div>
-            {{ scope.row.ID }}
+            {{ scope.$index + 1 }}
           </div>
         </template>
       </el-table-column>
@@ -45,7 +53,7 @@
       <el-table-column label="状态" width="180" align="center">
         <template #default="scope">
           <div>
-            {{ scope.row.status }}
+            {{ handleStatus(scope.row.status) }}
           </div>
         </template>
       </el-table-column>
@@ -56,17 +64,17 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" width="180" align="center">
+      <el-table-column label="创建时间" width="220" align="center">
         <template #default="scope">
           <div>
-            {{ scope.row.createTime }}
+            {{ handleTime(scope.row.createdAt) }}
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="更新时间" width="180" align="center">
+      <el-table-column label="更新时间" width="220" align="center">
         <template #default="scope">
           <div>
-            {{ scope.row.updateTime }}
+            {{ handleTime(scope.row.updatedAt) }}
           </div>
         </template>
       </el-table-column>
@@ -84,6 +92,20 @@
         </template>
       </el-table-column>
     </el-table>
+
+    <!-- pagination -->
+    <el-row justify="end" style="margin-top: 20px">
+      <el-pagination
+        :currentPage="pageNo"
+        :page-size="pageSize"
+        :page-sizes="[5, 10, 20, 50]"
+        background
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
+    </el-row>
 
     <!-- dialog -->
     <el-dialog
@@ -132,9 +154,17 @@
 </template>
 
 <script setup>
-import { defineProps, ref, reactive } from "vue";
-import { addTable } from "@/api/modules/table";
-import { reponseCode } from "@/enum/index";
+import { defineProps, ref, reactive, onBeforeMount } from "vue";
+import { addTable, getTable } from "@/api/modules/table";
+import { reponseCode, articleStatus } from "@/enum/index";
+import dayjs from "dayjs";
+import "dayjs/locale/zh-cn";
+dayjs.locale("zh-cn");
+
+// beforeMount
+onBeforeMount(() => {
+  search();
+});
 
 // status
 const statusList = reactive([
@@ -148,11 +178,18 @@ const statusList = reactive([
   },
 ]);
 
+// pagination data
+let pageNo = ref(1);
+let pageSize = ref(5);
+let total = ref(0);
+
 // search form
 const query = reactive({
   title: "",
   status: "",
   author: "",
+  pageNo: pageNo,
+  pageSize: pageSize,
 });
 
 // dialog
@@ -171,10 +208,27 @@ const dialogRules = reactive({
 });
 
 // table data
-const tableData = reactive([]);
+let tableData = ref([]);
 
 // 搜索
-const search = () => {};
+const search = () => {
+  getTable(query).then((res) => {
+    tableData.value = res.data;
+    total.value = res.data.length;
+  });
+};
+
+// pagination event
+const handleSizeChange = (size) => {
+  pageSize.value = size;
+  pageNo.value = 1;
+  search();
+};
+
+const handleCurrentChange = (page) => {
+  pageNo.value = page;
+  search();
+};
 
 // 添加
 const confirmAdd = async (formEl) => {
@@ -184,12 +238,29 @@ const confirmAdd = async (formEl) => {
       addTable(dialogRuleForm).then((res) => {
         if (res.statusCode == reponseCode.OK) {
           dialogVisible.value = false;
+          search();
         }
       });
     } else {
       console.log("error submit!", fields);
     }
   });
+};
+
+// 状态
+const handleStatus = (status) => {
+  if (status == articleStatus.draft) {
+    return "草稿";
+  } else if (status == articleStatus.published) {
+    return "已发布";
+  } else {
+    return "";
+  }
+};
+
+// 时间
+const handleTime = (time) => {
+  return dayjs(time).format("YYYY-MM-DD HH:mm:ss");
 };
 </script>
 
