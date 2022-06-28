@@ -36,13 +36,13 @@
 
     <!-- table -->
     <el-table :data="tableData" border style="width: 100%">
-      <el-table-column label="序号" type="index" width="180" align="center">
+      <!-- <el-table-column label="序号" type="index" width="180" align="center">
         <template #default="scope">
           <div>
             {{ scope.$index + 1 }}
           </div>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column label="标题" width="180" align="center">
         <template #default="scope">
           <div>
@@ -80,13 +80,10 @@
       </el-table-column>
       <el-table-column label="操作" align="center">
         <template #default="scope">
-          <el-button size="small" @click="handleEdit(scope.$index, scope.row)"
+          <el-button size="small" @click="handleEdit(scope.row)"
             >编辑</el-button
           >
-          <el-button
-            size="small"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)"
+          <el-button size="small" type="danger" @click="handleDelete(scope.row)"
             >删除</el-button
           >
         </template>
@@ -155,7 +152,7 @@
 
 <script setup>
 import { defineProps, ref, reactive, onBeforeMount } from "vue";
-import { addTable, getTable } from "@/api/modules/table";
+import { addTable, getTable, delTable } from "@/api/modules/table";
 import { reponseCode, articleStatus } from "@/enum/index";
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
@@ -213,8 +210,8 @@ let tableData = ref([]);
 // 搜索
 const search = () => {
   getTable(query).then((res) => {
-    tableData.value = res.data;
-    total.value = res.data.length;
+    tableData.value = res.data.rows;
+    total.value = res.data.count;
   });
 };
 
@@ -246,6 +243,24 @@ const confirmAdd = async (formEl) => {
     }
   });
 };
+
+// 删除
+const handleDelete = (row) => {
+  ElMessageBox.confirm(`确定删除标题为${row.title}的数据么`, {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning",
+  }).then(() => {
+    delTable({ id: row.id }).then((res) => {
+      if (res.statusCode == reponseCode.OK) {
+        search();
+      }
+    });
+  });
+};
+
+// 编辑
+const handleEdit = (row) => {};
 
 // 状态
 const handleStatus = (status) => {
