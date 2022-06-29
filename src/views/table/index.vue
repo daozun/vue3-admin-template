@@ -30,7 +30,7 @@
         <el-button type="primary" @click="search">搜索</el-button>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="dialogVisible = true">添加</el-button>
+        <el-button type="primary" @click="tableAdd">添加</el-button>
       </el-form-item>
     </el-form>
 
@@ -107,7 +107,7 @@
     <!-- dialog -->
     <el-dialog
       v-model="dialogVisible"
-      title="创建"
+      :title="dialogTitle"
       width="30%"
       :before-close="handleClose"
       :destroy-on-close="true"
@@ -141,7 +141,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="confirmAdd(dialogRuleFormRef)"
+          <el-button type="primary" @click="confirm(dialogRuleFormRef)"
             >确定</el-button
           >
         </span>
@@ -152,7 +152,13 @@
 
 <script setup>
 import { defineProps, ref, reactive, onBeforeMount } from "vue";
-import { addTable, getTable, delTable } from "@/api/modules/table";
+import {
+  addTable,
+  getTable,
+  getTableList,
+  delTable,
+  updateTable,
+} from "@/api/modules/table";
 import { reponseCode, articleStatus } from "@/enum/index";
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
@@ -191,9 +197,10 @@ const query = reactive({
 
 // dialog
 let dialogVisible = ref(false);
+let dialogTitle = ref("");
 
 const dialogRuleFormRef = ref();
-const dialogRuleForm = reactive({
+let dialogRuleForm = reactive({
   title: "",
   status: "",
   author: "",
@@ -209,7 +216,7 @@ let tableData = ref([]);
 
 // 搜索
 const search = () => {
-  getTable(query).then((res) => {
+  getTableList(query).then((res) => {
     tableData.value = res.data.rows;
     total.value = res.data.count;
   });
@@ -227,17 +234,55 @@ const handleCurrentChange = (page) => {
   search();
 };
 
-// 添加
-const confirmAdd = async (formEl) => {
+// 添加按钮
+const tableAdd = () => {
+  dialogVisible.value = true;
+  dialogTitle.value = "创建";
+};
+
+// 编辑按钮
+const handleEdit = (row) => {
+  dialogVisible.value = true;
+  dialogTitle.value = "编辑";
+
+  getTable({
+    id: row.id,
+  }).then((res) => {
+    if (res.statusCode == reponseCode.OK) {
+      const result = { ...res.data };
+      result.status = result.status.toString();
+      Object.assign(dialogRuleForm, { ...result });
+    }
+  });
+};
+
+// 确定添加或者编辑
+const confirm = async (formEl) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
-      addTable(dialogRuleForm).then((res) => {
-        if (res.statusCode == reponseCode.OK) {
-          dialogVisible.value = false;
-          search();
-        }
-      });
+      if (dialogTitle.value === "创建") {
+        addTable(dialogRuleForm).then((res) => {
+          if (res.statusCode == reponseCode.OK) {
+            dialogVisible.value = false;
+            search();
+          }
+        });
+      }
+
+      if (dialogTitle.value === "编辑") {
+        updateTable({
+          id: dialogRuleForm.id,
+          title: dialogRuleForm.title,
+          status: dialogRuleForm.status,
+          author: dialogRuleForm.author,
+        }).then((res) => {
+          if (res.statusCode == reponseCode.OK) {
+            dialogVisible.value = false;
+            search();
+          }
+        });
+      }
     } else {
       console.log("error submit!", fields);
     }
@@ -250,17 +295,16 @@ const handleDelete = (row) => {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
     type: "warning",
-  }).then(() => {
-    delTable({ id: row.id }).then((res) => {
-      if (res.statusCode == reponseCode.OK) {
-        search();
-      }
-    });
-  });
+  })
+    .then(() => {
+      delTable({ id: row.id }).then((res) => {
+        if (res.statusCode == reponseCode.OK) {
+          search();
+        }
+      });
+    })
+    .catch(() => {});
 };
-
-// 编辑
-const handleEdit = (row) => {};
 
 // 状态
 const handleStatus = (status) => {
