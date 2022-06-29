@@ -16,17 +16,17 @@ export function removeToken() {
   return Cookies.remove(TokenKey);
 }
 
-// localstorage
+// sessionStorage
 export function getStorage() {
-  return JSON.parse(localStorage.getItem(storageKey));
+  return JSON.parse(sessionStorage.getItem(storageKey));
 }
 
 export function setStorage(userInfo) {
-  localStorage.setItem(storageKey, JSON.stringify(userInfo));
+  sessionStorage.setItem(storageKey, JSON.stringify(userInfo));
 }
 
 export function removeStorage() {
-  localStorage.removeItem(storageKey);
+  sessionStorage.removeItem(storageKey);
 }
 
 export function logOut() {

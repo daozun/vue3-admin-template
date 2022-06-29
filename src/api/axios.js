@@ -2,9 +2,12 @@ import axios from "axios";
 import { ElMessage } from "element-plus";
 import "element-plus/theme-chalk/src/message.scss";
 import { reponseCode } from "@/enum/index";
+import { getToken } from "@/utils/auth";
+
+const baseURL = process.env.VUE_APP_BASE_API;
 
 const http = axios.create({
-  baseURL: "/dev-api",
+  baseURL: baseURL,
   timeout: 60 * 1000,
   headers: {
     "Access-Control-Allow-Origin": "*",
@@ -17,6 +20,12 @@ const http = axios.create({
  * 请求拦截
  */
 http.interceptors.request.use((req) => {
+  const token = getToken();
+
+  if (token) {
+    req.headers.authorization = token;
+  }
+
   return req;
 });
 
@@ -86,11 +95,6 @@ export function get(url, params, config) {
  * @param {Object} config [axios配置]
  */
 export function post(url, params, config) {
-  console.log(
-    "%c [ params ]-61",
-    "font-size:13px; background:pink; color:#bf2c9f;",
-    params
-  );
   return new Promise((resolve, reject) => {
     http
       .post(url, params, config)
