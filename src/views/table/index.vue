@@ -199,12 +199,14 @@ const query = reactive({
 let dialogVisible = ref(false);
 let dialogTitle = ref("");
 
-const dialogRuleFormRef = ref();
+let dialogRuleFormRef = ref();
 let dialogRuleForm = reactive({
   title: "",
   status: "",
   author: "",
 });
+let resetForm = reactive({ ...dialogRuleForm });
+
 const dialogRules = reactive({
   title: [{ required: true, message: "请输入标题", trigger: "blur" }],
   status: [{ required: true, message: "请选择状态", trigger: "change" }],
@@ -236,6 +238,7 @@ const handleCurrentChange = (page) => {
 
 // 添加按钮
 const tableAdd = () => {
+  Object.assign(dialogRuleForm, resetForm);
   dialogVisible.value = true;
   dialogTitle.value = "创建";
 };

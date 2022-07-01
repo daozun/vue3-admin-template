@@ -10,7 +10,11 @@
     </div>
     <Breadcrumb class="breadcrumb" />
     <div class="fr avatar">
-      <el-dropdown ref="dropdown" trigger="click">
+      <svg-icon
+        :icon-class="isFullScreen ? 'exit-fullscreen' : 'fullscreen'"
+        @click="changeScreen"
+      />
+      <el-dropdown class="dropdown" ref="dropdown" trigger="click">
         {{ userName }}
         <template #dropdown>
           <el-dropdown-menu>
@@ -38,6 +42,7 @@
 import Breadcrumb from "./components/Breadcrumb/index.vue";
 import { computed, defineProps, ref } from "vue";
 import { Store } from "@/store/index";
+import { useScreenfull } from "@/hooks/useScreenfull";
 import { useRouter } from "vue-router";
 import { logOut } from "@/utils/auth";
 const store = Store();
@@ -53,6 +58,14 @@ const userName = computed(() => {
 
 const toggleSideBar = () => {
   store.toggleSideBar();
+};
+
+// screenfull
+let isFullScreen = ref(false);
+
+const changeScreen = () => {
+  isFullScreen.value = !isFullScreen.value;
+  useScreenfull(isFullScreen);
 };
 
 const signOut = () => {
@@ -84,13 +97,27 @@ const signOut = () => {
   }
 
   .avatar {
-    padding-top: 18px;
     font-weight: bold;
     cursor: pointer;
+    line-height: 50px;
+    color: #5a5e66;
+  }
+
+  .dropdown {
+    margin-left: 18px;
+    font-size: 16px;
   }
 
   .is-active {
     transform: rotate(180deg);
+  }
+}
+</style>
+
+<style lang="scss">
+.navbar {
+  .el-dropdown {
+    line-height: 50px;
   }
 }
 </style>

@@ -115,6 +115,20 @@ const routes = [
       },
     ],
   },
+
+  {
+    path: "/permission",
+    component: () => import("@/layout"),
+    name: "Permission",
+    children: [
+      {
+        path: "/permission",
+        name: "Permission",
+        component: () => import("@/views/permission/index"),
+        meta: { title: "Permission", icon: "lock" },
+      },
+    ],
+  },
 ];
 
 const router = createRouter({
