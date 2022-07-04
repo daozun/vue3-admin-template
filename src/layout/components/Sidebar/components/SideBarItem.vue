@@ -109,8 +109,10 @@ const right = computed(() => {
 }
 </style>
 
-<style>
-.el-sub-menu .el-sub-menu__icon-arrow {
-  right: v-bind("right");
+<style lang="scss">
+.el-sub-menu {
+  .el-sub-menu__icon-arrow {
+    right: v-bind("right");
+  }
 }
 </style>

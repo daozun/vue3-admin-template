@@ -28,7 +28,7 @@ const routeList = computed(() => {
     matched = [first];
   }
 
-  return matched;
+  return dropDuplocate(matched);
 });
 
 const isDashboard = (route) => {
@@ -37,6 +37,10 @@ const isDashboard = (route) => {
     return false;
   }
   return name.trim().toLocaleLowerCase() === "Dashboard".toLocaleLowerCase();
+};
+
+const dropDuplocate = (matched) => {
+  return _.uniqBy(matched, "path");
 };
 </script>
 

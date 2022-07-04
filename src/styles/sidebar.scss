@@ -1,1 +1,52 @@
+.sidebar {
+  height: 100%;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1001;
+  overflow: hidden;
+  transition: width 0.3s;
 
+  .el-scrollbar__view {
+    height: 100%;
+  }
+
+  .el-menu {
+    height: 100%;
+    border: none;
+
+    .el-menu-item {
+      &:hover {
+        background-color: #263445 !important;
+      }
+    }
+
+    .el-sub-menu {
+      .el-sub-menu__title:focus,
+      .el-sub-menu__title:hover {
+        background-color: #263445 !important;
+      }
+
+      .nest-menu {
+        background-color: #1f2d3d !important;
+
+        .el-sub-menu__title {
+          background-color: #1f2d3d !important;
+
+          &:hover {
+            background-color: #001528 !important;
+          }
+        }
+
+        .el-menu-item:hover {
+          background-color: #001528 !important;
+        }
+      }
+    }
+  }
+
+  .el-menu--collapse {
+    width: 100%;
+  }
+}

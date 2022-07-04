@@ -1,5 +1,5 @@
 <template>
-  <div class="aside">
+  <div class="sidebar">
     <el-scrollbar>
       <el-menu
         :default-active="defaultMenu"
@@ -22,6 +22,8 @@ import SideBarItem from "./components/SideBarItem.vue";
 import { reactive, ref, computed, watch, watchEffect } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { Store } from "@/store/index";
+import variables from "@/styles/variables.scss";
+console.log("variables", variables);
 const store = Store();
 
 const route = useRoute();
@@ -43,35 +45,7 @@ const marginLeft = computed(() => {
 </script>
 
 <style lang="scss" scoped>
-.aside {
+.sidebar {
   width: v-bind("marginLeft");
-  height: 100%;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1001;
-  overflow: hidden;
-  transition: width 0.3s;
-}
-</style>
-
-<style lang="scss">
-.el-scrollbar__view {
-  height: 100%;
-}
-
-.el-menu {
-  height: 100%;
-  border: none;
-  .el-menu-item {
-    &:hover {
-      background-color: #263445 !important;
-    }
-  }
-}
-
-.el-menu--collapse {
-  width: 100%;
 }
 </style>
