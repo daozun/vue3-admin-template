@@ -21,10 +21,15 @@
 import SideBarItem from "./components/SideBarItem.vue";
 import { reactive, ref, computed, watch, watchEffect } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { Store } from "@/store/index";
 import variables from "@/styles/variables.scss";
-console.log("variables", variables);
+import { Store } from "@/store/index";
 const store = Store();
+
+// console.log(
+//   "%c [ variables ]-25",
+//   "font-size:13px; background:pink; color:#bf2c9f;",
+//   variables
+// );
 
 const route = useRoute();
 const routes = computed(() => {
@@ -45,7 +50,10 @@ const marginLeft = computed(() => {
 </script>
 
 <style lang="scss" scoped>
+@import "@/styles/variables.scss";
+
 .sidebar {
   width: v-bind("marginLeft");
+  background: $menuBg;
 }
 </style>

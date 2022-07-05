@@ -40,6 +40,26 @@ module.exports = defineConfig({
       },
     },
   },
+  css: {
+    loaderOptions: {
+      sass: {
+        prependData: `
+          @import "~@/styles/variables.scss";
+        `,
+      },
+      scss: {
+        prependData: `
+          @import "~@/styles/variables.scss";
+        `,
+      },
+      // css: {
+      //   modules: true,
+      // },
+      // scss: {
+      //   additionalData: `@import "@/styles/variables.scss";`,
+      // },
+    },
+  },
   chainWebpack(config) {
     // set svg-sprite-loader
     config.module.rule("svg").exclude.add(resolve("src/icons")).end();
