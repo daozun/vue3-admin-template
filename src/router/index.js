@@ -68,6 +68,7 @@ const routes = [
       {
         path: "menu1",
         component: () => import("@/views/nested/menu1/index"),
+        redirect: "/nested/menu1/menu1-1",
         name: "Menu1",
         meta: { title: "Menu1" },
         children: [
@@ -81,6 +82,7 @@ const routes = [
             path: "menu1-2",
             component: () => import("@/views/nested/menu1/menu1-2"),
             name: "Menu1-2",
+            redirect: "/nested/menu1/menu1-2/menu1-2-1",
             meta: { title: "Menu1-2" },
             children: [
               {
