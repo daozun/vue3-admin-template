@@ -32,7 +32,7 @@ module.exports = defineConfig({
   outputDir: "dist",
   assetsDir: "static",
   productionSourceMap: false,
-  lintOnSave: process.env.NODE_ENV === "development",
+  lintOnSave: false, // process.env.NODE_ENV === "development"
   devServer: {
     port: 4396,
     open: false,
