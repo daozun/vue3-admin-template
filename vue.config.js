@@ -28,7 +28,11 @@ module.exports = defineConfig({
       fallback: { path: require.resolve("path-browserify") },
     },
   },
-  lintOnSave: false,
+  publicPath: "./",
+  outputDir: "dist",
+  assetsDir: "static",
+  productionSourceMap: false,
+  // lintOnSave: process.env.NODE_ENV === 'development',
   devServer: {
     port: 4396,
     open: false,
@@ -52,12 +56,6 @@ module.exports = defineConfig({
           @import "~@/styles/variables.scss";
         `,
       },
-      // css: {
-      //   modules: true,
-      // },
-      // scss: {
-      //   additionalData: `@import "@/styles/variables.scss";`,
-      // },
     },
   },
   chainWebpack(config) {
