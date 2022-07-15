@@ -5,28 +5,28 @@
 </template>
 
 <script setup>
-import { defineProps, computed } from "vue";
+import { defineProps, computed } from 'vue'
 
 const props = defineProps({
   iconClass: {
     type: String,
-    required: true,
+    required: true
   },
   className: {
     type: String,
-    default: "",
-  },
-});
+    default: ''
+  }
+})
 
-const iconName = computed(() => `#icon-${props.iconClass}`);
+const iconName = computed(() => `#icon-${props.iconClass}`)
 
 const svgClass = computed(() => {
   if (props.className) {
-    return "svg-icon " + props.className;
+    return 'svg-icon ' + props.className
   } else {
-    return "svg-icon";
+    return 'svg-icon'
   }
-});
+})
 </script>
 
 <style scoped>

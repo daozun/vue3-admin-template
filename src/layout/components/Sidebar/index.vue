@@ -18,12 +18,13 @@
 </template>
 
 <script setup>
-import SideBarItem from "./components/SideBarItem.vue";
-import { reactive, ref, computed, watch, watchEffect } from "vue";
-import { useRouter, useRoute } from "vue-router";
-import variables from "@/styles/variables.scss";
-import { Store } from "@/store/index";
-const store = Store();
+import SideBarItem from './components/SideBarItem.vue'
+import { computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+// eslint-disable-next-line no-unused-vars
+import variables from '@/styles/variables.scss'
+import { Store } from '@/store/index'
+const store = Store()
 
 // console.log(
 //   "%c [ variables ]-25",
@@ -31,29 +32,29 @@ const store = Store();
 //   variables
 // );
 
-const route = useRoute();
+const route = useRoute()
 const routes = computed(() => {
-  return useRouter().options.routes;
-});
+  return useRouter().options.routes
+})
 
 const isCollapse = computed(() => {
-  return store.isOpenSideBar;
-});
+  return store.isOpenSideBar
+})
 
 const defaultMenu = computed(() => {
-  return route.path;
-});
+  return route.path
+})
 
 const marginLeft = computed(() => {
-  return store.isOpenSideBar ? "64px" : "210px";
-});
+  return store.isOpenSideBar ? '64px' : '210px'
+})
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/variables.scss";
+@import '@/styles/variables.scss';
 
 .sidebar {
-  width: v-bind("marginLeft");
+  width: v-bind('marginLeft');
   background: $menuBg;
 }
 </style>

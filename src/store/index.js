@@ -1,20 +1,20 @@
-import { createPinia, defineStore } from "pinia";
-import { getStorage } from "@/utils/auth";
+import { createPinia, defineStore } from 'pinia'
+import { getStorage } from '@/utils/auth'
 
-export const Store = defineStore("globalState", {
+export const Store = defineStore('globalState', {
   state: () => ({ isOpenSideBar: false, userInfo: getStorage() }),
   actions: {
-    toggleSideBar() {
-      this.isOpenSideBar = !this.isOpenSideBar;
+    toggleSideBar () {
+      this.isOpenSideBar = !this.isOpenSideBar
     },
-    setUserInfo(userInfo) {
-      this.userInfo = userInfo;
+    setUserInfo (userInfo) {
+      this.userInfo = userInfo
     },
-    removeUserInfo() {
-      this.userInfo = null;
-    },
-  },
-});
+    removeUserInfo () {
+      this.userInfo = null
+    }
+  }
+})
 
-const pinia = createPinia();
-export default pinia;
+const pinia = createPinia()
+export default pinia

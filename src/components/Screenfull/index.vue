@@ -8,21 +8,21 @@
 </template>
 
 <script setup>
-import { onUnmounted, destroy, ref } from "vue";
-import screenfull from "screenfull";
-import { init } from "events";
+import { onUnmounted, destroy, ref } from 'vue'
+import screenfull from 'screenfull'
+import { init } from 'events'
 
-let isFullscreen = ref(false);
+const isFullscreen = ref(false)
 
 onUnmounted(() => {
-  init();
-});
+  init()
+})
 
 destroy(() => {
   if (screenfull.enabled) {
-    screenfull.off("change", this.change);
+    screenfull.off('change', this.change)
   }
-});
+})
 
 const clickFullScreen = () => {
   if (!screenfull.enabled) {
@@ -30,14 +30,15 @@ const clickFullScreen = () => {
     //   message: "you browser can not work",
     //   type: "warning",
     // });
-    return false;
+    return false
   }
-  screenfull.toggle();
-};
+  screenfull.toggle()
+}
 
+// eslint-disable-next-line no-unused-vars
 const change = () => {
-  isFullscreen.value = screenfull.isFullscreen;
-};
+  isFullscreen.value = screenfull.isFullscreen
+}
 </script>
 
 <style scoped>

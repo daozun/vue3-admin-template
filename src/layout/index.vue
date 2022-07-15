@@ -8,8 +8,8 @@
 </template>
 
 <script setup>
-import Sidebar from "./components/Sidebar/index.vue";
-import Appmain from "./components/Appmain/index.vue";
+import Sidebar from './components/Sidebar/index.vue'
+import Appmain from './components/Appmain/index.vue'
 </script>
 
 <style lang="scss">

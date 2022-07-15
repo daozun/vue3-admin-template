@@ -36,71 +36,72 @@
 </template>
 
 <script setup>
-import { defineProps, ref, computed } from "vue";
-import { useRouter, useRoute } from "vue-router";
-import { recursionFn } from "@/utils/index";
-import { Store } from "@/store/index";
-const store = Store();
-const router = useRouter();
+import { defineProps, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { recursionFn } from '@/utils/index'
+import { Store } from '@/store/index'
+const store = Store()
+const router = useRouter()
 
+// eslint-disable-next-line no-unused-vars
 const prop = defineProps({
   item: {
-    type: Object,
-  },
-});
+    type: Object
+  }
+})
 
 const noHasChildren = (item) => {
   if (!item.children) {
-    return true;
+    return true
   } else {
-    return false;
+    return false
   }
-};
+}
 
 const hasOneChildren = (item) => {
   if (item.children?.length === 1) {
-    return true;
+    return true
   } else {
-    return false;
+    return false
   }
-};
+}
 
 const hasThanOneChildren = (item) => {
   if (item.children?.length > 1) {
-    return true;
+    return true
   } else {
-    return false;
+    return false
   }
-};
+}
 
 const goToPath = (item) => {
-  const pathArr = setPathArr(item);
-  let pathStr = pathArr.join("/");
+  const pathArr = setPathArr(item)
+  const pathStr = pathArr.join('/')
 
-  router.push(pathStr);
-};
+  router.push(pathStr)
+}
 
 const setIndex = (item) => {
-  const pathArr = setPathArr(item);
-  let pathStr = pathArr.join("/");
+  const pathArr = setPathArr(item)
+  let pathStr = pathArr.join('/')
 
-  if (pathStr == "/") {
-    pathStr = "/dashboard";
+  if (pathStr === '/') {
+    pathStr = '/dashboard'
   }
 
-  return pathStr;
-};
+  return pathStr
+}
 
 const setPathArr = (item) => {
-  const routerList = router.options.routes;
-  const pathArr = recursionFn(routerList, item);
+  const routerList = router.options.routes
+  const pathArr = recursionFn(routerList, item)
 
-  return pathArr;
-};
+  return pathArr
+}
 
 const right = computed(() => {
-  return store.isOpenSideBar ? "-20px" : "20px";
-});
+  return store.isOpenSideBar ? '-20px' : '20px'
+})
 </script>
 
 <style lang="scss" scoped>
@@ -112,7 +113,7 @@ const right = computed(() => {
 <style lang="scss">
 .el-sub-menu {
   .el-sub-menu__icon-arrow {
-    right: v-bind("right");
+    right: v-bind('right');
   }
 }
 </style>

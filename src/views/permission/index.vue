@@ -28,20 +28,20 @@
 </template>
 
 <script setup>
-import { defineProps, ref, reactive } from "vue";
+import { reactive } from 'vue'
 
 const tableData = reactive([
   {
-    name: "admin",
-    description: "管理员",
+    name: 'admin',
+    description: '管理员'
   },
   {
-    name: "visitor",
-    description: "游客",
-  },
-]);
+    name: 'visitor',
+    description: '游客'
+  }
+])
 
-const handleEdit = () => {};
+const handleEdit = () => {}
 </script>
 
 <style lang="scss" scoped>

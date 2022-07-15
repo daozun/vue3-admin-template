@@ -13,35 +13,35 @@
 </template>
 
 <script setup>
-import { reactive, ref, computed } from "vue";
-import { useRouter, useRoute } from "vue-router";
-const route = useRoute();
-const router = useRouter();
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+const route = useRoute()
 
 const routeList = computed(() => {
-  let matched = route.matched;
-  let first = matched[0];
+  let matched = route.matched
+  const first = matched[0]
 
   if (!isDashboard(first)) {
-    matched = [{ path: "/dashboard", name: "Dashboard" }].concat(matched);
+    matched = [{ path: '/dashboard', name: 'Dashboard' }].concat(matched)
   } else {
-    matched = [first];
+    matched = [first]
   }
 
-  return dropDuplocate(matched);
-});
+  return dropDuplocate(matched)
+})
 
 const isDashboard = (route) => {
-  const name = route && route.name;
+  const name = route && route.name
   if (!name) {
-    return false;
+    return false
   }
-  return name.trim().toLocaleLowerCase() === "Dashboard".toLocaleLowerCase();
-};
+  return name.trim().toLocaleLowerCase() === 'Dashboard'.toLocaleLowerCase()
+}
 
 const dropDuplocate = (matched) => {
-  return _.uniqBy(matched, "path");
-};
+  // eslint-disable-next-line no-undef
+  return _.uniqBy(matched, 'path')
+}
 </script>
 
 <style lang="scss" scoped>

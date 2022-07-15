@@ -35,60 +35,60 @@
 </template>
 
 <script setup>
-import { reactive, ref, toRaw } from "vue";
-import { loginApi } from "@/api/modules/login";
-import { reponseCode } from "@/enum/index";
-import { setToken, setStorage } from "@/utils/auth";
-import { useRouter } from "vue-router";
-import { Store } from "@/store/index";
-const router = useRouter();
-const store = Store();
+import { reactive, ref } from 'vue'
+import { loginApi } from '@/api/modules/login'
+import { reponseCode } from '@/enum/index'
+import { setToken, setStorage } from '@/utils/auth'
+import { useRouter } from 'vue-router'
+import { Store } from '@/store/index'
+const router = useRouter()
+const store = Store()
 
 const validateUsername = (rule, value, callback) => {
-  if (value === "") {
-    callback(new Error("请输入用户名"));
+  if (value === '') {
+    callback(new Error('请输入用户名'))
   } else {
-    callback();
+    callback()
   }
-};
+}
 const validatePassword = (rule, value, callback) => {
-  if (value === "") {
-    callback(new Error("请输入密码"));
+  if (value === '') {
+    callback(new Error('请输入密码'))
   } else {
-    callback();
+    callback()
   }
-};
+}
 
-const ruleFormRef = ref();
+const ruleFormRef = ref()
 const ruleForm = reactive({
-  username: "",
-  password: "",
-});
+  username: '',
+  password: ''
+})
 
 const rules = reactive({
-  username: [{ validator: validateUsername, trigger: "blur" }],
-  password: [{ validator: validatePassword, trigger: "blur" }],
-});
+  username: [{ validator: validateUsername, trigger: 'blur' }],
+  password: [{ validator: validatePassword, trigger: 'blur' }]
+})
 
 const submitForm = async (formEl) => {
-  if (!formEl) return;
+  if (!formEl) return
   await formEl.validate((valid) => {
     if (valid) {
       loginApi(ruleForm).then((res) => {
-        if (res.statusCode == reponseCode.OK) {
-          setToken(res.data.token);
-          setStorage(res.data.userInfo);
-          store.setUserInfo(res.data.userInfo);
+        if (res.statusCode === reponseCode.OK) {
+          setToken(res.data.token)
+          setStorage(res.data.userInfo)
+          store.setUserInfo(res.data.userInfo)
 
-          router.push("/dashboard");
+          router.push('/dashboard')
         }
-      });
+      })
     } else {
-      console.log("error submit!");
-      return false;
+      console.log('error submit!')
+      return false
     }
-  });
-};
+  })
+}
 </script>
 
 <style lang="scss" scoped>
@@ -96,7 +96,7 @@ const submitForm = async (formEl) => {
   width: 100vw;
   height: 100vh;
   position: relative;
-  background: url("../../assets/login_bg.jpeg") 100% 100% no-repeat;
+  background: url('../../assets/login_bg.jpeg') 100% 100% no-repeat;
 
   .login-container {
     position: absolute;

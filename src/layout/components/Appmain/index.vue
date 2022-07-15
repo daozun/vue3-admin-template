@@ -8,14 +8,14 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
-import Navbar from "../Navbar/index.vue";
-import { Store } from "@/store/index";
-const store = Store();
+import { computed } from 'vue'
+import Navbar from '../Navbar/index.vue'
+import { Store } from '@/store/index'
+const store = Store()
 
 const marginLeft = computed(() => {
-  return store.isOpenSideBar ? "64px" : "210px";
-});
+  return store.isOpenSideBar ? '64px' : '210px'
+})
 </script>
 
 <style lang="scss">
@@ -27,7 +27,7 @@ const marginLeft = computed(() => {
 <style>
 .el-main {
   padding: 0;
-  margin-left: v-bind("marginLeft");
+  margin-left: v-bind('marginLeft');
   transition: margin-left 0.3s;
 }
 </style>

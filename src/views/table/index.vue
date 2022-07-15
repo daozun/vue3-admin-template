@@ -151,179 +151,180 @@
 </template>
 
 <script setup>
-import { defineProps, ref, reactive, onBeforeMount } from "vue";
+import { ref, reactive, onBeforeMount } from 'vue'
 import {
   addTable,
   getTable,
   getTableList,
   delTable,
-  updateTable,
-} from "@/api/modules/table";
-import { reponseCode, articleStatus } from "@/enum/index";
-import dayjs from "dayjs";
-import "dayjs/locale/zh-cn";
-dayjs.locale("zh-cn");
+  updateTable
+} from '@/api/modules/table'
+import { reponseCode, articleStatus } from '@/enum/index'
+import dayjs from 'dayjs'
+import 'dayjs/locale/zh-cn'
+dayjs.locale('zh-cn')
 
 // beforeMount
 onBeforeMount(() => {
-  search();
-});
+  search()
+})
 
 // status
 const statusList = reactive([
   {
-    name: "草稿",
-    value: "0",
+    name: '草稿',
+    value: '0'
   },
   {
-    name: "已发布",
-    value: "1",
-  },
-]);
+    name: '已发布',
+    value: '1'
+  }
+])
 
 // pagination data
-let pageNo = ref(1);
-let pageSize = ref(5);
-let total = ref(0);
+const pageNo = ref(1)
+const pageSize = ref(5)
+const total = ref(0)
 
 // search form
 const query = reactive({
-  title: "",
-  status: "",
-  author: "",
+  title: '',
+  status: '',
+  author: '',
   pageNo: pageNo,
-  pageSize: pageSize,
-});
+  pageSize: pageSize
+})
 
 // dialog
-let dialogVisible = ref(false);
-let dialogTitle = ref("");
+const dialogVisible = ref(false)
+const dialogTitle = ref('')
 
-let dialogRuleFormRef = ref();
-let dialogRuleForm = reactive({
-  title: "",
-  status: "",
-  author: "",
-});
-let resetForm = reactive({ ...dialogRuleForm });
+const dialogRuleFormRef = ref()
+const dialogRuleForm = reactive({
+  title: '',
+  status: '',
+  author: ''
+})
+const resetForm = reactive({ ...dialogRuleForm })
 
 const dialogRules = reactive({
-  title: [{ required: true, message: "请输入标题", trigger: "blur" }],
-  status: [{ required: true, message: "请选择状态", trigger: "change" }],
-  author: [{ required: true, message: "请输入作者", trigger: "blur" }],
-});
+  title: [{ required: true, message: '请输入标题', trigger: 'blur' }],
+  status: [{ required: true, message: '请选择状态', trigger: 'change' }],
+  author: [{ required: true, message: '请输入作者', trigger: 'blur' }]
+})
 
 // table data
-let tableData = ref([]);
+const tableData = ref([])
 
 // 搜索
 const search = () => {
   getTableList(query).then((res) => {
-    tableData.value = res.data.rows;
-    total.value = res.data.count;
-  });
-};
+    tableData.value = res.data.rows
+    total.value = res.data.count
+  })
+}
 
 // pagination event
 const handleSizeChange = (size) => {
-  pageSize.value = size;
-  pageNo.value = 1;
-  search();
-};
+  pageSize.value = size
+  pageNo.value = 1
+  search()
+}
 
 const handleCurrentChange = (page) => {
-  pageNo.value = page;
-  search();
-};
+  pageNo.value = page
+  search()
+}
 
 // 添加按钮
 const tableAdd = () => {
-  Object.assign(dialogRuleForm, resetForm);
-  dialogVisible.value = true;
-  dialogTitle.value = "创建";
-};
+  Object.assign(dialogRuleForm, resetForm)
+  dialogVisible.value = true
+  dialogTitle.value = '创建'
+}
 
 // 编辑按钮
 const handleEdit = (row) => {
-  dialogVisible.value = true;
-  dialogTitle.value = "编辑";
+  dialogVisible.value = true
+  dialogTitle.value = '编辑'
 
   getTable({
-    id: row.id,
+    id: row.id
   }).then((res) => {
-    if (res.statusCode == reponseCode.OK) {
-      const result = { ...res.data };
-      result.status = result.status.toString();
-      Object.assign(dialogRuleForm, { ...result });
+    if (res.statusCode === reponseCode.OK) {
+      const result = { ...res.data }
+      result.status = result.status.toString()
+      Object.assign(dialogRuleForm, { ...result })
     }
-  });
-};
+  })
+}
 
 // 确定添加或者编辑
 const confirm = async (formEl) => {
-  if (!formEl) return;
+  if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
-      if (dialogTitle.value === "创建") {
+      if (dialogTitle.value === '创建') {
         addTable(dialogRuleForm).then((res) => {
-          if (res.statusCode == reponseCode.OK) {
-            dialogVisible.value = false;
-            search();
+          if (res.statusCode === reponseCode.OK) {
+            dialogVisible.value = false
+            search()
           }
-        });
+        })
       }
 
-      if (dialogTitle.value === "编辑") {
+      if (dialogTitle.value === '编辑') {
         updateTable({
           id: dialogRuleForm.id,
           title: dialogRuleForm.title,
           status: dialogRuleForm.status,
-          author: dialogRuleForm.author,
+          author: dialogRuleForm.author
         }).then((res) => {
-          if (res.statusCode == reponseCode.OK) {
-            dialogVisible.value = false;
-            search();
+          if (res.statusCode === reponseCode.OK) {
+            dialogVisible.value = false
+            search()
           }
-        });
+        })
       }
     } else {
-      console.log("error submit!", fields);
+      console.log('error submit!', fields)
     }
-  });
-};
+  })
+}
 
 // 删除
 const handleDelete = (row) => {
+  // eslint-disable-next-line no-undef
   ElMessageBox.confirm(`确定删除标题为${row.title}的数据么`, {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
-    type: "warning",
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
   })
     .then(() => {
       delTable({ id: row.id }).then((res) => {
-        if (res.statusCode == reponseCode.OK) {
-          search();
+        if (res.statusCode === reponseCode.OK) {
+          search()
         }
-      });
+      })
     })
-    .catch(() => {});
-};
+    .catch(() => {})
+}
 
 // 状态
 const handleStatus = (status) => {
-  if (status == articleStatus.draft) {
-    return "草稿";
-  } else if (status == articleStatus.published) {
-    return "已发布";
+  if (status === articleStatus.draft) {
+    return '草稿'
+  } else if (status === articleStatus.published) {
+    return '已发布'
   } else {
-    return "";
+    return ''
   }
-};
+}
 
 // 时间
 const handleTime = (time) => {
-  return dayjs(time).format("YYYY-MM-DD HH:mm:ss");
-};
+  return dayjs(time).format('YYYY-MM-DD HH:mm:ss')
+}
 </script>
 
 <style lang="scss" scoped>

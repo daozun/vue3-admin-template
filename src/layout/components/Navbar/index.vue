@@ -39,40 +39,40 @@
 </template>
 
 <script setup>
-import Breadcrumb from "./components/Breadcrumb/index.vue";
-import { computed, defineProps, ref } from "vue";
-import { Store } from "@/store/index";
-import { useScreenfull } from "@/hooks/useScreenfull";
-import { useRouter } from "vue-router";
-import { logOut } from "@/utils/auth";
-const store = Store();
-const router = useRouter();
+import Breadcrumb from './components/Breadcrumb/index.vue'
+import { computed, ref } from 'vue'
+import { Store } from '@/store/index'
+import { useScreenfull } from '@/hooks/useScreenfull'
+import { useRouter } from 'vue-router'
+import { logOut } from '@/utils/auth'
+const store = Store()
+const router = useRouter()
 
 const isActive = computed(() => {
-  return store.isOpenSideBar;
-});
+  return store.isOpenSideBar
+})
 
 const userName = computed(() => {
-  return store.userInfo?.username;
-});
+  return store.userInfo?.username
+})
 
 const toggleSideBar = () => {
-  store.toggleSideBar();
-};
+  store.toggleSideBar()
+}
 
 // screenfull
-let isFullScreen = ref(false);
+const isFullScreen = ref(false)
 
 const changeScreen = () => {
-  isFullScreen.value = !isFullScreen.value;
-  useScreenfull(isFullScreen);
-};
+  isFullScreen.value = !isFullScreen.value
+  useScreenfull(isFullScreen)
+}
 
 const signOut = () => {
-  logOut();
-  store.removeUserInfo();
-  router.push("/login");
-};
+  logOut()
+  store.removeUserInfo()
+  router.push('/login')
+}
 </script>
 
 <style lang="scss" scoped>

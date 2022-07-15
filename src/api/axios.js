@@ -1,33 +1,33 @@
-import axios from "axios";
-import { ElMessage } from "element-plus";
-import "element-plus/theme-chalk/src/message.scss";
-import { reponseCode } from "@/enum/index";
-import { getToken } from "@/utils/auth";
+import axios from 'axios'
+import { ElMessage } from 'element-plus'
+import 'element-plus/theme-chalk/src/message.scss'
+import { reponseCode } from '@/enum/index'
+import { getToken } from '@/utils/auth'
 
-const baseURL = process.env.VUE_APP_BASE_API;
+const baseURL = process.env.VUE_APP_BASE_API
 
 const http = axios.create({
   baseURL: baseURL,
   timeout: 60 * 1000,
   headers: {
-    "Access-Control-Allow-Origin": "*",
-    "Content-Type": "application/json",
-    "x-tenant-header": "keycode",
-  },
-});
+    'Access-Control-Allow-Origin': '*',
+    'Content-Type': 'application/json',
+    'x-tenant-header': 'keycode'
+  }
+})
 
 /**
  * 请求拦截
  */
 http.interceptors.request.use((req) => {
-  const token = getToken();
+  const token = getToken()
 
   if (token) {
-    req.headers.authorization = token;
+    req.headers.authorization = token
   }
 
-  return req;
-});
+  return req
+})
 
 /**
  * 响应拦截
@@ -37,34 +37,34 @@ http.interceptors.response.use(
     const _res = {
       statusCode: res.data?.statusCode,
       message: res.data?.data?.message,
-      data: res.data?.data?.data,
-    };
+      data: res.data?.data?.data
+    }
 
     if (_res.statusCode === reponseCode.OK) {
       if (_res.message) {
         ElMessage({
           message: _res.message,
-          type: "success",
-        });
+          type: 'success'
+        })
       }
     } else {
       ElMessage({
         message: _res.message,
-        type: "error",
-      });
+        type: 'error'
+      })
     }
 
-    return _res;
+    return _res
   },
   (error) => {
-    const message = error.response.data?.message;
+    const message = error.response.data?.message
     ElMessage({
-      type: "error",
-      message: message ? message : "服务器错误",
-      duration: 1500,
-    });
+      type: 'error',
+      message: message || '服务器错误',
+      duration: 1500
+    })
   }
-);
+)
 
 /**
  * get方法，对应get请求
@@ -72,20 +72,20 @@ http.interceptors.response.use(
  * @param {Object} params [请求时携带的参数]
  * @param {Object} config [axios配置]
  */
-export function get(url, params, config) {
+export function get (url, params, config) {
   return new Promise((resolve, reject) => {
     http
       .get(url, {
         ...config,
-        params,
+        params
       })
       .then((res) => {
-        resolve(res);
+        resolve(res)
       })
       .catch((err) => {
-        reject(err);
-      });
-  });
+        reject(err)
+      })
+  })
 }
 
 /**
@@ -94,17 +94,17 @@ export function get(url, params, config) {
  * @param {Object} params [请求时携带的参数]
  * @param {Object} config [axios配置]
  */
-export function post(url, params, config) {
+export function post (url, params, config) {
   return new Promise((resolve, reject) => {
     http
       .post(url, params, config)
       .then((res) => {
-        resolve(res);
+        resolve(res)
       })
       .catch((err) => {
-        reject(err);
-      });
-  });
+        reject(err)
+      })
+  })
 }
 
 /**
@@ -113,20 +113,20 @@ export function post(url, params, config) {
  * @param {Object} params [请求时携带的参数]
  * @param {Object} config [axios配置]
  */
-export function del(url, params, config) {
+export function del (url, params, config) {
   return new Promise((resolve, reject) => {
     http
       .delete(url, {
         ...config,
-        params,
+        params
       })
       .then((res) => {
-        resolve(res);
+        resolve(res)
       })
       .catch((err) => {
-        reject(err);
-      });
-  });
+        reject(err)
+      })
+  })
 }
 
 /**
@@ -135,17 +135,17 @@ export function del(url, params, config) {
  * @param {Object} params [请求时携带的参数]
  * @param {Object} config [axios配置]
  */
-export function put(url, params, config) {
+export function put (url, params, config) {
   return new Promise((resolve, reject) => {
     http
       .put(url, params, config)
       .then((res) => {
-        resolve(res);
+        resolve(res)
       })
       .catch((err) => {
-        reject(err);
-      });
-  });
+        reject(err)
+      })
+  })
 }
 
 /**
@@ -154,15 +154,15 @@ export function put(url, params, config) {
  * @param {Object} params [请求时携带的参数]
  * @param {Object} config [axios配置]
  */
-export function patch(url, params, config) {
+export function patch (url, params, config) {
   return new Promise((resolve, reject) => {
     http
       .patch(url, params, config)
       .then((res) => {
-        resolve(res);
+        resolve(res)
       })
       .catch((err) => {
-        reject(err);
-      });
-  });
+        reject(err)
+      })
+  })
 }

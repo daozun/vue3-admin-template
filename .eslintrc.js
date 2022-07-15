@@ -1,17 +1,24 @@
 module.exports = {
   root: true,
   parserOptions: {
-    parser: "babel-eslint",
-    sourceType: "module",
+    parser: 'babel-eslint',
+    sourceType: 'module'
   },
   env: {
     browser: true,
     node: true,
-    es6: true,
+    es6: true
   },
-  extends: ["plugin:vue-libs/recommended"],
+  extends: ['plugin:vue-libs/recommended'],
 
   // add your custom rules here
   // it is base on https://github.com/vuejs/eslint-plugin-vue-libs
-  rules: {},
-};
+  rules: {
+    'vue/multi-word-component-names': [
+      'error',
+      {
+        ignores: ['index'] // 需要忽略的组件名
+      }
+    ]
+  }
+}
