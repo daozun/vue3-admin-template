@@ -50,6 +50,6 @@ export const reponseCode = {
 }
 
 export const articleStatus = {
-  draft: 0,
-  published: 1
+  draft: '0',
+  published: '1'
 }

@@ -24,6 +24,16 @@
         </template>
       </el-table-column>
     </el-table>
+
+    <el-dialog v-model="dialogVisible" title="编辑菜单权限" width="30%">
+      <span>This is a message</span>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="dialogVisible = false">取消</el-button>
+          <el-button type="primary" @click="confirm">确定</el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -41,7 +51,11 @@ const tableData = reactive([
   }
 ])
 
+// 点击编辑按钮
 const handleEdit = () => {}
+
+// 确认按钮
+const confirm = () => {}
 </script>
 
 <style lang="scss" scoped>
