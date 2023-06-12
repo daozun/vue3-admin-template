@@ -34,27 +34,19 @@ http.interceptors.request.use((req) => {
  */
 http.interceptors.response.use(
   (res) => {
-    const _res = {
-      statusCode: res.data?.statusCode,
-      message: res.data?.data?.message,
-      data: res.data?.data?.data
-    }
-
-    if (_res.statusCode === reponseCode.OK) {
-      if (_res.message) {
-        ElMessage({
-          message: _res.message,
-          type: 'success'
-        })
-      }
+    if (res.data.statusCode === reponseCode.OK) {
+      ElMessage({
+        message: res.data.data.message,
+        type: 'success'
+      })
     } else {
       ElMessage({
-        message: _res.message,
+        message: res.data.data.message,
         type: 'error'
       })
     }
 
-    return _res
+    return res.data;
   },
   (error) => {
     const message = error.response.data?.message
@@ -72,7 +64,7 @@ http.interceptors.response.use(
  * @param {Object} params [请求时携带的参数]
  * @param {Object} config [axios配置]
  */
-export function get (url, params, config) {
+export function get(url, params, config) {
   return new Promise((resolve, reject) => {
     http
       .get(url, {
@@ -94,7 +86,7 @@ export function get (url, params, config) {
  * @param {Object} params [请求时携带的参数]
  * @param {Object} config [axios配置]
  */
-export function post (url, params, config) {
+export function post(url, params, config) {
   return new Promise((resolve, reject) => {
     http
       .post(url, params, config)
@@ -113,7 +105,7 @@ export function post (url, params, config) {
  * @param {Object} params [请求时携带的参数]
  * @param {Object} config [axios配置]
  */
-export function del (url, params, config) {
+export function del(url, params, config) {
   return new Promise((resolve, reject) => {
     http
       .delete(url, {
@@ -135,7 +127,7 @@ export function del (url, params, config) {
  * @param {Object} params [请求时携带的参数]
  * @param {Object} config [axios配置]
  */
-export function put (url, params, config) {
+export function put(url, params, config) {
   return new Promise((resolve, reject) => {
     http
       .put(url, params, config)
@@ -154,7 +146,7 @@ export function put (url, params, config) {
  * @param {Object} params [请求时携带的参数]
  * @param {Object} config [axios配置]
  */
-export function patch (url, params, config) {
+export function patch(url, params, config) {
   return new Promise((resolve, reject) => {
     http
       .patch(url, params, config)

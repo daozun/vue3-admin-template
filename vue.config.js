@@ -1,7 +1,7 @@
 const { defineConfig } = require('@vue/cli-service')
 const path = require('path')
 
-function resolve (dir) {
+function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
@@ -40,7 +40,10 @@ module.exports = defineConfig({
       [process.env.VUE_APP_BASE_API]: {
         ws: false,
         target: 'http://localhost:8889',
-        changeOrigin: true
+        changeOrigin: true,
+        pathRewrite: {
+          "/dev-api": "/"
+        }
       }
     }
   },
@@ -58,7 +61,7 @@ module.exports = defineConfig({
       }
     }
   },
-  chainWebpack (config) {
+  chainWebpack(config) {
     // set svg-sprite-loader
     config.module.rule('svg').exclude.add(resolve('src/icons')).end()
     config.module
