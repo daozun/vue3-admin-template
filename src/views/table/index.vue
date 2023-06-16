@@ -267,6 +267,11 @@ const confirm = async (formEl) => {
       if (dialogTitle.value === '创建') {
         addTable(dialogRuleForm).then((res) => {
           if (res.statusCode === reponseCode.OK) {
+            ElMessage({
+              message: res.data.message,
+              type: 'success'
+            })
+
             dialogVisible.value = false
             search()
           }
@@ -281,6 +286,11 @@ const confirm = async (formEl) => {
           author: dialogRuleForm.author
         }).then((res) => {
           if (res.statusCode === reponseCode.OK) {
+            ElMessage({
+              message: res.data.message,
+              type: 'success'
+            })
+
             dialogVisible.value = false
             search()
           }
@@ -303,6 +313,11 @@ const handleDelete = (row) => {
     .then(() => {
       delTable({ id: row.id }).then((res) => {
         if (res.statusCode === reponseCode.OK) {
+          ElMessage({
+            message: res.data.message,
+            type: 'success'
+          })
+
           search()
         }
       })

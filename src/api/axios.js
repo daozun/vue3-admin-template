@@ -23,7 +23,7 @@ http.interceptors.request.use((req) => {
   const token = getToken()
 
   if (token) {
-    req.headers.authorization = token
+    req.headers.authorization = `Bearer ${token}`
   }
 
   return req
@@ -34,12 +34,7 @@ http.interceptors.request.use((req) => {
  */
 http.interceptors.response.use(
   (res) => {
-    if (res.data.statusCode === reponseCode.OK) {
-      ElMessage({
-        message: res.data.data.message,
-        type: 'success'
-      })
-    } else {
+    if (res.data.statusCode !== reponseCode.OK) {
       ElMessage({
         message: res.data.data.message,
         type: 'error'
