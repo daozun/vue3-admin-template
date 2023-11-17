@@ -25,20 +25,18 @@
       </el-table-column>
     </el-table>
 
-    <el-dialog v-model="dialogVisible" title="编辑菜单权限" width="30%">
-      <span>This is a message</span>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="dialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="confirm">确定</el-button>
-        </span>
-      </template>
-    </el-dialog>
+    <authDialog
+      :dialogVisible="dialogVisible"
+      @changeVisible="changeVisible"
+    ></authDialog>
   </div>
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import authDialog from '@/views/permission/auth-dialog'
+import { reactive, ref } from 'vue'
+
+const dialogVisible = ref(false)
 
 const tableData = reactive([
   {
@@ -52,10 +50,14 @@ const tableData = reactive([
 ])
 
 // 点击编辑按钮
-const handleEdit = () => {}
+const handleEdit = () => {
+  dialogVisible.value = true
+}
 
-// 确认按钮
-const confirm = () => {}
+// 子组件传值
+const changeVisible = (status) => {
+  dialogVisible.value = status
+}
 </script>
 
 <style lang="scss" scoped>

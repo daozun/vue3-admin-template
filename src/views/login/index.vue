@@ -2,7 +2,7 @@
   <section class="login">
     <div class="login-container">
       <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules">
-        <h1>登录</h1>
+        <h1 class="text-2xl pb-4">登录</h1>
         <el-form-item prop="username">
           <el-input
             v-model="ruleForm.username"
@@ -100,14 +100,13 @@ const submitForm = async (formEl) => {
 
   .login-container {
     position: absolute;
-    width: 400px;
     max-width: 100%;
     padding: 25px 50px;
     top: 45%;
     left: 50%;
     transform: translate(-50%, -45%);
     overflow: hidden;
-    background: #2d3a4b;
+    background: #000000;
     color: #eee;
     text-align: center;
     border-radius: 10px;

@@ -26,12 +26,6 @@ import variables from '@/styles/variables.scss'
 import { Store } from '@/store/index'
 const store = Store()
 
-// console.log(
-//   "%c [ variables ]-25",
-//   "font-size:13px; background:pink; color:#bf2c9f;",
-//   variables
-// );
-
 const route = useRoute()
 const routes = computed(() => {
   return useRouter().options.routes

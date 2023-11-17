@@ -52,7 +52,7 @@ const routes = [
         name: 'Upload',
         component: () => import('@/views/upload/index'),
         meta: { title: 'Upload', icon: 'upload' }
-      }      
+      }
     ]
   },
 
