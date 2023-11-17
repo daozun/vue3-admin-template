@@ -34,9 +34,12 @@ http.interceptors.request.use((req) => {
  */
 http.interceptors.response.use(
   (res) => {
-    if (res.data.statusCode !== reponseCode.OK) {
+    if (
+      res.data.statusCode !== reponseCode.OK &&
+      res.data.statusCode !== reponseCode.CREATED
+    ) {
       ElMessage({
-        message: res.data.data.message,
+        message: res.data.message,
         type: 'error'
       })
     }

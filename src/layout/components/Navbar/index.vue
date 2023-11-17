@@ -1,15 +1,15 @@
 <template>
   <div class="navbar">
-    <div class="fl">
+    <div class="left">
       <SvgIcon
         icon-class="hamburger"
         class="hamburger-svg"
         @click="toggleSideBar"
         :class="{ 'is-active': isActive }"
       />
+      <Breadcrumb class="breadcrumb" />
     </div>
-    <Breadcrumb class="breadcrumb" />
-    <div class="fr avatar">
+    <div class="right avatar">
       <svg-icon
         :icon-class="isFullScreen ? 'exit-fullscreen' : 'fullscreen'"
         @click="changeScreen"
@@ -85,6 +85,19 @@ const signOut = () => {
   line-height: 50px;
   padding: 5px 40px 5px 18px;
   box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .left {
+    display: flex;
+    align-items: center;
+  }
+
+  .right {
+    display: flex;
+    align-items: center;
+  }
 
   .breadcrumb {
     margin-left: 20px;

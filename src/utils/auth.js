@@ -18,7 +18,13 @@ export function removeToken () {
 
 // sessionStorage
 export function getStorage () {
-  return JSON.parse(sessionStorage.getItem(storageKey))
+  const token = sessionStorage.getItem(storageKey)
+
+  if (!token && token !== 'undefined') {
+    return JSON.parse(token)
+  }
+
+  return null
 }
 
 export function setStorage (userInfo) {
