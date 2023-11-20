@@ -31,15 +31,15 @@ const routes = [
   {
     path: '/example',
     component: () => import('@/layout'),
-    redirect: '/example/table',
+    redirect: '/example/article',
     name: 'Example',
     meta: { title: 'Example', icon: 'example' },
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
+        path: 'article',
+        name: 'Article',
+        component: () => import('@/views/article/index'),
+        meta: { title: 'Article', icon: 'table' }
       },
       {
         path: 'tree',
@@ -131,6 +131,13 @@ const routes = [
         meta: { title: 'Permission', icon: 'lock' }
       }
     ]
+  },
+
+  {
+    path: '/:pathMatch(.*)',
+    name: 'not-found',
+    component: () => import('@/views/404.vue'),
+    hidden: true
   }
 ]
 

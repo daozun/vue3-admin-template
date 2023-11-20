@@ -97,6 +97,8 @@ const signOut = () => {
   .right {
     display: flex;
     align-items: center;
+    position: absolute;
+    right: 40px;
   }
 
   .breadcrumb {
