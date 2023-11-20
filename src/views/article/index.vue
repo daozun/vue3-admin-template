@@ -118,11 +118,18 @@
         ref="dialogRuleFormRef"
         :model="dialogRuleForm"
         :rules="dialogRules"
-        label-width="120px"
+        label-width="60px"
+        label-position="left"
         size="default"
       >
         <el-form-item label="标题" prop="title">
-          <el-input v-model="dialogRuleForm.title" size="large" />
+          <el-input
+            v-model="dialogRuleForm.title"
+            size="large"
+            maxlength="20"
+            placeholder="请输入标题"
+            show-word-limit
+          />
         </el-form-item>
         <el-form-item label="状态" prop="status">
           <el-select v-model="dialogRuleForm.status" clearable size="large">
@@ -135,7 +142,13 @@
           </el-select>
         </el-form-item>
         <el-form-item label="作者" prop="author">
-          <el-input v-model="dialogRuleForm.author" size="large" />
+          <el-input
+            v-model="dialogRuleForm.author"
+            size="large"
+            maxlength="10"
+            placeholder="请输入作者"
+            show-word-limit
+          />
         </el-form-item>
       </el-form>
       <template #footer>
