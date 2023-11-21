@@ -7,7 +7,7 @@ export const addTable = (params) => post('article', params)
 export const getTable = (params) => get('article', params)
 
 // 搜索列表
-export const getTableList = (params) => get('articleList', params)
+export const getTableList = (params) => get('article/list', params)
 
 // 更新
 export const updateTable = (params) => put('article', params)
