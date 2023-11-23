@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie'
 
 const TokenKey = 'vue3-admin-template-token'
-const storageKey = 'userInfo'
+const UserInfoKey = 'userInfo'
 
 // token
 export function getToken () {
@@ -16,23 +16,22 @@ export function removeToken () {
   return Cookies.remove(TokenKey)
 }
 
-// sessionStorage
-export function getStorage () {
-  const token = sessionStorage.getItem(storageKey)
+export function getUserInfo () {
+  const userInfo = sessionStorage.getItem(UserInfoKey)
 
-  if (!token && token !== 'undefined') {
-    return JSON.parse(token)
+  if (userInfo) {
+    return JSON.parse(userInfo)
   }
 
   return null
 }
 
-export function setStorage (userInfo) {
-  sessionStorage.setItem(storageKey, JSON.stringify(userInfo))
+export function setUserInfo (userInfo) {
+  sessionStorage.setItem(UserInfoKey, JSON.stringify(userInfo))
 }
 
 export function removeStorage () {
-  sessionStorage.removeItem(storageKey)
+  sessionStorage.removeItem(UserInfoKey)
 }
 
 export function logOut () {

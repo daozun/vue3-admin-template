@@ -1,8 +1,8 @@
 import { createPinia, defineStore } from 'pinia'
-import { getStorage } from '@/utils/auth'
+import { getUserInfo } from '@/utils/auth'
 
 export const Store = defineStore('globalState', {
-  state: () => ({ isOpenSideBar: false, userInfo: getStorage() }),
+  state: () => ({ isOpenSideBar: false, userInfo: getUserInfo() }),
   actions: {
     toggleSideBar () {
       this.isOpenSideBar = !this.isOpenSideBar

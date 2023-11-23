@@ -6,11 +6,6 @@ import { getToken } from '@/utils/auth'
 const whiteList = ['/login'] // no redirect whitelist
 
 router.beforeEach((to, from, next) => {
-  console.log(
-    '%c [ from ]-9',
-    'font-size:13px; background:pink; color:#bf2c9f;',
-    from
-  )
   NProgress.start()
 
   const hasToken = getToken()

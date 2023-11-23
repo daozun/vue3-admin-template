@@ -38,7 +38,7 @@
 import { reactive, ref } from 'vue'
 import { loginApi } from '@/api/modules/login'
 import { reponseCode } from '@/enum/index'
-import { setToken, setStorage } from '@/utils/auth'
+import { setToken, setUserInfo } from '@/utils/auth'
 import { useRouter } from 'vue-router'
 import { Store } from '@/store/index'
 import { ElMessage } from 'element-plus'
@@ -78,7 +78,7 @@ const submitForm = async (formEl) => {
       loginApi(ruleForm).then((res) => {
         if (res.statusCode === reponseCode.OK) {
           setToken(res.data.token)
-          setStorage(res.data.userInfo)
+          setUserInfo(res.data.userInfo)
           store.setUserInfo(res.data.userInfo)
 
           router.push('/dashboard')
