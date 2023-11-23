@@ -13,4 +13,4 @@ export const getTableList = (params) => get('article/list', params)
 export const updateTable = (params) => put('article', params)
 
 // 删除
-export const delTable = (params) => del('article', params)
+export const delTable = (params) => del(`article/${params.id}`)

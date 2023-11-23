@@ -67,20 +67,23 @@
       <el-table-column label="创建时间" width="220" align="center">
         <template #default="scope">
           <div>
-            {{ handleTime(scope.row.createdAt) }}
+            {{ handleTime(scope.row.createtime) }}
           </div>
         </template>
       </el-table-column>
       <el-table-column label="更新时间" width="220" align="center">
         <template #default="scope">
           <div>
-            {{ handleTime(scope.row.updatedAt) }}
+            {{ handleTime(scope.row.updatetime) }}
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center">
+      <el-table-column label="操作" width="220" align="center">
         <template #default="scope">
-          <el-button size="small" @click="handleEdit(scope.row)"
+          <el-button
+            v-if="scope.row.status == articleStatus.draft"
+            size="small"
+            @click="handleEdit(scope.row)"
             >编辑</el-button
           >
           <el-button size="small" type="danger" @click="handleDelete(scope.row)"
@@ -233,8 +236,8 @@ const tableData = ref([])
 // 搜索
 const search = () => {
   getTableList(query).then((res) => {
-    tableData.value = res.data.rows
-    total.value = res.data.count
+    tableData.value = res.data.records
+    total.value = res.data.total
   })
 }
 
@@ -280,9 +283,9 @@ const confirm = async (formEl) => {
     if (valid) {
       if (dialogTitle.value === '创建') {
         addTable(dialogRuleForm).then((res) => {
-          if (res.statusCode === reponseCode.OK) {
+          if (res.statusCode === reponseCode.CREATED) {
             ElMessage({
-              message: res.data.message,
+              message: res.message,
               type: 'success'
             })
 
@@ -301,7 +304,7 @@ const confirm = async (formEl) => {
         }).then((res) => {
           if (res.statusCode === reponseCode.OK) {
             ElMessage({
-              message: res.data.message,
+              message: res.message,
               type: 'success'
             })
 
@@ -328,7 +331,7 @@ const handleDelete = (row) => {
       delTable({ id: row.id }).then((res) => {
         if (res.statusCode === reponseCode.OK) {
           ElMessage({
-            message: res.data.message,
+            message: res.message,
             type: 'success'
           })
 
