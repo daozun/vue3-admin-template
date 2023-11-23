@@ -1,16 +1,16 @@
-import { get, post, put, del } from '../axios'
+import { get, post, del, patch } from '../axios'
 
 // 增加
 export const addTable = (params) => post('article', params)
 
 // 搜索单个
-export const getTable = (params) => get('article', params)
+export const getTable = (params) => get(`article/${params.id}`)
 
 // 搜索列表
 export const getTableList = (params) => get('article/list', params)
 
 // 更新
-export const updateTable = (params) => put('article', params)
+export const updateTable = (params) => patch(`article/${params.id}`, params)
 
 // 删除
 export const delTable = (params) => del(`article/${params.id}`)
