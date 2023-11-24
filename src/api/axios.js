@@ -2,7 +2,11 @@ import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/src/message.scss'
 import { reponseCode } from '@/enum/index'
-import { getToken } from '@/utils/auth'
+import { getToken, logOut } from '@/utils/auth'
+import router from '../router'
+import { Store } from '@/store/index'
+
+const store = Store()
 
 const baseURL = process.env.VUE_APP_BASE_API
 
@@ -48,11 +52,20 @@ http.interceptors.response.use(
   },
   (error) => {
     const message = error.response.data?.message
+    const statusCode = error.response.data?.statusCode
+
+    if (statusCode === reponseCode.UNAUTHORIZED) {
+      logOut()
+      store.removeUserInfo()
+      router.push('/login')
+    }
+
     ElMessage({
       type: 'error',
-      message: message || '服务器错误',
-      duration: 1500
+      message: message || '服务器错误'
     })
+
+    return error.response.data
   }
 )
 
