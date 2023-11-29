@@ -49,9 +49,9 @@ const routes = [
       },
       {
         path: 'upload',
-        name: 'Upload',
+        name: '上传头像',
         component: () => import('@/views/upload/index'),
-        meta: { title: 'Upload', icon: 'upload' }
+        meta: { title: '上传头像', icon: 'upload' }
       }
     ]
   },

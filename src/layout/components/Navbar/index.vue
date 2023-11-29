@@ -9,13 +9,14 @@
       />
       <Breadcrumb class="breadcrumb" />
     </div>
-    <div class="right avatar">
+    <div class="right">
       <svg-icon
         :icon-class="isFullScreen ? 'exit-fullscreen' : 'fullscreen'"
         @click="changeScreen"
       />
       <el-dropdown class="dropdown" ref="dropdown" trigger="click">
         {{ userName }}
+        <img class="avatar" src="../../../assets/head.jpeg" alt="" />
         <template #dropdown>
           <el-dropdown-menu>
             <router-link to="/dashboard">
@@ -99,6 +100,10 @@ const signOut = () => {
     align-items: center;
     position: absolute;
     right: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 50px;
+    color: #5a5e66;
   }
 
   .breadcrumb {
@@ -112,10 +117,11 @@ const signOut = () => {
   }
 
   .avatar {
-    font-weight: bold;
-    cursor: pointer;
-    line-height: 50px;
-    color: #5a5e66;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-left: 10px;
+    display: inline;
   }
 
   .dropdown {
