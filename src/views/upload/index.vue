@@ -1,51 +1,66 @@
 <template>
   <div class="upload-container">
-    <el-upload
-      ref="uploadRef"
-      action=""
-      list-type="picture-card"
-      :auto-upload="false"
-      :on-change="handleChange"
-      :on-remove="handleRemove"
-      :http-request="uploadSubmit"
-      :file-list="fileList"
-      :limit="2"
-      :multiple="true"
-      accept=".PNG,.JPEG"
-    >
-      <el-icon><Plus /></el-icon>
-
-      <template #file="{ file }">
-        <div>
-          <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
-          <span class="el-upload-list__item-actions">
-            <span
-              class="el-upload-list__item-preview"
-              @click="handlePictureCardPreview(file)"
-            >
-              <el-icon><zoom-in /></el-icon>
-            </span>
-            <span
-              v-if="!disabled"
-              class="el-upload-list__item-delete"
-              @click="handleRemove(file)"
-            >
-              <el-icon><Delete /></el-icon>
-            </span>
-          </span>
-        </div>
-      </template>
-    </el-upload>
-
-    <el-row class="mt-10">
-      <el-button type="primary" @click="submitUpload" :loading="uploadLoading"
-        >上传</el-button
+    <div class="mb-20">
+      <span class="align-top text-black"> 现在头像： </span>
+      <el-image
+        style="width: 300px"
+        :src="'data:image/png;base64,' + nowAvatarUrl"
+        :fit="fit"
+      />
+    </div>
+    <div class="flex items-center">
+      <span class="align-top text-black self-start"> 上传头像： </span>
+      <el-upload
+        ref="uploadRef"
+        action=""
+        list-type="picture-card"
+        :auto-upload="false"
+        :on-change="handleChange"
+        :on-remove="handleRemove"
+        :http-request="uploadSubmit"
+        :file-list="fileList"
+        :limit="2"
+        :multiple="true"
+        accept=".PNG,.JPEG"
       >
-    </el-row>
+        <el-icon><Plus /></el-icon>
 
-    <el-dialog v-model="dialogVisible">
-      <img w-full :src="dialogImageUrl" alt="Preview Image" />
-    </el-dialog>
+        <template #file="{ file }">
+          <div>
+            <img
+              class="el-upload-list__item-thumbnail"
+              :src="file.url"
+              alt=""
+            />
+            <span class="el-upload-list__item-actions">
+              <span
+                class="el-upload-list__item-preview"
+                @click="handlePictureCardPreview(file)"
+              >
+                <el-icon><zoom-in /></el-icon>
+              </span>
+              <span
+                v-if="!disabled"
+                class="el-upload-list__item-delete"
+                @click="handleRemove(file)"
+              >
+                <el-icon><Delete /></el-icon>
+              </span>
+            </span>
+          </div>
+        </template>
+      </el-upload>
+
+      <el-row class="ml-10">
+        <el-button type="primary" @click="submitUpload" :loading="uploadLoading"
+          >上传</el-button
+        >
+      </el-row>
+
+      <el-dialog v-model="dialogVisible">
+        <img w-full :src="dialogImageUrl" alt="Preview Image" />
+      </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -61,12 +76,18 @@ import { setUserInfo, getUserInfo } from '@/utils/auth'
 
 const store = Store()
 
+const nowAvatarUrl = ref('')
+
 const fileList = ref([])
 
 const dialogImageUrl = ref('')
 const dialogVisible = ref(false)
 const disabled = ref(false)
 const uploadLoading = ref(false)
+
+onBeforeMount(() => {
+  getUserData()
+})
 
 // 文件状态被改变时调用（添加图片、上传成功、上传失败）
 const handleChange = (file, oldfileList) => {
@@ -128,6 +149,8 @@ const getUserData = () => {
   }).then((res) => {
     if (res.statusCode === reponseCode.OK) {
       setUserInfo(res.data)
+
+      nowAvatarUrl.value = res.data.avatar
     }
   })
 }
