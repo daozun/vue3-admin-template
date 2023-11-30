@@ -16,7 +16,13 @@
       />
       <el-dropdown class="dropdown" ref="dropdown" trigger="click">
         {{ userName }}
-        <img class="avatar" src="../../../assets/head.jpeg" alt="" />
+        <img
+          v-if="avatar"
+          class="avatar"
+          :src="'data:image/png;base64,' + avatar"
+          alt=""
+        />
+        <img v-else class="avatar" src="../../../assets/head.jpeg" alt="" />
         <template #dropdown>
           <el-dropdown-menu>
             <router-link to="/dashboard">
@@ -45,7 +51,7 @@ import { computed, ref } from 'vue'
 import { Store } from '@/store/index'
 import { useScreenfull } from '@/hooks/useScreenfull'
 import { useRouter } from 'vue-router'
-import { logOut } from '@/utils/auth'
+import { logOut, getUserInfo } from '@/utils/auth'
 const store = Store()
 const router = useRouter()
 
@@ -55,6 +61,10 @@ const isActive = computed(() => {
 
 const userName = computed(() => {
   return store.userInfo?.username
+})
+
+const avatar = computed(() => {
+  return getUserInfo()?.avatar
 })
 
 const toggleSideBar = () => {

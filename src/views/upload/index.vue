@@ -51,9 +51,15 @@
 
 <script setup>
 import { ElMessage } from 'element-plus'
-import { ref, reactive, onBeforeMount } from 'vue'
+import { ref, reactive, onBeforeMount, toRaw } from 'vue'
 import { Delete, Download, Plus, ZoomIn } from '@element-plus/icons-vue'
 import { uploadImg } from '@/api/modules/upload'
+import { getUser } from '@/api/modules/user'
+import { Store } from '@/store/index'
+import { reponseCode } from '@/enum/index'
+import { setUserInfo, getUserInfo } from '@/utils/auth'
+
+const store = Store()
 
 const fileList = ref([])
 
@@ -63,7 +69,9 @@ const disabled = ref(false)
 const uploadLoading = ref(false)
 
 // 文件状态被改变时调用（添加图片、上传成功、上传失败）
-const handleChange = (file, fileList) => {
+const handleChange = (file, oldfileList) => {
+  const fileList = toRaw(oldfileList)
+
   if (file) {
     const isPNG = file.raw.type === 'image/png'
     const isJPG = file.raw.type === 'image/jpeg'
@@ -73,9 +81,14 @@ const handleChange = (file, fileList) => {
     if (isPNG || isJPG) {
       if (isLt50M) {
         if (fileList.length > 1) {
-          this.fileList = fileList.slice(-1)
+          fileList.value = fileList.slice(-1)
+          console.log(
+            '%c [ fileList.value ]-83',
+            'font-size:13px; background:pink; color:#bf2c9f;',
+            fileList.value
+          )
         } else {
-          this.fileList = fileList
+          fileList.value = fileList
         }
       } else {
         ElMessage({
@@ -89,15 +102,13 @@ const handleChange = (file, fileList) => {
         return false
       }
     } else {
-      ElMessage({
-        message: '导入图片的格式只能是 png、jpg!',
-        type: 'error'
-      })
-
-      const index = fileList.indexOf(file)
-      fileList.splice(index, 1)
-
-      return false
+      // ElMessage({
+      //   message: '导入图片的格式只能是 png、jpg!',
+      //   type: 'error'
+      // })
+      // const index = fileList.indexOf(file)
+      // fileList.splice(index, 1)
+      // return false
     }
   }
 }
@@ -109,6 +120,16 @@ const handleRemove = (uploadFile, uploadFiles) => {
 const handlePictureCardPreview = (file) => {
   dialogImageUrl.value = file.url
   dialogVisible.value = true
+}
+
+const getUserData = () => {
+  getUser({
+    id: getUserInfo()?.id
+  }).then((res) => {
+    if (res.statusCode === reponseCode.OK) {
+      setUserInfo(res.data)
+    }
+  })
 }
 
 const submitUpload = () => {
@@ -128,14 +149,21 @@ const submitUpload = () => {
     formData.append('file', file.raw)
   })
 
+  formData.append('userId', getUserInfo()?.id)
+
   disabled.value = true
 
   uploadImg(formData).then((res) => {
-    console.log(
-      '%c [ res ]-123',
-      'font-size:13px; background:pink; color:#bf2c9f;',
-      res
-    )
+    if (res.statusCode === reponseCode.OK) {
+      ElMessage({
+        message: res.message,
+        type: 'success'
+      })
+
+      getUserData()
+    }
+
+    uploadLoading.value = false
   })
 }
 </script>
