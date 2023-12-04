@@ -2,11 +2,7 @@
   <div class="upload-container">
     <div class="mb-20">
       <span class="align-top text-black"> 现在头像： </span>
-      <el-image
-        style="width: 300px"
-        :src="'data:image/png;base64,' + nowAvatarUrl"
-        :fit="fit"
-      />
+      <el-image :src="'data:image/png;base64,' + nowAvatarUrl" :fit="fit" />
     </div>
     <div class="flex items-center">
       <span class="align-top text-black self-start"> 上传头像： </span>
@@ -66,8 +62,8 @@
 
 <script setup>
 import { ElMessage } from 'element-plus'
-import { ref, reactive, onBeforeMount, toRaw } from 'vue'
-import { Delete, Download, Plus, ZoomIn } from '@element-plus/icons-vue'
+import { ref, onBeforeMount, toRaw } from 'vue'
+import { Delete, Plus, ZoomIn } from '@element-plus/icons-vue'
 import { uploadImg } from '@/api/modules/upload'
 import { getUser } from '@/api/modules/user'
 import { Store } from '@/store/index'
@@ -91,7 +87,7 @@ onBeforeMount(() => {
 
 // 文件状态被改变时调用（添加图片、上传成功、上传失败）
 const handleChange = (file, oldfileList) => {
-  const fileList = toRaw(oldfileList)
+  const list = toRaw(oldfileList)
 
   if (file) {
     const isPNG = file.raw.type === 'image/png'
@@ -101,15 +97,10 @@ const handleChange = (file, oldfileList) => {
 
     if (isPNG || isJPG) {
       if (isLt50M) {
-        if (fileList.length > 1) {
-          fileList.value = fileList.slice(-1)
-          console.log(
-            '%c [ fileList.value ]-83',
-            'font-size:13px; background:pink; color:#bf2c9f;',
-            fileList.value
-          )
+        if (list.length > 1) {
+          fileList.value = list.slice(-1)
         } else {
-          fileList.value = fileList
+          fileList.value = list
         }
       } else {
         ElMessage({
@@ -117,24 +108,24 @@ const handleChange = (file, oldfileList) => {
           type: 'error'
         })
 
-        const index = fileList.indexOf(file)
-        fileList.splice(index, 1)
+        const index = list.indexOf(file)
+        list.splice(index, 1)
 
         return false
       }
     } else {
-      // ElMessage({
-      //   message: '导入图片的格式只能是 png、jpg!',
-      //   type: 'error'
-      // })
-      // const index = fileList.indexOf(file)
-      // fileList.splice(index, 1)
-      // return false
+      ElMessage({
+        message: '导入图片的格式只能是 png、jpg!',
+        type: 'error'
+      })
+      const index = list.indexOf(file)
+      list.splice(index, 1)
+      return false
     }
   }
 }
 
-const handleRemove = (uploadFile, uploadFiles) => {
+const handleRemove = () => {
   fileList.value = []
 }
 
@@ -149,6 +140,7 @@ const getUserData = () => {
   }).then((res) => {
     if (res.statusCode === reponseCode.OK) {
       setUserInfo(res.data)
+      store.setUserInfo(res.data)
 
       nowAvatarUrl.value = res.data.avatar
     }
@@ -187,6 +179,7 @@ const submitUpload = () => {
     }
 
     uploadLoading.value = false
+    handleRemove()
   })
 }
 </script>

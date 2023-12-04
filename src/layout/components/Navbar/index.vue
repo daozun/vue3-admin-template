@@ -51,7 +51,7 @@ import { computed, ref } from 'vue'
 import { Store } from '@/store/index'
 import { useScreenfull } from '@/hooks/useScreenfull'
 import { useRouter } from 'vue-router'
-import { logOut, getUserInfo } from '@/utils/auth'
+import { logOut } from '@/utils/auth'
 const store = Store()
 const router = useRouter()
 
@@ -64,7 +64,7 @@ const userName = computed(() => {
 })
 
 const avatar = computed(() => {
-  return getUserInfo()?.avatar
+  return store.userInfo?.avatar
 })
 
 const toggleSideBar = () => {
@@ -127,8 +127,8 @@ const signOut = () => {
   }
 
   .avatar {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     margin-left: 10px;
     display: inline;
