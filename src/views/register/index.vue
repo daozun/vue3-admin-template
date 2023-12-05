@@ -2,7 +2,7 @@
   <section class="login">
     <div class="login-container">
       <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules">
-        <h1 class="text-2xl pb-4">登录</h1>
+        <h1 class="text-2xl pb-4">注册</h1>
         <el-form-item prop="username">
           <el-input
             v-model="ruleForm.username"
@@ -26,16 +26,9 @@
             size="large"
             @click="submitForm(ruleFormRef)"
             style="width: 400px"
-            >Login</el-button
+            >register</el-button
           >
         </el-form-item>
-        <p
-          v-if="goToRegisterTipVisible"
-          class="underline cursor-pointer decoration-pink-500 text-red-600"
-          @click="goToRegister"
-        >
-          请先去注册
-        </p>
       </el-form>
     </div>
   </section>
@@ -43,14 +36,11 @@
 
 <script setup>
 import { reactive, ref } from 'vue'
-import { loginApi } from '@/api/modules/login'
+import { registerApi } from '@/api/modules/register'
 import { reponseCode } from '@/enum/index'
-import { setToken, setUserInfo } from '@/utils/auth'
 import { useRouter } from 'vue-router'
-import { Store } from '@/store/index'
 import { ElMessage } from 'element-plus'
 const router = useRouter()
-const store = Store()
 
 const validateUsername = (rule, value, callback) => {
   if (value === '') {
@@ -67,8 +57,6 @@ const validatePassword = (rule, value, callback) => {
   }
 }
 
-const goToRegisterTipVisible = ref(false)
-
 const ruleFormRef = ref()
 const ruleForm = reactive({
   username: '',
@@ -84,22 +72,14 @@ const submitForm = async (formEl) => {
   if (!formEl) return
   await formEl.validate((valid) => {
     if (valid) {
-      loginApi(ruleForm).then((res) => {
-        if (res.statusCode === reponseCode.OK) {
-          setToken(res.data.token)
-          setUserInfo(res.data.userInfo)
-          store.setUserInfo(res.data.userInfo)
-
-          router.push('/dashboard')
+      registerApi(ruleForm).then((res) => {
+        if (res.statusCode === reponseCode.CREATED) {
+          router.push('/login')
 
           ElMessage({
-            message: res.message,
+            message: `${res.message},请去登录`,
             type: 'success'
           })
-        }
-
-        if (res.statusCode === reponseCode.NOT_FOUND) {
-          goToRegisterTipVisible.value = true
         }
       })
     } else {
@@ -107,10 +87,6 @@ const submitForm = async (formEl) => {
       return false
     }
   })
-}
-
-const goToRegister = () => {
-  router.push('/register')
 }
 </script>
 

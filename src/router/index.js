@@ -15,6 +15,13 @@ const routes = [
   },
 
   {
+    path: '/register',
+    name: 'Register',
+    component: () => import('@/views/register/index.vue'),
+    hidden: true
+  },
+
+  {
     path: '/dashboard',
     component: () => import('@/layout'),
     name: 'Dashboard',
