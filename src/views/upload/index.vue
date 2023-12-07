@@ -47,7 +47,7 @@
         </template>
       </el-upload>
 
-      <el-row class="ml-10">
+      <el-row class="ml-5">
         <el-button type="primary" @click="submitUpload" :loading="uploadLoading"
           >上传</el-button
         >

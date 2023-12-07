@@ -31,10 +31,10 @@
         </el-form-item>
         <p
           v-if="goToRegisterTipVisible"
-          class="underline cursor-pointer decoration-pink-500 text-red-600"
+          class="hover:underline cursor-pointer text-emerald-400 decoration-emerald-400"
           @click="goToRegister"
         >
-          请先去注册
+          点击去注册，go
         </p>
       </el-form>
     </div>
@@ -44,6 +44,7 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import { loginApi } from '@/api/modules/login'
+import { getAllRole } from '@/api/modules/role'
 import { reponseCode } from '@/enum/index'
 import { setToken, setUserInfo } from '@/utils/auth'
 import { useRouter } from 'vue-router'
@@ -80,15 +81,17 @@ const rules = reactive({
   password: [{ validator: validatePassword, trigger: 'blur' }]
 })
 
-const submitForm = async (formEl) => {
+const submitForm = (formEl) => {
   if (!formEl) return
-  await formEl.validate((valid) => {
+  formEl.validate((valid) => {
     if (valid) {
-      loginApi(ruleForm).then((res) => {
+      loginApi(ruleForm).then(async (res) => {
         if (res.statusCode === reponseCode.OK) {
           setToken(res.data.token)
           setUserInfo(res.data.userInfo)
           store.setUserInfo(res.data.userInfo)
+
+          await getRole()
 
           router.push('/dashboard')
 
@@ -105,6 +108,13 @@ const submitForm = async (formEl) => {
     } else {
       console.log('error submit!')
       return false
+    }
+  })
+}
+
+const getRole = async () => {
+  await getAllRole().then((res) => {
+    if (res.statusCode === reponseCode.OK) {
     }
   })
 }

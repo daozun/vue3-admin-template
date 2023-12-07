@@ -141,6 +141,20 @@ const routes = [
   },
 
   {
+    path: '/menu',
+    component: () => import('@/layout'),
+    name: 'Menu',
+    children: [
+      {
+        path: '/menu',
+        name: 'Menu',
+        component: () => import('@/views/menu/index'),
+        meta: { title: '菜单管理', icon: 'menu' }
+      }
+    ]
+  },
+
+  {
     path: '/:pathMatch(.*)',
     name: 'not-found',
     component: () => import('@/views/404.vue'),
