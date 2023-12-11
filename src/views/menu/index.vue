@@ -9,7 +9,7 @@
       >
         <template #default="{ node, data }">
           <span class="flex flex-1 justify-between items-center">
-            <span>{{ node.label }}</span>
+            <span>{{ node.name }}</span>
             <span class="flex">
               <svg-icon
                 icon-class="edit"
@@ -38,7 +38,7 @@
         <el-table-column prop="component" label="组件名" />
         <el-table-column prop="hidden" label="是否在侧边栏显示" />
         <el-table-column prop="alwaysShow" label="是否显示跟路由" />
-        <el-table-column prop="isExternal" label="是否外部URL" />
+        <el-table-column prop="external" label="外部URL" />
         <el-table-column prop="redirect" label="重定向" />
         <el-table-column prop="meta" label="额外信息" />
       </el-table>
@@ -58,35 +58,77 @@
         ref="dialogRuleFormRef"
         :model="dialogRuleForm"
         :rules="dialogRules"
-        label-width="60px"
+        label-width="130px"
         label-position="left"
         size="default"
       >
-        <el-form-item label="标题" prop="title">
+        <el-form-item label="菜单名称" prop="name">
           <el-input
-            v-model="dialogRuleForm.title"
+            v-model="dialogRuleForm.name"
             size="large"
             maxlength="20"
-            placeholder="请输入标题"
+            placeholder="请输入菜单名称"
             show-word-limit
           />
         </el-form-item>
-        <el-form-item label="状态" prop="status">
-          <el-select v-model="dialogRuleForm.status" clearable size="large">
-            <el-option
-              v-for="item in statusList"
-              :key="item.value"
-              :label="item.name"
-              :value="item.value"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="作者" prop="author">
+        <el-form-item label="路由" prop="route">
           <el-input
-            v-model="dialogRuleForm.author"
+            v-model="dialogRuleForm.route"
             size="large"
-            maxlength="10"
-            placeholder="请输入作者"
+            maxlength="100"
+            placeholder="请输入路由"
+            show-word-limit
+          />
+        </el-form-item>
+        <el-form-item label="组件名" prop="component">
+          <el-input
+            v-model="dialogRuleForm.component"
+            size="large"
+            maxlength="100"
+            placeholder="请输入组件名"
+            show-word-limit
+          />
+        </el-form-item>
+        <el-form-item label="是否在侧边栏显示">
+          <el-switch
+            v-model="dialogRuleForm.hidden"
+            style="
+              --el-switch-on-color: #13ce66;
+              --el-switch-off-color: #ff4949;
+            "
+          />
+        </el-form-item>
+        <el-form-item label="是否显示跟路由">
+          <el-switch
+            v-model="dialogRuleForm.alwaysShow"
+            style="
+              --el-switch-on-color: #13ce66;
+              --el-switch-off-color: #ff4949;
+            "
+          />
+        </el-form-item>
+        <el-form-item label="外部URL">
+          <el-input
+            v-model="dialogRuleForm.external"
+            size="large"
+            placeholder="请输入外部URL"
+            show-word-limit
+          />
+        </el-form-item>
+        <el-form-item label="重定向">
+          <el-input
+            v-model="dialogRuleForm.redirect"
+            size="large"
+            placeholder="请输入重定向"
+            show-word-limit
+          />
+        </el-form-item>
+        <el-form-item label="额外信息">
+          <el-input
+            v-model="dialogRuleForm.meta"
+            size="large"
+            type="textarea"
+            placeholder="请输入额外信息"
             show-word-limit
           />
         </el-form-item>
@@ -104,28 +146,48 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted, toRaw } from 'vue'
+import { getMenuList } from '@/api/modules/menu'
+import { reponseCode } from '@/enum/index'
+
+onMounted(() => {
+  getDataList()
+})
+
+const getDataList = () => {
+  getMenuList().then((res) => {
+    if (res.statusCode === reponseCode.OK) {
+      dataSource.value = res.data
+      console.log(
+        '%c [ dataSource.value ]-161',
+        'font-size:13px; background:pink; color:#bf2c9f;',
+        toRaw(dataSource.value)
+      )
+    }
+  })
+}
+
 const dataSource = ref([
-  {
-    id: 1,
-    label: '菜单',
-    children: [
-      {
-        id: 4,
-        label: 'Level1-1',
-        children: [
-          {
-            id: 9,
-            label: 'Level1-1-1'
-          },
-          {
-            id: 10,
-            label: 'Level1-1-2'
-          }
-        ]
-      }
-    ]
-  }
+  // {
+  //   id: 1,
+  //   label: '菜单',
+  //   children: [
+  //     {
+  //       id: 4,
+  //       label: 'Level1-1',
+  //       children: [
+  //         {
+  //           id: 9,
+  //           label: 'Level1-1-1'
+  //         },
+  //         {
+  //           id: 10,
+  //           label: 'Level1-1-2'
+  //         }
+  //       ]
+  //     }
+  //   ]
+  // }
 ])
 
 const tableData = []
@@ -137,13 +199,18 @@ const dialogRuleFormRef = ref()
 const dialogRuleForm = reactive({
   name: '',
   route: '',
-  component: ''
+  component: '',
+  hidden: false,
+  alwaysShow: false,
+  external: '',
+  redirect: '',
+  meta: ''
 })
 const resetForm = reactive({ ...dialogRuleForm })
 
 const dialogRules = reactive({
   name: [{ required: true, message: '请输入菜单名称', trigger: 'blur' }],
-  route: [{ required: true, message: '请输入路由', trigger: 'change' }],
+  route: [{ required: true, message: '请输入路由', trigger: 'blur' }],
   component: [{ required: true, message: '请输入组件', trigger: 'blur' }]
 })
 
