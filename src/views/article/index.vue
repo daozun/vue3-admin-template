@@ -167,7 +167,6 @@
 </template>
 
 <script setup>
-import { ElMessage } from 'element-plus'
 import { ref, reactive, onBeforeMount } from 'vue'
 import {
   addTable,

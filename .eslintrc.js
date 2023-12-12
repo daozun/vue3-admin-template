@@ -14,6 +14,7 @@ module.exports = {
   // add your custom rules here
   // it is base on https://github.com/vuejs/eslint-plugin-vue-libs
   rules: {
-    'vue/multi-word-component-names': 'off'
+    'vue/multi-word-component-names': 'off',
+    'no-undef': 0
   }
 }

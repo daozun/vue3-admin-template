@@ -61,7 +61,6 @@
 </template>
 
 <script setup>
-import { ElMessage } from 'element-plus'
 import { ref, onBeforeMount, toRaw } from 'vue'
 import { Delete, Plus, ZoomIn } from '@element-plus/icons-vue'
 import { uploadImg } from '@/api/modules/upload'

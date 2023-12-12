@@ -39,7 +39,6 @@ import { reactive, ref } from 'vue'
 import { registerApi } from '@/api/modules/register'
 import { reponseCode } from '@/enum/index'
 import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
 const router = useRouter()
 
 const validateUsername = (rule, value, callback) => {

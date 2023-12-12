@@ -6,10 +6,11 @@
         node-key="id"
         default-expand-all
         :expand-on-click-node="false"
+        :props="defaultProps"
       >
-        <template #default="{ node, data }">
+        <template #default="{ data }">
           <span class="flex flex-1 justify-between items-center">
-            <span>{{ node.name }}</span>
+            <span>{{ data.name }}</span>
             <span class="flex">
               <svg-icon
                 icon-class="edit"
@@ -34,7 +35,7 @@
     <div class="flex-auto ml-20">
       <el-table :data="tableData" border>
         <el-table-column prop="name" label="菜单名称" />
-        <el-table-column prop="route" label="路由" />
+        <el-table-column prop="path" label="路由" />
         <el-table-column prop="component" label="组件名" />
         <el-table-column prop="hidden" label="是否在侧边栏显示" />
         <el-table-column prop="alwaysShow" label="是否显示跟路由" />
@@ -71,9 +72,9 @@
             show-word-limit
           />
         </el-form-item>
-        <el-form-item label="路由" prop="route">
+        <el-form-item label="路由" prop="path">
           <el-input
-            v-model="dialogRuleForm.route"
+            v-model="dialogRuleForm.path"
             size="large"
             maxlength="100"
             placeholder="请输入路由"
@@ -89,7 +90,7 @@
             show-word-limit
           />
         </el-form-item>
-        <el-form-item label="是否在侧边栏显示">
+        <el-form-item label="是否在侧边栏隐藏">
           <el-switch
             v-model="dialogRuleForm.hidden"
             style="
@@ -98,7 +99,7 @@
             "
           />
         </el-form-item>
-        <el-form-item label="是否显示跟路由">
+        <el-form-item label="是否在根路由隐藏">
           <el-switch
             v-model="dialogRuleForm.alwaysShow"
             style="
@@ -146,51 +147,39 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, toRaw } from 'vue'
-import { getMenuList } from '@/api/modules/menu'
+import { ref, reactive, onMounted } from 'vue'
+import {
+  getMenuList,
+  addMenu,
+  getMenu,
+  updateMenu,
+  deleteMenu
+} from '@/api/modules/menu'
 import { reponseCode } from '@/enum/index'
 
 onMounted(() => {
-  getDataList()
+  getAllMenu()
 })
 
-const getDataList = () => {
+const getAllMenu = () => {
   getMenuList().then((res) => {
     if (res.statusCode === reponseCode.OK) {
       dataSource.value = res.data
-      console.log(
-        '%c [ dataSource.value ]-161',
-        'font-size:13px; background:pink; color:#bf2c9f;',
-        toRaw(dataSource.value)
-      )
     }
   })
 }
 
-const dataSource = ref([
-  // {
-  //   id: 1,
-  //   label: '菜单',
-  //   children: [
-  //     {
-  //       id: 4,
-  //       label: 'Level1-1',
-  //       children: [
-  //         {
-  //           id: 9,
-  //           label: 'Level1-1-1'
-  //         },
-  //         {
-  //           id: 10,
-  //           label: 'Level1-1-2'
-  //         }
-  //       ]
-  //     }
-  //   ]
-  // }
-])
+const defaultProps = {
+  children: 'children',
+  label: 'name'
+}
+
+const dataSource = ref([])
 
 const tableData = []
+
+const tempData = ref(null)
+const tempId = ref(null)
 
 // dialog
 const dialogVisible = ref(false)
@@ -198,7 +187,7 @@ const dialogTitle = ref('')
 const dialogRuleFormRef = ref()
 const dialogRuleForm = reactive({
   name: '',
-  route: '',
+  path: '',
   component: '',
   hidden: false,
   alwaysShow: false,
@@ -210,19 +199,105 @@ const resetForm = reactive({ ...dialogRuleForm })
 
 const dialogRules = reactive({
   name: [{ required: true, message: '请输入菜单名称', trigger: 'blur' }],
-  route: [{ required: true, message: '请输入路由', trigger: 'blur' }],
+  path: [{ required: true, message: '请输入路由', trigger: 'blur' }],
   component: [{ required: true, message: '请输入组件', trigger: 'blur' }]
 })
 
-const edit = (data) => {}
+const edit = (data) => {
+  tempId.value = data.id
+
+  Object.assign(dialogRuleForm, resetForm)
+  dialogVisible.value = true
+  dialogTitle.value = '编辑菜单'
+
+  getSingleMenu()
+}
 
 const add = (data) => {
+  tempData.value = data
+
   Object.assign(dialogRuleForm, resetForm)
   dialogVisible.value = true
   dialogTitle.value = '添加菜单'
 }
 
-const del = (data) => {}
+const del = (data) => {
+  ElMessageBox.confirm('确定删除此菜单么', 'Warning', {
+    distinguishCancelAndClose: true,
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  })
+    .then(() => {
+      deleteMenu({
+        id: data.id
+      }).then((res) => {
+        if (res.statusCode === reponseCode.OK) {
+          ElMessage({
+            message: res.message,
+            type: 'success'
+          })
+
+          getAllMenu()
+        }
+      })
+    })
+    .catch(() => {})
+}
+
+// 获取单个菜单
+const getSingleMenu = () => {
+  getMenu({
+    id: tempId.value
+  }).then((res) => {
+    if (res.statusCode === reponseCode.OK) {
+      Object.assign(dialogRuleForm, res.data)
+    }
+  })
+}
+
+// 确定添加或者编辑
+const confirm = async (formEl) => {
+  if (!formEl) return
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      if (dialogTitle.value === '添加菜单') {
+        dialogRuleForm.parent_id = tempData.value.id
+        dialogRuleForm.level = tempData.value.level + 1
+
+        addMenu(dialogRuleForm).then((res) => {
+          if (res.statusCode === reponseCode.CREATED) {
+            ElMessage({
+              message: res.message,
+              type: 'success'
+            })
+
+            dialogVisible.value = false
+
+            getAllMenu()
+          }
+        })
+      }
+
+      if (dialogTitle.value === '编辑菜单') {
+        updateMenu(dialogRuleForm).then((res) => {
+          if (res.statusCode === reponseCode.OK) {
+            ElMessage({
+              message: res.message,
+              type: 'success'
+            })
+
+            dialogVisible.value = false
+
+            getAllMenu()
+          }
+        })
+      }
+    } else {
+      console.log('error submit!', fields)
+    }
+  })
+}
 </script>
 
 <style lang="scss" scoped>

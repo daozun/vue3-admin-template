@@ -49,7 +49,6 @@ import { reponseCode } from '@/enum/index'
 import { setToken, setUserInfo } from '@/utils/auth'
 import { useRouter } from 'vue-router'
 import { Store } from '@/store/index'
-import { ElMessage } from 'element-plus'
 const router = useRouter()
 const store = Store()
 

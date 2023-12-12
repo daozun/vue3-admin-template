@@ -7,6 +7,11 @@ import 'normalize.css/normalize.css'
 
 import '@/styles/index.scss' // global cs
 
+// 样式丢失，按需引入
+import 'element-plus/theme-chalk/el-loading.css'
+import 'element-plus/theme-chalk/el-message.css'
+import 'element-plus/theme-chalk/el-notification.css'
+
 import '@/icons' // icon
 
 import '@/permission' // permission control
