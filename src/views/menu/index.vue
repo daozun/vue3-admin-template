@@ -7,6 +7,7 @@
         default-expand-all
         :expand-on-click-node="false"
         :props="defaultProps"
+        @node-click="handleNodeClick"
       >
         <template #default="{ data }">
           <span class="flex flex-1 justify-between items-center">
@@ -34,14 +35,54 @@
     </div>
     <div class="flex-auto ml-20">
       <el-table :data="tableData" border>
-        <el-table-column prop="name" label="菜单名称" />
-        <el-table-column prop="path" label="路由" />
-        <el-table-column prop="component" label="组件名" />
-        <el-table-column prop="hidden" label="是否在侧边栏显示" />
-        <el-table-column prop="alwaysShow" label="是否显示跟路由" />
-        <el-table-column prop="external" label="外部URL" />
-        <el-table-column prop="redirect" label="重定向" />
-        <el-table-column prop="meta" label="额外信息" />
+        <el-table-column prop="name" label="菜单名称">
+          <template #default="scope">
+            <span>{{ scope.row.name }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="path" label="路由">
+          <template #default="scope">
+            <span>{{ scope.row.path }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="component" label="组件名">
+          <template #default="scope">
+            <span>{{ scope.row.component }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="hidden" label="是否在侧边栏显示">
+          <template #default="scope">
+            <span>{{ scope.row.hidden == false ? '否' : '是' }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="alwaysShow" label="是否显示跟路由">
+          <template #default="scope">
+            <span>{{ scope.row.alwaysShow == false ? '否' : '是' }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="external" label="外部URL">
+          <template #default="scope">
+            <span>{{ scope.row.external }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="redirect" label="重定向">
+          <template #default="scope">
+            <span>{{ scope.row.redirect }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="meta" label="额外信息">
+          <template #default="scope">
+            <span>{{ scope.row.meta }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="Operations" width="200">
+          <template #default="scope">
+            <el-button size="small" @click="edit(scope.row)">编辑</el-button>
+            <el-button size="small" type="danger" @click="del(scope.row)"
+              >删除</el-button
+            >
+          </template>
+        </el-table-column>
       </el-table>
     </div>
 
@@ -153,7 +194,8 @@ import {
   addMenu,
   getMenu,
   updateMenu,
-  deleteMenu
+  deleteMenu,
+  getMenuChildren
 } from '@/api/modules/menu'
 import { reponseCode } from '@/enum/index'
 
@@ -176,7 +218,7 @@ const defaultProps = {
 
 const dataSource = ref([])
 
-const tableData = []
+const tableData = ref([])
 
 const tempData = ref(null)
 const tempId = ref(null)
@@ -245,6 +287,11 @@ const del = (data) => {
     .catch(() => {})
 }
 
+// 点击菜单
+const handleNodeClick = (node) => {
+  getChildrenList(node.id)
+}
+
 // 获取单个菜单
 const getSingleMenu = () => {
   getMenu({
@@ -252,6 +299,17 @@ const getSingleMenu = () => {
   }).then((res) => {
     if (res.statusCode === reponseCode.OK) {
       Object.assign(dialogRuleForm, res.data)
+    }
+  })
+}
+
+// 获取其下子菜单
+const getChildrenList = (id) => {
+  getMenuChildren({
+    id: id
+  }).then((res) => {
+    if (res.statusCode === reponseCode.OK) {
+      tableData.value = res.data
     }
   })
 }

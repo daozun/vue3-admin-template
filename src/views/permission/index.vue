@@ -44,8 +44,8 @@ const tableData = reactive([
     description: '管理员'
   },
   {
-    name: 'visitor',
-    description: '游客'
+    name: 'normal',
+    description: '员工'
   }
 ])
 

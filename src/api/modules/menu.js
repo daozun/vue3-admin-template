@@ -14,3 +14,6 @@ export const updateMenu = (params) => patch(`menu/${params.id}`, params)
 
 // 删除菜单
 export const deleteMenu = (params) => del(`menu/${params.id}`)
+
+// 获取其下的子菜单
+export const getMenuChildren = (params) => get(`menu/children/${params.id}`)
