@@ -36,13 +36,6 @@
 
     <!-- table -->
     <el-table :data="tableData" border style="width: 100%">
-      <!-- <el-table-column label="序号" type="index" width="180" align="center">
-        <template #default="scope">
-          <div>
-            {{ scope.$index + 1 }}
-          </div>
-        </template>
-      </el-table-column> -->
       <el-table-column label="标题" width="180" align="center">
         <template #default="scope">
           <div>
@@ -81,7 +74,7 @@
       <el-table-column label="操作" width="220" align="center">
         <template #default="scope">
           <el-button
-            v-if="scope.row.status == articleStatus.draft"
+            v-if="scope.row.status == ARTICLESTATUS.draft"
             size="small"
             @click="handleEdit(scope.row)"
             >编辑</el-button
@@ -175,7 +168,7 @@ import {
   delTable,
   updateTable
 } from '@/api/modules/article'
-import { reponseCode, articleStatus } from '@/enum/index'
+import { RESPONSECODE, ARTICLESTATUS } from '@/enum/index'
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
 dayjs.locale('zh-cn')
@@ -267,7 +260,7 @@ const handleEdit = (row) => {
   getTable({
     id: row.id
   }).then((res) => {
-    if (res.statusCode === reponseCode.OK) {
+    if (res.statusCode === RESPONSECODE.OK) {
       const result = { ...res.data }
       result.status = result.status.toString()
       Object.assign(dialogRuleForm, { ...result })
@@ -282,7 +275,7 @@ const confirm = async (formEl) => {
     if (valid) {
       if (dialogTitle.value === '创建') {
         addTable(dialogRuleForm).then((res) => {
-          if (res.statusCode === reponseCode.CREATED) {
+          if (res.statusCode === RESPONSECODE.CREATED) {
             ElMessage({
               message: res.message,
               type: 'success'
@@ -301,7 +294,7 @@ const confirm = async (formEl) => {
           status: dialogRuleForm.status,
           author: dialogRuleForm.author
         }).then((res) => {
-          if (res.statusCode === reponseCode.OK) {
+          if (res.statusCode === RESPONSECODE.OK) {
             ElMessage({
               message: res.message,
               type: 'success'
@@ -328,7 +321,7 @@ const handleDelete = (row) => {
   })
     .then(() => {
       delTable({ id: row.id }).then((res) => {
-        if (res.statusCode === reponseCode.OK) {
+        if (res.statusCode === RESPONSECODE.OK) {
           ElMessage({
             message: res.message,
             type: 'success'
@@ -343,9 +336,9 @@ const handleDelete = (row) => {
 
 // 状态
 const handleStatus = (status) => {
-  if (status === articleStatus.draft) {
+  if (status === ARTICLESTATUS.draft) {
     return '草稿'
-  } else if (status === articleStatus.published) {
+  } else if (status === ARTICLESTATUS.published) {
     return '已发布'
   } else {
     return ''

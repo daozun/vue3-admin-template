@@ -16,17 +16,17 @@
               <svg-icon
                 icon-class="edit"
                 class="text-sm text-red-600"
-                @click="edit(data)"
+                @click.native.stop="edit(data)"
               />
               <svg-icon
                 icon-class="delete"
                 class="ml-5 text-sm text-red-600"
-                @click="del(data)"
+                @click.native.stop="del(data)"
               />
               <svg-icon
                 icon-class="add"
                 class="ml-5 text-sm text-blue-600"
-                @click="add(data)"
+                @click.native.stop="add(data)"
               />
             </span>
           </span>
@@ -75,7 +75,7 @@
             <span>{{ scope.row.meta }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="Operations" width="200">
+        <el-table-column label="操作" width="138">
           <template #default="scope">
             <el-button size="small" @click="edit(scope.row)">编辑</el-button>
             <el-button size="small" type="danger" @click="del(scope.row)"
@@ -197,7 +197,7 @@ import {
   deleteMenu,
   getMenuChildren
 } from '@/api/modules/menu'
-import { reponseCode } from '@/enum/index'
+import { RESPONSECODE } from '@/enum/index'
 
 onMounted(() => {
   getAllMenu()
@@ -205,7 +205,7 @@ onMounted(() => {
 
 const getAllMenu = () => {
   getMenuList().then((res) => {
-    if (res.statusCode === reponseCode.OK) {
+    if (res.statusCode === RESPONSECODE.OK) {
       dataSource.value = res.data
     }
   })
@@ -274,7 +274,7 @@ const del = (data) => {
       deleteMenu({
         id: data.id
       }).then((res) => {
-        if (res.statusCode === reponseCode.OK) {
+        if (res.statusCode === RESPONSECODE.OK) {
           ElMessage({
             message: res.message,
             type: 'success'
@@ -297,7 +297,7 @@ const getSingleMenu = () => {
   getMenu({
     id: tempId.value
   }).then((res) => {
-    if (res.statusCode === reponseCode.OK) {
+    if (res.statusCode === RESPONSECODE.OK) {
       Object.assign(dialogRuleForm, res.data)
     }
   })
@@ -308,7 +308,7 @@ const getChildrenList = (id) => {
   getMenuChildren({
     id: id
   }).then((res) => {
-    if (res.statusCode === reponseCode.OK) {
+    if (res.statusCode === RESPONSECODE.OK) {
       tableData.value = res.data
     }
   })
@@ -324,7 +324,7 @@ const confirm = async (formEl) => {
         dialogRuleForm.level = tempData.value.level + 1
 
         addMenu(dialogRuleForm).then((res) => {
-          if (res.statusCode === reponseCode.CREATED) {
+          if (res.statusCode === RESPONSECODE.CREATED) {
             ElMessage({
               message: res.message,
               type: 'success'
@@ -339,7 +339,7 @@ const confirm = async (formEl) => {
 
       if (dialogTitle.value === '编辑菜单') {
         updateMenu(dialogRuleForm).then((res) => {
-          if (res.statusCode === reponseCode.OK) {
+          if (res.statusCode === RESPONSECODE.OK) {
             ElMessage({
               message: res.message,
               type: 'success'

@@ -45,7 +45,7 @@
 import { reactive, ref } from 'vue'
 import { loginApi } from '@/api/modules/login'
 import { getAllRole } from '@/api/modules/role'
-import { reponseCode } from '@/enum/index'
+import { RESPONSECODE } from '@/enum/index'
 import { setToken, setUserInfo } from '@/utils/auth'
 import { useRouter } from 'vue-router'
 import { Store } from '@/store/index'
@@ -85,7 +85,7 @@ const submitForm = (formEl) => {
   formEl.validate((valid) => {
     if (valid) {
       loginApi(ruleForm).then(async (res) => {
-        if (res.statusCode === reponseCode.OK) {
+        if (res.statusCode === RESPONSECODE.OK) {
           setToken(res.data.token)
           setUserInfo(res.data.userInfo)
           store.setUserInfo(res.data.userInfo)
@@ -100,7 +100,7 @@ const submitForm = (formEl) => {
           })
         }
 
-        if (res.statusCode === reponseCode.NOT_FOUND) {
+        if (res.statusCode === RESPONSECODE.NOT_FOUND) {
           goToRegisterTipVisible.value = true
         }
       })
@@ -113,7 +113,7 @@ const submitForm = (formEl) => {
 
 const getRole = async () => {
   await getAllRole().then((res) => {
-    if (res.statusCode === reponseCode.OK) {
+    if (res.statusCode === RESPONSECODE.OK) {
     }
   })
 }

@@ -66,7 +66,7 @@ import { Delete, Plus, ZoomIn } from '@element-plus/icons-vue'
 import { uploadImg } from '@/api/modules/upload'
 import { getUser } from '@/api/modules/user'
 import { Store } from '@/store/index'
-import { reponseCode } from '@/enum/index'
+import { RESPONSECODE } from '@/enum/index'
 import { setUserInfo, getUserInfo } from '@/utils/auth'
 
 const store = Store()
@@ -137,7 +137,7 @@ const getUserData = () => {
   getUser({
     id: getUserInfo()?.id
   }).then((res) => {
-    if (res.statusCode === reponseCode.OK) {
+    if (res.statusCode === RESPONSECODE.OK) {
       setUserInfo(res.data)
       store.setUserInfo(res.data)
 
@@ -168,7 +168,7 @@ const submitUpload = () => {
   disabled.value = true
 
   uploadImg(formData).then((res) => {
-    if (res.statusCode === reponseCode.OK) {
+    if (res.statusCode === RESPONSECODE.OK) {
       ElMessage({
         message: res.message,
         type: 'success'

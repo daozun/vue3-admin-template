@@ -1,19 +1,14 @@
 <template>
   <div class="permission">
     <el-table :data="tableData" style="width: 100%" border>
-      <el-table-column prop="name" label="角色名称" width="180" align="center">
+      <el-table-column prop="code" label="角色名称" width="180" align="center">
         <template #default="scope">
-          {{ scope.row.name }}
+          {{ scope.row.code }}
         </template>
       </el-table-column>
-      <el-table-column
-        prop="description"
-        label="描述"
-        width="180"
-        align="center"
-      >
+      <el-table-column prop="name" label="描述" width="180" align="center">
         <template #default="scope">
-          {{ scope.row.description }}
+          {{ scope.row.name }}
         </template>
       </el-table-column>
       <el-table-column prop="operation" label="操作" align="center">
@@ -27,6 +22,7 @@
 
     <authDialog
       :dialogVisible="dialogVisible"
+      :dataSource="dataSource"
       @changeVisible="changeVisible"
     ></authDialog>
   </div>
@@ -34,24 +30,41 @@
 
 <script setup>
 import authDialog from '@/views/permission/auth-dialog'
-import { reactive, ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { getMenuList } from '@/api/modules/menu'
+import { getAllRole } from '@/api/modules/role'
+import { RESPONSECODE } from '@/enum/index'
+
+const tableData = ref([])
+
+onMounted(() => {
+  getRoleList()
+})
+
+const getRoleList = () => {
+  getAllRole().then((res) => {
+    if (res.statusCode === RESPONSECODE.OK) {
+      tableData.value = res.data
+    }
+  })
+}
 
 const dialogVisible = ref(false)
-
-const tableData = reactive([
-  {
-    name: 'admin',
-    description: '管理员'
-  },
-  {
-    name: 'normal',
-    description: '员工'
-  }
-])
+const dataSource = ref([])
 
 // 点击编辑按钮
 const handleEdit = () => {
   dialogVisible.value = true
+
+  getAllMenu()
+}
+
+const getAllMenu = () => {
+  getMenuList().then((res) => {
+    if (res.statusCode === RESPONSECODE.OK) {
+      dataSource.value = res.data
+    }
+  })
 }
 
 // 子组件传值

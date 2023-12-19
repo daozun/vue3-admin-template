@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/src/message.scss'
-import { reponseCode } from '@/enum/index'
+import { RESPONSECODE } from '@/enum/index'
 import { getToken, logOut } from '@/utils/auth'
 import router from '../router'
 import { Store } from '@/store/index'
@@ -39,8 +39,8 @@ http.interceptors.request.use((req) => {
 http.interceptors.response.use(
   (res) => {
     if (
-      res.data.statusCode !== reponseCode.OK &&
-      res.data.statusCode !== reponseCode.CREATED
+      res.data.statusCode !== RESPONSECODE.OK &&
+      res.data.statusCode !== RESPONSECODE.CREATED
     ) {
       ElMessage({
         message: res.data.message,
@@ -54,7 +54,7 @@ http.interceptors.response.use(
     const message = error.response.data?.message
     const statusCode = error.response.data?.statusCode
 
-    if (statusCode === reponseCode.UNAUTHORIZED) {
+    if (statusCode === RESPONSECODE.UNAUTHORIZED) {
       logOut()
       store.removeUserInfo()
       router.push('/login')
@@ -69,12 +69,6 @@ http.interceptors.response.use(
   }
 )
 
-/**
- * get方法，对应get请求
- * @param {String} url [请求的url地址]
- * @param {Object} params [请求时携带的参数]
- * @param {Object} config [axios配置]
- */
 export function get (url, params, config) {
   return new Promise((resolve, reject) => {
     http
@@ -91,12 +85,6 @@ export function get (url, params, config) {
   })
 }
 
-/**
- * post方法，对应post请求
- * @param {String} url [请求的url地址]
- * @param {Object} params [请求时携带的参数]
- * @param {Object} config [axios配置]
- */
 export function post (url, params, config) {
   return new Promise((resolve, reject) => {
     http
@@ -110,12 +98,6 @@ export function post (url, params, config) {
   })
 }
 
-/**
- * del方法，对应delete请求
- * @param {String} url [请求的url地址]
- * @param {Object} params [请求时携带的参数]
- * @param {Object} config [axios配置]
- */
 export function del (url, params, config) {
   return new Promise((resolve, reject) => {
     http
@@ -132,12 +114,6 @@ export function del (url, params, config) {
   })
 }
 
-/**
- * put方法，对应put请求
- * @param {String} url [请求的url地址]
- * @param {Object} params [请求时携带的参数]
- * @param {Object} config [axios配置]
- */
 export function put (url, params, config) {
   return new Promise((resolve, reject) => {
     http
@@ -151,12 +127,6 @@ export function put (url, params, config) {
   })
 }
 
-/**
- * patch方法，对应patch请求
- * @param {String} url [请求的url地址]
- * @param {Object} params [请求时携带的参数]
- * @param {Object} config [axios配置]
- */
 export function patch (url, params, config) {
   return new Promise((resolve, reject) => {
     http

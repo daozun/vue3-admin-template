@@ -1,4 +1,4 @@
-export const reponseCode = {
+export const RESPONSECODE = {
   CONTINUE: 100,
   SWITCHING_PROTOCOLS: 101,
   PROCESSING: 102,
@@ -49,7 +49,12 @@ export const reponseCode = {
   HTTP_VERSION_NOT_SUPPORTED: 505
 }
 
-export const articleStatus = {
+export const ARTICLESTATUS = {
   draft: 0,
   published: 1
+}
+
+export const ROLE = {
+  ADMIN: 'admin',
+  NORMAL: 'normal'
 }

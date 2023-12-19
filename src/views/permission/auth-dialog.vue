@@ -1,82 +1,46 @@
 <template>
-  <el-dialog v-model="dialogVisible" title="编辑菜单权限" width="30%">
+  <el-dialog
+    v-model="dialogVisible"
+    title="编辑菜单权限"
+    width="30%"
+    :before-close="cancel"
+    :destroy-on-close="true"
+    :close-on-click-modal="false"
+    @open="openDialog"
+  >
     <el-tree
-      :data="data"
-      show-checkbox
+      ref="treeRef"
+      :data="dataSource"
       node-key="id"
-      :default-expanded-keys="[2, 3]"
-      :default-checked-keys="[5]"
+      show-checkbox
+      default-expand-all
+      :expand-on-click-node="false"
       :props="defaultProps"
     />
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="cancel()">取消</el-button>
-        <el-button type="primary" @click="confirm">确定</el-button>
+        <el-button type="primary" @click="confirm" :loading="confirmLoading"
+          >确定</el-button
+        >
       </span>
     </template>
   </el-dialog>
 </template>
 
 <script setup>
-import { defineProps, computed } from 'vue'
+import { defineProps, computed, ref } from 'vue'
+import { saveRoleMenu, getRoleMenu } from '@/api/modules/role'
+import { RESPONSECODE } from '@/enum'
 
 const defaultProps = {
   children: 'children',
-  label: 'label'
+  label: 'name'
 }
-const data = [
-  {
-    id: 1,
-    label: 'Level one 1',
-    children: [
-      {
-        id: 4,
-        label: 'Level two 1-1',
-        children: [
-          {
-            id: 9,
-            label: 'Level three 1-1-1'
-          },
-          {
-            id: 10,
-            label: 'Level three 1-1-2'
-          }
-        ]
-      }
-    ]
-  },
-  {
-    id: 2,
-    label: 'Level one 2',
-    children: [
-      {
-        id: 5,
-        label: 'Level two 2-1'
-      },
-      {
-        id: 6,
-        label: 'Level two 2-2'
-      }
-    ]
-  },
-  {
-    id: 3,
-    label: 'Level one 3',
-    children: [
-      {
-        id: 7,
-        label: 'Level two 3-1'
-      },
-      {
-        id: 8,
-        label: 'Level two 3-2'
-      }
-    ]
-  }
-]
 
-const props = defineProps(['dialogVisible'])
+const props = defineProps(['dialogVisible', 'dataSource'])
 const dialogVisible = computed(() => props.dialogVisible)
+const dataSource = computed(() => props.dataSource)
 
 const emit = defineEmits(['changeVisible'])
 // 取消按钮
@@ -84,8 +48,51 @@ const cancel = () => {
   emit('changeVisible', false)
 }
 
+const treeRef = ref()
+const confirmLoading = ref(false)
+
+// 打开弹窗
+const openDialog = () => {
+  getDefaultCheckData()
+}
+
+// 获取默认数据
+const getDefaultCheckData = () => {
+  getRoleMenu().then((res) => {
+    if (res.statusCode === RESPONSECODE.OK) {
+      const idList = res.data.map((item) => item.menu_id)
+      treeRef.value.setCheckedKeys(idList)
+    }
+  })
+}
+
 // 确认按钮
-const confirm = () => {}
+const confirm = () => {
+  const checkedNodes = treeRef.value.getCheckedNodes()
+  if (checkedNodes.length === 0) {
+    ElMessage({
+      message: '请选择数据',
+      type: 'warning'
+    })
+
+    return false
+  }
+
+  confirmLoading.value = true
+  saveRoleMenu({
+    menuIdList: checkedNodes
+  }).then((res) => {
+    if (res.statusCode === RESPONSECODE.OK) {
+      ElMessage({
+        message: res.message,
+        type: 'success'
+      })
+    }
+
+    confirmLoading.value = false
+    cancel()
+  })
+}
 </script>
 
 <style lang="scss" scoped>

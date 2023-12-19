@@ -37,7 +37,7 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import { registerApi } from '@/api/modules/register'
-import { reponseCode } from '@/enum/index'
+import { RESPONSECODE } from '@/enum/index'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 
@@ -72,7 +72,7 @@ const submitForm = async (formEl) => {
   await formEl.validate((valid) => {
     if (valid) {
       registerApi(ruleForm).then((res) => {
-        if (res.statusCode === reponseCode.CREATED) {
+        if (res.statusCode === RESPONSECODE.CREATED) {
           router.push('/login')
 
           ElMessage({
