@@ -16,16 +16,19 @@
               <svg-icon
                 icon-class="edit"
                 class="text-sm text-red-600"
+                v-permission
                 @click.native.stop="edit(data)"
               />
               <svg-icon
                 icon-class="delete"
                 class="ml-5 text-sm text-red-600"
+                v-permission
                 @click.native.stop="del(data)"
               />
               <svg-icon
                 icon-class="add"
                 class="ml-5 text-sm text-blue-600"
+                v-permission
                 @click.native.stop="add(data)"
               />
             </span>
@@ -77,8 +80,14 @@
         </el-table-column>
         <el-table-column label="操作" width="138">
           <template #default="scope">
-            <el-button size="small" @click="edit(scope.row)">编辑</el-button>
-            <el-button size="small" type="danger" @click="del(scope.row)"
+            <el-button size="small" @click="edit(scope.row)" v-permission
+              >编辑</el-button
+            >
+            <el-button
+              size="small"
+              type="danger"
+              @click="del(scope.row)"
+              v-permission
               >删除</el-button
             >
           </template>
@@ -217,9 +226,7 @@ const defaultProps = {
 }
 
 const dataSource = ref([])
-
 const tableData = ref([])
-
 const tempData = ref(null)
 const tempId = ref(null)
 

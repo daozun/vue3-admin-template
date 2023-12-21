@@ -4,9 +4,6 @@ import 'element-plus/theme-chalk/src/message.scss'
 import { RESPONSECODE } from '@/enum/index'
 import { getToken, logOut } from '@/utils/auth'
 import router from '../router'
-import { Store } from '@/store/index'
-
-const store = Store()
 
 const baseURL = process.env.VUE_APP_BASE_API
 
@@ -56,7 +53,6 @@ http.interceptors.response.use(
 
     if (statusCode === RESPONSECODE.UNAUTHORIZED) {
       logOut()
-      store.removeUserInfo()
       router.push('/login')
     }
 

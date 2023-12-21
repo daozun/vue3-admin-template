@@ -23,5 +23,9 @@ import pinia from '@/store/index'
 // eslint-disable-next-line no-unused-vars
 import _ from 'lodash'
 
+// directive
+import { handleBtnPermission } from '@/directive'
+
 const app = createApp(App)
+handleBtnPermission(app)
 app.use(router).use(pinia).mount('#app')
