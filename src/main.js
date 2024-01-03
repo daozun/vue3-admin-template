@@ -27,5 +27,7 @@ import _ from 'lodash'
 import { handleBtnPermission } from '@/directive'
 
 const app = createApp(App)
+app.config.productionTip = false
+
 handleBtnPermission(app)
 app.use(router).use(pinia).mount('#app')

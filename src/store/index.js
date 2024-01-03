@@ -2,7 +2,11 @@ import { createPinia, defineStore } from 'pinia'
 import { getUserInfo } from '@/utils/auth'
 
 export const Store = defineStore('globalState', {
-  state: () => ({ isOpenSideBar: false, userInfo: getUserInfo() }),
+  state: () => ({
+    isOpenSideBar: false,
+    userInfo: getUserInfo(),
+    asyncRoute: false
+  }),
   actions: {
     toggleSideBar () {
       this.isOpenSideBar = !this.isOpenSideBar
@@ -12,6 +16,9 @@ export const Store = defineStore('globalState', {
     },
     removeUserInfo () {
       this.userInfo = null
+    },
+    setAsyncRoute (status) {
+      this.asyncRoute = status
     }
   }
 })

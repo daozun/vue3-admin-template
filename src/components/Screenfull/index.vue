@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-import { onUnmounted, destroy, ref } from 'vue'
+import { onUnmounted, ref } from 'vue'
 import screenfull from 'screenfull'
 import { init } from 'events'
 
@@ -16,9 +16,7 @@ const isFullscreen = ref(false)
 
 onUnmounted(() => {
   init()
-})
 
-destroy(() => {
   if (screenfull.enabled) {
     screenfull.off('change', this.change)
   }

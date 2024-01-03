@@ -5,7 +5,7 @@
         <div :class="{ icon: item.meta?.icon }">
           <SvgIcon :icon-class="item.meta?.icon" />
         </div>
-        <span>{{ item.name }}</span>
+        <span>{{ item.meta.title }}</span>
       </el-menu-item>
     </div>
 
@@ -14,7 +14,7 @@
         <div :class="{ icon: item.children[0].meta?.icon }">
           <SvgIcon :icon-class="item.children[0].meta?.icon" />
         </div>
-        <span>{{ item.children[0].name }}</span>
+        <span>{{ item.children[0].meta.title }}</span>
       </el-menu-item>
     </div>
 
@@ -23,7 +23,7 @@
         <div :class="{ icon: item.meta?.icon }">
           <SvgIcon :icon-class="item.meta?.icon" />
         </div>
-        <span>{{ item.name }}</span>
+        <span>{{ item.meta.title }}</span>
       </template>
       <SideBarItem
         v-for="child in item.children"
