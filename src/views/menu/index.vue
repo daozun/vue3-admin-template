@@ -58,11 +58,6 @@
             <span>{{ scope.row.hidden == false ? '否' : '是' }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="alwaysShow" label="是否显示跟路由">
-          <template #default="scope">
-            <span>{{ scope.row.alwaysShow == false ? '否' : '是' }}</span>
-          </template>
-        </el-table-column>
         <el-table-column prop="external" label="外部URL">
           <template #default="scope">
             <span>{{ scope.row.external }}</span>
@@ -152,15 +147,6 @@
             "
           />
         </el-form-item>
-        <el-form-item label="是否在根路由隐藏">
-          <el-switch
-            v-model="dialogRuleForm.alwaysShow"
-            style="
-              --el-switch-on-color: #13ce66;
-              --el-switch-off-color: #ff4949;
-            "
-          />
-        </el-form-item>
         <el-form-item label="外部URL">
           <el-input
             v-model="dialogRuleForm.external"
@@ -243,7 +229,6 @@ const dialogRuleForm = reactive({
   component: '',
   priority: null,
   hidden: false,
-  alwaysShow: false,
   external: '',
   redirect: '',
   meta: ''
