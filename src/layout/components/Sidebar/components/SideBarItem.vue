@@ -1,7 +1,10 @@
 <template>
   <div v-if="!item.hidden">
     <div @click="goToPath(item)">
-      <el-menu-item v-if="noHasChildren(item)" :index="setIndex(item)">
+      <el-menu-item
+        v-if="noHasChildren(item) && !isNest(item)"
+        :index="setIndex(item)"
+      >
         <div :class="{ icon: item.meta?.icon }">
           <SvgIcon :icon-class="item.meta?.icon" />
         </div>
@@ -10,7 +13,10 @@
     </div>
 
     <div @click="goToPath(item)">
-      <el-menu-item v-if="hasOneChildren(item)" :index="setIndex(item)">
+      <el-menu-item
+        v-if="hasOneChildren(item) && !isNest(item)"
+        :index="setIndex(item)"
+      >
         <div :class="{ icon: item.children[0].meta?.icon }">
           <SvgIcon :icon-class="item.children[0].meta?.icon" />
         </div>
@@ -18,7 +24,10 @@
       </el-menu-item>
     </div>
 
-    <el-sub-menu v-if="hasThanOneChildren(item)" :index="setIndex(item)">
+    <el-sub-menu
+      v-if="isNest(item)"
+      :index="setIndex(item)"
+    >
       <template #title>
         <div :class="{ icon: item.meta?.icon }">
           <SvgIcon :icon-class="item.meta?.icon" />
@@ -50,6 +59,10 @@ const prop = defineProps({
   }
 })
 
+const isNest = (item) => {
+  return item.meta.isNest
+}
+
 const noHasChildren = (item) => {
   if (!item.children) {
     return true
@@ -60,14 +73,6 @@ const noHasChildren = (item) => {
 
 const hasOneChildren = (item) => {
   if (item.children?.length === 1) {
-    return true
-  } else {
-    return false
-  }
-}
-
-const hasThanOneChildren = (item) => {
-  if (item.children?.length > 1) {
     return true
   } else {
     return false

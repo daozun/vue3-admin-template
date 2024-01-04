@@ -1,16 +1,22 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 
+/**
+ * hidden: true                   true 表示不显示在侧边栏，false 显示在侧边栏
+ * meta : {
+ *   title: 'xxx'                 用在显示左侧边栏名称
+ *   icon： 'xxx'                 图标
+ *   isNest: false                true 表示嵌套菜单显示，false不嵌套显示
+ * }
+ */
+
+/**
+ * 动态路由加载的注意点：
+ * 1. name 一定要是独一无二的！！！
+ * 2. 如下面的 dashboard，父路由和子路由的地址指向一致，那么子路由一定要加上 `/` 如下面的 dashboard
+ * 3. 如果子路由的地址指向前面是父路由地址，如下面的 example，那么子路由不要加上 `/`
+ */
+
 const constantRoutes = [
-  // {
-  //   path: '/',
-  //   redirect: '/login',
-  //   hidden: true
-  // },
-  // {
-  //   path: '/',
-  //   name: 'Layout',
-  //   component: () => import('@/layout')
-  // },
   {
     path: '/login',
     name: 'Login',
@@ -27,12 +33,13 @@ const constantRoutes = [
   //   path: '/dashboard',
   //   component: () => import('@/layout'),
   //   name: 'Dashboard',
+  //   meta: { isNest: false }
   //   children: [
   //     {
   //       path: '/dashboard',
-  //       name: 'Dashboard',
+  //       name: 'ChildDashboard',
   //       component: () => import('@/views/dashboard/index'),
-  //       meta: { title: 'Dashboard', icon: 'dashboard' }
+  //       meta: { title: 'Dashboard', icon: 'dashboard', isNest: false }
   //     }
   //   ]
   // },
@@ -41,25 +48,25 @@ const constantRoutes = [
   //   component: () => import('@/layout'),
   //   redirect: '/example/article',
   //   name: 'Example',
-  //   meta: { title: 'Example', icon: 'example' },
+  //   meta: { title: 'Example', icon: 'example', isNest: true },
   //   children: [
   //     {
   //       path: 'article',
   //       name: 'Article',
   //       component: () => import('@/views/article/index'),
-  //       meta: { title: 'Article', icon: 'table' }
+  //       meta: { title: 'Article', icon: 'table', isNest: false }
   //     },
   //     {
   //       path: 'tree',
   //       name: 'Tree',
   //       component: () => import('@/views/tree/index'),
-  //       meta: { title: 'Tree', icon: 'tree' }
+  //       meta: { title: 'Tree', icon: 'tree', isNest: false }
   //     },
   //     {
   //       path: 'upload',
   //       name: '上传头像',
   //       component: () => import('@/views/upload/index'),
-  //       meta: { title: '上传头像', icon: 'upload' }
+  //       meta: { title: '上传头像', icon: 'upload', isNest: false }
   //     }
   //   ]
   // },
@@ -70,7 +77,8 @@ const constantRoutes = [
   //   name: 'Nested',
   //   meta: {
   //     title: 'Nested',
-  //     icon: 'nested'
+  //     icon: 'nested',
+  //     isNest: true
   //   },
   //   children: [
   //     {
@@ -78,34 +86,34 @@ const constantRoutes = [
   //       component: () => import('@/views/nested/menu1/index'),
   //       redirect: '/nested/menu1/menu1-1',
   //       name: 'Menu1',
-  //       meta: { title: 'Menu1' },
+  //       meta: { title: 'Menu1', isNest: true },
   //       children: [
   //         {
   //           path: 'menu1-1',
   //           component: () => import('@/views/nested/menu1/menu1-1'),
   //           name: 'Menu1-1',
-  //           meta: { title: 'Menu1-1' }
+  //           meta: { title: 'Menu1-1', isNest: false }
   //         },
   //         {
   //           path: 'menu1-2',
   //           component: () => import('@/views/nested/menu1/menu1-2'),
   //           name: 'Menu1-2',
   //           redirect: '/nested/menu1/menu1-2/menu1-2-1',
-  //           meta: { title: 'Menu1-2' },
+  //           meta: { title: 'Menu1-2', isNest: true },
   //           children: [
   //             {
   //               path: 'menu1-2-1',
   //               component: () =>
   //                 import('@/views/nested/menu1/menu1-2/menu1-2-1'),
   //               name: 'Menu1-2-1',
-  //               meta: { title: 'Menu1-2-1' }
+  //               meta: { title: 'Menu1-2-1', isNest: false }
   //             },
   //             {
   //               path: 'menu1-2-2',
   //               component: () =>
   //                 import('@/views/nested/menu1/menu1-2/menu1-2-2'),
   //               name: 'Menu1-2-2',
-  //               meta: { title: 'Menu1-2-2' }
+  //               meta: { title: 'Menu1-2-2', isNest: false }
   //             }
   //           ]
   //         },
@@ -113,7 +121,7 @@ const constantRoutes = [
   //           path: 'menu1-3',
   //           component: () => import('@/views/nested/menu1/menu1-3'),
   //           name: 'Menu1-3',
-  //           meta: { title: 'Menu1-3' }
+  //           meta: { title: 'Menu1-3', isNest: false }
   //         }
   //       ]
   //     },
@@ -121,7 +129,7 @@ const constantRoutes = [
   //       path: 'menu2',
   //       component: () => import('@/views/nested/menu2/index'),
   //       name: 'Menu2',
-  //       meta: { title: 'menu2' }
+  //       meta: { title: 'menu2', isNest: false }
   //     }
   //   ]
   // },
@@ -129,12 +137,13 @@ const constantRoutes = [
   //   path: '/permission',
   //   component: () => import('@/layout'),
   //   name: 'Permission',
+  //   meta: { isNest: false }
   //   children: [
   //     {
   //       path: '/permission',
-  //       name: 'Permission',
+  //       name: 'ChildPermission',
   //       component: () => import('@/views/permission/index'),
-  //       meta: { title: 'Permission', icon: 'lock' }
+  //       meta: { title: 'Permission', icon: 'lock', isNest: false }
   //     }
   //   ]
   // },
@@ -142,12 +151,13 @@ const constantRoutes = [
   //   path: '/menu',
   //   component: () => import('@/layout'),
   //   name: 'Menu',
+  //   meta: { isNest: false }
   //   children: [
   //     {
   //       path: '/menu',
-  //       name: 'Menu',
+  //       name: 'ChildMenu',
   //       component: () => import('@/views/menu/index'),
-  //       meta: { title: '菜单管理', icon: 'menu' }
+  //       meta: { title: '菜单管理', icon: 'menu', isNest: false }
   //     }
   //   ]
   // },
@@ -174,14 +184,9 @@ const createNewRouter = () =>
 
 const router = createNewRouter()
 
-// const router = createRouter({
-//   history: createWebHashHistory(),
-//   routes: constantRoutes
-// })
-
-export function resetRouter () {
-  const newRouter = createNewRouter()
-  router.matcher = newRouter.matcher // reset router
-}
+// export function resetRouter () {
+//   const newRouter = createNewRouter()
+//   router.matcher = newRouter.matcher // reset router
+// }
 
 export default router

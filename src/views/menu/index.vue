@@ -140,6 +140,9 @@
             show-word-limit
           />
         </el-form-item>
+        <el-form-item label="优先级" prop="priority">
+          <el-input-number v-model="dialogRuleForm.priority" :min="1" />
+        </el-form-item>
         <el-form-item label="是否在侧边栏隐藏">
           <el-switch
             v-model="dialogRuleForm.hidden"
@@ -238,6 +241,7 @@ const dialogRuleForm = reactive({
   name: '',
   path: '',
   component: '',
+  priority: null,
   hidden: false,
   alwaysShow: false,
   external: '',
@@ -249,7 +253,8 @@ const resetForm = reactive({ ...dialogRuleForm })
 const dialogRules = reactive({
   name: [{ required: true, message: '请输入菜单名称', trigger: 'blur' }],
   path: [{ required: true, message: '请输入路由', trigger: 'blur' }],
-  component: [{ required: true, message: '请输入组件', trigger: 'blur' }]
+  component: [{ required: true, message: '请输入组件', trigger: 'blur' }],
+  priority: [{ required: true, message: '请输入优先级', trigger: 'blur' }]
 })
 
 const edit = (data) => {

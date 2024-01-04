@@ -52,6 +52,7 @@ import { Store } from '@/store/index'
 import { useScreenfull } from '@/hooks/useScreenfull'
 import { useRouter } from 'vue-router'
 import { logOut } from '@/utils/auth'
+// import { constantRoutes } from '@/router'
 const store = Store()
 const router = useRouter()
 
@@ -83,6 +84,9 @@ const signOut = () => {
   logOut()
   store.removeUserInfo()
   router.push('/login')
+
+  // useRouter().options.routes = constantRoutes
+  store.setAsyncRoute(false)
 }
 </script>
 
