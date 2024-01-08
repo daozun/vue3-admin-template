@@ -38,9 +38,10 @@ const defaultProps = {
   label: 'name'
 }
 
-const props = defineProps(['dialogVisible', 'dataSource'])
+const props = defineProps(['dialogVisible', 'dataSource', 'code'])
 const dialogVisible = computed(() => props.dialogVisible)
 const dataSource = computed(() => props.dataSource)
+const code = computed(() => props.code)
 
 const emit = defineEmits(['changeVisible'])
 // 取消按钮
@@ -58,7 +59,9 @@ const openDialog = () => {
 
 // 获取默认数据
 const getDefaultCheckData = () => {
-  getRoleMenu().then((res) => {
+  getRoleMenu({
+    role: code.value
+  }).then((res) => {
     if (res.statusCode === RESPONSECODE.OK) {
       const idList = res.data.map((item) => item.menu_id)
       treeRef.value.setCheckedKeys(idList)
@@ -80,6 +83,7 @@ const confirm = () => {
 
   confirmLoading.value = true
   saveRoleMenu({
+    role: code.value,
     menuIdList: checkedNodes
   }).then((res) => {
     if (res.statusCode === RESPONSECODE.OK) {

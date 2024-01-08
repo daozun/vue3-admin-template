@@ -23,6 +23,7 @@
     <authDialog
       :dialogVisible="dialogVisible"
       :dataSource="dataSource"
+      :code="code"
       @changeVisible="changeVisible"
     ></authDialog>
   </div>
@@ -51,9 +52,11 @@ const getRoleList = () => {
 
 const dialogVisible = ref(false)
 const dataSource = ref([])
+const code = ref('')
 
 // 点击编辑按钮
-const handleEdit = () => {
+const handleEdit = (row) => {
+  code.value = row.code
   dialogVisible.value = true
 
   getAllMenu()

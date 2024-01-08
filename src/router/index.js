@@ -184,9 +184,4 @@ const createNewRouter = () =>
 
 const router = createNewRouter()
 
-// export function resetRouter () {
-//   const newRouter = createNewRouter()
-//   router.matcher = newRouter.matcher // reset router
-// }
-
 export default router

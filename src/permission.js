@@ -43,7 +43,21 @@ router.afterEach((to, from, failure) => {
   NProgress.done()
 })
 
+const resetRouter = () => {
+  const currentRouterList = router.getRoutes()
+
+  for (const item of currentRouterList) {
+    if (!whiteList.includes(item.path)) {
+      router.removeRoute(item.name)
+    }
+  }
+
+  router.options.routes = []
+}
+
 const addRouter = (to, next) => {
+  resetRouter()
+
   getAuthMenu()
     .then((res) => {
       if (res.statusCode === RESPONSECODE.OK) {
