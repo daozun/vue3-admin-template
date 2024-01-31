@@ -2,7 +2,12 @@
   <div class="upload-container">
     <div class="mb-20">
       <span class="align-top text-black"> 现在头像： </span>
-      <el-image :src="'data:image/png;base64,' + nowAvatarUrl" :fit="fit" />
+      <el-image
+        v-if="nowAvatarUrl"
+        :src="'data:image/png;base64,' + nowAvatarUrl"
+        :fit="fit"
+      />
+      <span v-else class="text-warning">暂无头像</span>
     </div>
     <div class="flex items-center">
       <span class="align-top text-black self-start"> 上传头像： </span>
@@ -57,6 +62,9 @@
         <img w-full :src="dialogImageUrl" alt="Preview Image" />
       </el-dialog>
     </div>
+    <div class="text-xs text-warning ml-20 mt-5">
+      提示：上传图片不能超过3MB
+    </div>
   </div>
 </template>
 
@@ -92,7 +100,7 @@ const handleChange = (file, oldfileList) => {
     const isPNG = file.raw.type === 'image/png'
     const isJPG = file.raw.type === 'image/jpeg'
 
-    const isLt50M = file.size / 1024 / 1024 < 5
+    const isLt50M = file.size / 1024 / 1024 < 3
 
     if (isPNG || isJPG) {
       if (isLt50M) {
@@ -103,7 +111,7 @@ const handleChange = (file, oldfileList) => {
         }
       } else {
         ElMessage({
-          message: '图片的大小不能超过 5 MB',
+          message: '图片的大小不能超过 3 MB',
           type: 'error'
         })
 

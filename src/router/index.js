@@ -162,6 +162,20 @@ const constantRoutes = [
   //   ]
   // },
   // {
+  //   path: '/editor',
+  //   component: () => import('@/layout'),
+  //   name: 'Editor',
+  //   meta: { isNest: false },
+  //   children: [
+  //     {
+  //       path: '/editor',
+  //       name: 'ChildEditor',
+  //       component: () => import('@/views/editor/index'),
+  //       meta: { title: '富文本编辑器', icon: 'editor', isNest: false }
+  //     }
+  //   ]
+  // },
+  // {
   //   path: '/:pathMatch(.*)',
   //   name: 'not-found',
   //   component: () => import('@/views/404.vue'),

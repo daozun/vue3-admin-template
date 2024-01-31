@@ -37,7 +37,11 @@
       </el-tree>
     </div>
     <div class="flex-auto ml-20">
-      <el-table :data="tableData" border>
+      <el-table
+        :data="tableData"
+        border
+        :default-sort="{ prop: 'priority', order: 'ascending' }"
+      >
         <el-table-column prop="name" label="菜单名称">
           <template #default="scope">
             <span>{{ scope.row.name }}</span>
@@ -71,6 +75,11 @@
         <el-table-column prop="meta" label="额外信息">
           <template #default="scope">
             <span>{{ scope.row.meta }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="priority" label="优先级">
+          <template #default="scope">
+            <span>{{ scope.row.priority }}</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="138">
