@@ -7,22 +7,24 @@
         @click="toggleSideBar"
         :class="{ 'is-active': isActive }"
       />
-      <Breadcrumb class="breadcrumb" />
+      <Breadcrumb class="ml-5" />
     </div>
     <div class="right">
+      <el-switch v-model="switchValue">
+        <template #active-action>
+          <svg-icon icon-class="moon" />
+        </template>
+        <template #inactive-action>
+          <svg-icon icon-class="sun" />
+        </template>
+      </el-switch>
       <svg-icon
         :icon-class="isFullScreen ? 'exit-fullscreen' : 'fullscreen'"
         @click="changeScreen"
+        class="ml-5"
       />
       <el-dropdown class="dropdown" ref="dropdown" trigger="click">
         {{ userName }}
-        <img
-          v-if="avatar"
-          class="avatar"
-          :src="'data:image/png;base64,' + avatar"
-          alt=""
-        />
-        <img v-else class="avatar" src="../../../assets/head.jpeg" alt="" />
         <template #dropdown>
           <el-dropdown-menu>
             <router-link to="/dashboard">
@@ -40,6 +42,13 @@
           </el-dropdown-menu>
         </template>
       </el-dropdown>
+      <img
+        v-if="avatar"
+        class="avatar"
+        :src="'data:image/png;base64,' + avatar"
+        alt=""
+      />
+      <img v-else class="avatar" src="../../../assets/head.jpeg" alt="" />
     </div>
     <div class="dropdown"></div>
   </div>
@@ -54,6 +63,9 @@ import { useRouter } from 'vue-router'
 import { logOut } from '@/utils/auth'
 const store = Store()
 const router = useRouter()
+
+// switch
+const switchValue = ref(false)
 
 const isActive = computed(() => {
   return store.isOpenSideBar
@@ -118,10 +130,6 @@ const signOut = () => {
     color: #5a5e66;
   }
 
-  .breadcrumb {
-    margin-left: 20px;
-  }
-
   .hamburger-svg {
     font-size: 24px;
     vertical-align: -0.25em;
@@ -133,7 +141,7 @@ const signOut = () => {
     height: 40px;
     border-radius: 50%;
     margin-left: 10px;
-    display: inline;
+    display: inline-block;
   }
 
   .dropdown {
