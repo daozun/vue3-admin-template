@@ -10,7 +10,7 @@
       <Breadcrumb class="ml-5" />
     </div>
     <div class="right">
-      <el-switch v-model="switchValue">
+      <el-switch v-model="switchValue" @change="toggleDark()">
         <template #active-action>
           <svg-icon icon-class="moon" />
         </template>
@@ -55,6 +55,7 @@
 </template>
 
 <script setup>
+import { useDark, useToggle } from '@vueuse/core'
 import Breadcrumb from './components/Breadcrumb/index.vue'
 import { computed, ref } from 'vue'
 import { Store } from '@/store/index'
@@ -89,6 +90,23 @@ const isFullScreen = ref(false)
 const changeScreen = () => {
   isFullScreen.value = !isFullScreen.value
   useScreenfull(isFullScreen)
+}
+
+const toggleDark = () => {
+  console.log(
+    '%c [ switchValue ]-95',
+    'font-size:13px; background:pink; color:#bf2c9f;',
+    switchValue.value
+  )
+
+  const isDark = useDark()
+  console.log(
+    '%c [ isDark ]-103',
+    'font-size:13px; background:pink; color:#bf2c9f;',
+    isDark
+  )
+
+  useToggle(switchValue)
 }
 
 const signOut = () => {

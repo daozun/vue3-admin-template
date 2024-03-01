@@ -57,7 +57,8 @@ module.exports = defineConfig({
       scss: {
         prependData: `
           @import "~@/styles/variables.scss";
-        `
+        `,
+        additionalData: `@use "~@/styles/index.scss" as *;`
       }
     }
   },
