@@ -10,7 +10,7 @@
         />
       </el-form-item>
       <el-form-item label="发布状态">
-        <el-select v-model="query.status" clearable size="large">
+        <el-select v-model="query.status" clearable style="width: 200px">
           <el-option
             v-for="item in statusList"
             :key="item.value"
