@@ -10,7 +10,7 @@
       <Breadcrumb class="ml-5" />
     </div>
     <div class="right">
-      <el-switch v-model="switchValue" @change="toggleDark()">
+      <el-switch v-model="isDark" @change="toggleDark">
         <template #active-action>
           <svg-icon icon-class="moon" />
         </template>
@@ -65,9 +65,6 @@ import { logOut } from '@/utils/auth'
 const store = Store()
 const router = useRouter()
 
-// switch
-const switchValue = ref(false)
-
 const isActive = computed(() => {
   return store.isOpenSideBar
 })
@@ -92,22 +89,8 @@ const changeScreen = () => {
   useScreenfull(isFullScreen)
 }
 
-const toggleDark = () => {
-  console.log(
-    '%c [ switchValue ]-95',
-    'font-size:13px; background:pink; color:#bf2c9f;',
-    switchValue.value
-  )
-
-  const isDark = useDark()
-  console.log(
-    '%c [ isDark ]-103',
-    'font-size:13px; background:pink; color:#bf2c9f;',
-    isDark
-  )
-
-  useToggle(switchValue)
-}
+const isDark = useDark()
+const toggleDark = useToggle(isDark)
 
 const signOut = () => {
   logOut()
@@ -123,7 +106,7 @@ const signOut = () => {
   height: 60px;
   overflow: hidden;
   position: relative;
-  background: #fff;
+  // background: #fff;
   box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
   line-height: 50px;
   padding: 5px 40px 5px 18px;

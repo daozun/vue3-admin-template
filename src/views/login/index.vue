@@ -128,7 +128,8 @@ const goToRegister = () => {
   width: 100vw;
   height: 100vh;
   position: relative;
-  background: url('../../assets/login_bg.jpeg') 100% 100% no-repeat;
+  // background: url('../../assets/login_bg.jpeg') 100% 100% no-repeat;
+  background-color: #182026;;
 
   .login-container {
     position: absolute;
@@ -138,8 +139,8 @@ const goToRegister = () => {
     left: 50%;
     transform: translate(-50%, -45%);
     overflow: hidden;
-    background: #000000;
-    color: #eee;
+    background: #fff;
+    color: #182026;
     text-align: center;
     border-radius: 10px;
   }

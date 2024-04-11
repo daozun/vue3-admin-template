@@ -1,5 +1,5 @@
 <template>
-  <el-main style="background: #fff">
+  <el-main class="my-el-main">
     <Navbar />
     <div class="app-main">
       <router-view></router-view>
@@ -25,7 +25,7 @@ const marginLeft = computed(() => {
 </style>
 
 <style>
-.el-main {
+.my-el-main {
   padding: 0;
   margin-left: v-bind('marginLeft');
   transition: margin-left 0.3s;
