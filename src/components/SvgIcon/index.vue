@@ -10,7 +10,8 @@ import { defineProps, computed } from 'vue'
 const props = defineProps({
   iconClass: {
     type: String,
-    required: true
+    required: true,
+    default: ''
   },
   className: {
     type: String,

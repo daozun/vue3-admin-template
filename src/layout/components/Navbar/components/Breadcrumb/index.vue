@@ -44,11 +44,6 @@ const dropDuplocate = (matched) => {
 }
 </script>
 
-<style lang="scss" scoped>
-.breadcrumb {
-}
-</style>
-
 <style lang="scss">
 .breadcrumb {
   .el-breadcrumb {
