@@ -1,16 +1,15 @@
 <template>
   <div class="upload-container">
     <div class="mb-20">
-      <span class="align-top text-black"> 现在头像： </span>
+      <span class="align-top"> 现在头像： </span>
       <el-image
         v-if="nowAvatarUrl"
         :src="'data:image/png;base64,' + nowAvatarUrl"
-        :fit="fit"
       />
       <span v-else class="text-warning">暂无头像</span>
     </div>
     <div class="flex items-center">
-      <span class="align-top text-black self-start"> 上传头像： </span>
+      <span class="align-top self-start"> 上传头像： </span>
       <el-upload
         ref="uploadRef"
         action=""
@@ -18,7 +17,6 @@
         :auto-upload="false"
         :on-change="handleChange"
         :on-remove="handleRemove"
-        :http-request="uploadSubmit"
         :file-list="fileList"
         :limit="2"
         :multiple="true"
@@ -62,9 +60,7 @@
         <img w-full :src="dialogImageUrl" alt="Preview Image" />
       </el-dialog>
     </div>
-    <div class="text-xs text-warning ml-20 mt-5">
-      提示：上传图片不能超过3MB
-    </div>
+    <div class="text-xs text-warning ml-20 mt-5">提示：上传图片不能超过3MB</div>
   </div>
 </template>
 
