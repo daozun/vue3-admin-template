@@ -63,7 +63,8 @@ const getDefaultCheckData = () => {
     role: code.value
   }).then((res) => {
     if (res.statusCode === RESPONSECODE.OK) {
-      const idList = res.data.map((item) => item.menu_id)
+      const selectList = res.data.filter((item) => item.is_select === 1)
+      const idList = selectList.map((item) => item.menu_id)
       treeRef.value.setCheckedKeys(idList)
     }
   })

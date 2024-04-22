@@ -10,7 +10,7 @@
       <Breadcrumb class="ml-5" />
     </div>
     <div class="right">
-      <el-switch v-model="isDark" @change="toggleDark">
+      <el-switch v-model="isDark" @change="toggleDark" class="switch-theme">
         <template #active-action>
           <svg-icon icon-class="moon" />
         </template>
@@ -21,7 +21,7 @@
       <svg-icon
         :icon-class="isFullScreen ? 'exit-fullscreen' : 'fullscreen'"
         @click="changeScreen"
-        class="ml-5"
+        class="ml-5 full-screen-svg"
       />
       <el-dropdown class="dropdown" ref="dropdown" trigger="click">
         {{ userName }}
@@ -127,13 +127,17 @@ const signOut = () => {
     font-weight: bold;
     cursor: pointer;
     line-height: 50px;
-    // color: #5a5e66;
+  }
+
+  .full-screen-svg {
+    color: var(--el-text-color-regular);
   }
 
   .hamburger-svg {
     font-size: 24px;
     vertical-align: -0.25em;
     cursor: pointer;
+    color: var(--el-text-color-regular);
   }
 
   .avatar {

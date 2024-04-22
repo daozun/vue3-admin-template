@@ -8,8 +8,8 @@
               <svg-icon icon-class="peoples" class-name="card-panel-icon" />
             </div>
             <div class="card-description">
-              <p class="text">访问量</p>
-              <p class="num">112113</p>
+              <el-text class="text" size="large">访问量</el-text>
+              <el-text class="num" size="large">112113</el-text>
             </div>
           </div>
         </el-card>
@@ -21,8 +21,8 @@
               <svg-icon icon-class="message" class-name="card-panel-icon" />
             </div>
             <div class="card-description">
-              <p class="text">消息数</p>
-              <p class="num">223332</p>
+              <el-text class="text" size="large">消息数</el-text>
+              <el-text class="num" size="large">223332</el-text>
             </div>
           </div>
         </el-card>
@@ -34,8 +34,8 @@
               <svg-icon icon-class="money" class-name="card-panel-icon" />
             </div>
             <div class="card-description">
-              <p class="text">成交量</p>
-              <p class="num">110120</p>
+              <el-text class="text" size="large">成交量</el-text>
+              <el-text class="num" size="large">110120</el-text>
             </div>
           </div>
         </el-card>
@@ -47,8 +47,8 @@
               <svg-icon icon-class="shopping" class-name="card-panel-icon" />
             </div>
             <div class="card-description">
-              <p class="text">销售额</p>
-              <p class="num">119324</p>
+              <el-text class="text" size="large">销售额</el-text>
+              <el-text class="num" size="large">119324</el-text>
             </div>
           </div>
         </el-card>
@@ -59,7 +59,7 @@
         <el-card>
           <template #header>
             <div class="card-header">
-              <span>访问量</span>
+              <el-text class="text" size="large">访问量</el-text>
             </div>
           </template>
           <div id="bar" class="map"></div>
@@ -69,7 +69,7 @@
         <el-card>
           <template #header>
             <div class="card-header">
-              <span>排行占比</span>
+              <el-text class="text" size="large">排行占比</el-text>
             </div>
           </template>
           <div id="pie" class="map"></div>
@@ -81,7 +81,7 @@
         <el-card>
           <template #header>
             <div class="card-header">
-              <span>折线图</span>
+              <el-text class="text" size="large">折线图</el-text>
             </div>
           </template>
           <div id="line" class="map"></div>
@@ -91,7 +91,7 @@
         <el-card>
           <template #header>
             <div class="card-header">
-              <span>仪表盘</span>
+              <el-text class="text" size="large">仪表盘</el-text>
             </div>
           </template>
           <div id="gauge" class="map"></div>
@@ -308,14 +308,14 @@ onMounted(() => {
 
         .card-description {
           .text {
-            color: rgba(0, 0, 0, 0.45);
+            display: block;
             font-size: 16px;
           }
 
           .num {
-            font-size: 20px;
-            color: #666;
+            display: block;
             font-weight: bold;
+            font-size: 20px;
           }
         }
 
