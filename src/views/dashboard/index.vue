@@ -62,7 +62,7 @@
               <span>访问量</span>
             </div>
           </template>
-          <div id="bar"></div>
+          <div id="bar" class="map"></div>
         </el-card>
       </el-col>
       <el-col :span="12">
@@ -72,7 +72,7 @@
               <span>排行占比</span>
             </div>
           </template>
-          <div id="pie"></div>
+          <div id="pie" class="map"></div>
         </el-card>
       </el-col>
     </el-row>
@@ -84,7 +84,7 @@
               <span>折线图</span>
             </div>
           </template>
-          <div id="line"></div>
+          <div id="line" class="map"></div>
         </el-card>
       </el-col>
       <el-col :span="12">
@@ -94,7 +94,7 @@
               <span>仪表盘</span>
             </div>
           </template>
-          <div id="gauge"></div>
+          <div id="gauge" class="map"></div>
         </el-card>
       </el-col>
     </el-row>
@@ -372,24 +372,8 @@ onMounted(() => {
     padding-right: 30px;
   }
 
-  #bar {
-    width: 806px;
-    height: 350px;
-  }
-
-  #pie {
-    width: 806px;
-    height: 350px;
-  }
-
-  #line {
-    width: 806px;
-    height: 350px;
-  }
-
-  #gauge {
-    width: 806px;
-    height: 350px;
+  .map {
+    height: 38vh;
   }
 }
 </style>

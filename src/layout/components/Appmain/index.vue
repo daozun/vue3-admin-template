@@ -21,6 +21,7 @@ const marginLeft = computed(() => {
 <style lang="scss">
 .app-main {
   padding: 20px;
+  color: #5a5e66;
 }
 </style>
 
