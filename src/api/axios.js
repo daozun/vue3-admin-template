@@ -1,34 +1,34 @@
-import axios from 'axios'
-import { ElMessage } from 'element-plus'
-import 'element-plus/theme-chalk/src/message.scss'
-import { RESPONSECODE } from '@/enum/index'
-import { getToken, logOut } from '@/utils/auth'
-import router from '../router'
+import axios from "axios";
+import { ElMessage } from "element-plus";
+import "element-plus/theme-chalk/src/message.scss";
+import { RESPONSECODE } from "@/enum/index";
+import { getToken, logOut } from "@/utils/auth";
+import router from "../router";
 
-const baseURL = process.env.VUE_APP_BASE_API
+const baseURL = import.meta.env.VITE_APP_BASE_API;
 
 const http = axios.create({
   baseURL: baseURL,
   timeout: 60 * 1000,
   headers: {
-    'Access-Control-Allow-Origin': '*',
-    'Content-Type': 'application/json',
-    'x-tenant-header': 'keycode'
-  }
-})
+    "Access-Control-Allow-Origin": "*",
+    "Content-Type": "application/json",
+    "x-tenant-header": "keycode",
+  },
+});
 
 /**
  * 请求拦截
  */
 http.interceptors.request.use((req) => {
-  const token = getToken()
+  const token = getToken();
 
   if (token) {
-    req.headers.authorization = `Bearer ${token}`
+    req.headers.authorization = `Bearer ${token}`;
   }
 
-  return req
-})
+  return req;
+});
 
 /**
  * 响应拦截
@@ -41,97 +41,97 @@ http.interceptors.response.use(
     ) {
       ElMessage({
         message: res.data.message,
-        type: 'error'
-      })
+        type: "error",
+      });
     }
 
-    return res.data
+    return res.data;
   },
   (error) => {
-    const message = error.response.data?.message
-    const statusCode = error.response.data?.statusCode
+    const message = error.response.data?.message;
+    const statusCode = error.response.data?.statusCode;
 
     if (statusCode === RESPONSECODE.UNAUTHORIZED) {
-      logOut()
-      router.push('/login')
+      logOut();
+      router.push("/login");
     }
 
     ElMessage({
-      type: 'error',
-      message: message || '服务器错误'
-    })
+      type: "error",
+      message: message || "服务器错误",
+    });
 
-    return error.response.data
+    return error.response.data;
   }
-)
+);
 
-export function get (url, params, config) {
+export function get(url, params, config) {
   return new Promise((resolve, reject) => {
     http
       .get(url, {
         ...config,
-        params
+        params,
       })
       .then((res) => {
-        resolve(res)
+        resolve(res);
       })
       .catch((err) => {
-        reject(err)
-      })
-  })
+        reject(err);
+      });
+  });
 }
 
-export function post (url, params, config) {
+export function post(url, params, config) {
   return new Promise((resolve, reject) => {
     http
       .post(url, params, config)
       .then((res) => {
-        resolve(res)
+        resolve(res);
       })
       .catch((err) => {
-        reject(err)
-      })
-  })
+        reject(err);
+      });
+  });
 }
 
-export function del (url, params, config) {
+export function del(url, params, config) {
   return new Promise((resolve, reject) => {
     http
       .delete(url, {
         ...config,
-        params
+        params,
       })
       .then((res) => {
-        resolve(res)
+        resolve(res);
       })
       .catch((err) => {
-        reject(err)
-      })
-  })
+        reject(err);
+      });
+  });
 }
 
-export function put (url, params, config) {
+export function put(url, params, config) {
   return new Promise((resolve, reject) => {
     http
       .put(url, params, config)
       .then((res) => {
-        resolve(res)
+        resolve(res);
       })
       .catch((err) => {
-        reject(err)
-      })
-  })
+        reject(err);
+      });
+  });
 }
 
-export function patch (url, params, config) {
+export function patch(url, params, config) {
   return new Promise((resolve, reject) => {
     http
       .patch(url, params, config)
       .then((res) => {
-        resolve(res)
+        resolve(res);
       })
       .catch((err) => {
-        reject(err)
-      })
-  })
+        reject(err);
+      });
+  });
 }

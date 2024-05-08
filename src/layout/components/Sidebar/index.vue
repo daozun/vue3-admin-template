@@ -21,8 +21,6 @@
 import SideBarItem from './components/SideBarItem.vue'
 import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-// eslint-disable-next-line no-unused-vars
-import variables from '@/styles/variables.scss'
 import { Store } from '@/store/index'
 const store = Store()
 
