@@ -13,8 +13,6 @@ export const setRouter = (routerParamList) => {
         meta: handleStringToObj(item.meta, item),
         alwaysShow: item.alwaysShow,
         hidden: item.hidden,
-        // component: (resolve) =>
-        //   require.ensure([], (require) => require(`@/${item.component}`)),
         component:
           item.component === "layout"
             ? loadLayout[`../layout/index.vue`]

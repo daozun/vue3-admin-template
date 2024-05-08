@@ -80,10 +80,8 @@ const hasOneChildren = (item) => {
 }
 
 const goToPath = (item) => {
-  console.log('%c [ item ]-83', 'font-size:13px; background:pink; color:#bf2c9f;', item)
   const pathArr = setPathArr(item)
   const pathStr = pathArr.join('/')
-  console.log('%c [ pathStr ]-86', 'font-size:13px; background:pink; color:#bf2c9f;', pathStr)
 
   router.push(pathStr)
 }
