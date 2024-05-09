@@ -90,7 +90,10 @@ const changeScreen = () => {
 }
 
 const isDark = useDark()
-const toggleDark = useToggle(isDark)
+const toggleDark = () => {
+  useToggle(isDark)
+  store.setTheme(isDark.value ? 'dark' : 'light')
+}
 
 const signOut = () => {
   logOut()

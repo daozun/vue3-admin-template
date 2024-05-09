@@ -5,6 +5,6 @@
 ## 5. 动态菜单 done
 ## 6. 登录拦截 done
 ## 7. 权限控制 done
-## 8. 使用 vite 重构
+## 8. 使用 vite 重构 done
 ## 9. 换肤 done
 ## 10. 暗黑模式 done

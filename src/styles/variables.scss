@@ -4,6 +4,7 @@ $menuActiveText: #409eff;
 $subMenuActiveText: #f4f4f5;
 
 $menuBg: #304156;
+$menuDarkBg: #000000;
 $menuHover: #263445;
 
 $subMenuBg: #1f2d3d;
@@ -22,4 +23,5 @@ $sideBarWidth: 210px;
   subMenuBg: $subMenuBg;
   subMenuHover: $subMenuHover;
   sideBarWidth: $sideBarWidth;
+  menuDarkBg: $menuDarkBg;
 }

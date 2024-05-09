@@ -1,13 +1,13 @@
 <template>
-  <div class="sidebar">
+  <div :class="theme === 'dark' ? 'sidebar-dark' : 'sidebar'" :style="styleObject">
     <el-scrollbar>
       <el-menu
         :default-active="defaultMenu"
         :collapse="isCollapse"
-        background-color="#304156"
-        text-color="#bfcbd9"
+        :background-color="backgroundColor"
+        :text-color="textColor"
         :unique-opened="false"
-        active-text-color="#409eff"
+        :active-text-color="activeTextColor"
         :collapse-transition="false"
         mode="vertical"
       >
@@ -22,6 +22,7 @@ import SideBarItem from './components/SideBarItem.vue'
 import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { Store } from '@/store/index'
+import { useCssModule } from 'vue'
 const store = Store()
 
 const route = useRoute()
@@ -37,16 +38,36 @@ const defaultMenu = computed(() => {
   return route.path
 })
 
+const sidebarVariableObj = useCssModule('sidebar')
+const textColor = sidebarVariableObj.menuText
+const activeTextColor = sidebarVariableObj.menuActiveText
+
+const backgroundColor = computed(() => {
+  return store.theme === 'dark' ? sidebarVariableObj.menuDarkBg : sidebarVariableObj.menuBg
+})
+
 const marginLeft = computed(() => {
   return store.isOpenSideBar ? '64px' : '210px'
 })
+
+const theme = computed(() => {
+  return store.theme
+})
+
+const styleObject = reactive({
+  width: marginLeft,
+})
+
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" scoped  module="sidebar">
 @import '@/styles/variables.scss';
 
 .sidebar {
-  width: v-bind('marginLeft');
   background: $menuBg;
+}
+
+.sidebar-dark {
+  background: $menuDarkBg;
 }
 </style>
